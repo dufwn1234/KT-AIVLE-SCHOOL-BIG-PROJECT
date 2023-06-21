@@ -38,13 +38,16 @@ from django.views.decorators.cache import never_cache
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from chat.models import Chat
-from call.models import Call
+# from call.models import Call
 
 User = get_user_model()
 INTERNAL_RESET_URL_TOKEN = 'set-password'
 INTERNAL_RESET_SESSION_TOKEN = '_password_reset_token'
 
 def index(request):
+    user = User.objects.get(username=request.user.username)
+    user.chat_active = False
+    user.save()
     return render(request, 'home.html')
 
 

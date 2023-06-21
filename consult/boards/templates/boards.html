@@ -1,391 +1,480 @@
 {% load static %}
 <!doctype html>
-<html>
-<head>
-    <title>Big Project</title>
+<html lang="en-US" dir="ltr">
+
+  <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Big Project</title>
+
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Righteous&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700&amp;family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,300&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "assets/vendor/css/core.css" class="template-customizer-core-css" %}" />
+    <link href="{% static "assets/css/theme.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/my.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/board.css" %}" rel="stylesheet" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
-    <script src="{% static 'js/board.js' %}"></script>
-    
-    <style>
-        body {
-            width: 100%;
-            height: 100vh;
-            margin: 0px;    
-            padding: 0px;
-            background-color: #FFFFFF;
-        }
-
-        header {
-            width: 100%;
-            height: 70px;
-            background-color: white;
-            color: black;
-            margin-bottom: 15px;
-            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
-            padding: 0;
-        }
-
-        header>nav {
-            margin: 0 auto;
-            padding: 20px 20px;
-        }
-
-        header>nav>label {
-            font-family: 'Righteous';
-            font-weight:bold;
-            font-size: 32px;
-            color: black;
-        }
-
-        header>nav>ul {
-            font-family: 'Noto Sans KR', sans-serif;
-            float: right;
-            font-size: 24px;
-            margin-top: -5px;
-            margin-right: 15px;
-            color: black;
-        }
-
-        header>nav>ul>li {
-            float: left;
-            list-style: none;
-            margin-left: 20px;
-        }
-
-        header>nav>ul>li>a {
-            text-decoration: none;
-            font-weight: bold;
-            color: black;
-            font-family: Roboto;
-        }
-
-        .wrap{
-            max-width:1200px;
-        }
-
-        .wrap a{
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .wrap a:hover{
-            color: inherit;
-        }
-
-        .contents {
-            display: block;
-            min-height: calc(100% - 12vh);
-            align-items: center;
-            width: 100%;
-            margin: 0 auto;    
-        }
-
-        .p1_div a{
-            text-decoration: none;
-            color: inherit;
-        }
-        .p1_div a:hover{
-            color: inherit;
-        }
-
-        .p1_div {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-        .p1{
-            height: 52px;
-            margin: 10px 50px;
-
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 30px;
-            line-height: 47px;
-
-            color: #000000;
-        }
-
-        .consults {
-            display: block;
-            margin: 10px 50px;
-            height: 70vh;
-        }
-        
-        .table_title {
-            color: black;
-            text-decoration: underline black;
-        }
-        .table_title:focus,
-        .table_title:hover {
-            display: inline-block;
-            color: gray;
-            text-decoration: underline gray;
-        }
-
-        .btn {
-            display: flex;
-            margin: 10px 50px;
-            padding: 0;
-            justify-content: flex-end;
-        }
-
-        .posting-button{
-            width: 150px;
-            height: 50px;
-            font-family: Roboto;
-            font-size: 20px;
-            border-radius: 10px;
-            background-color:white;
-            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-            cursor: pointer;
-        }
-        .posting-button:hover {
-            background-color: #D9D9D9;
-            color: #000000;
-        }
-
-        footer {
-            height: 12vh; 
-            background-color: #f8f8f8;
-            padding: 20px;
-            text-align: center;
-            margin: 0;
-            margin-top: 5vh;
-        }
-        footer>p{
-            margin: 0;
-            text-align: center;
-        }
-
-    </style>
-
-    <style>
-        ul.tabs{
-            margin: 0px;
-            padding: 0px;
-            list-style: none;
-        }
-        ul.tabs li{
-            background: none;
-            color: #222;
-            display: inline-block;
-            padding: 10px 15px;
-            cursor: pointer;
-        }
-        
-        ul.tabs li.current{
-            background: #ededed;
-            color: #222;
-        }
-        
-        .tab-content{
-            display: none;
-            background: #ededed;
-            padding: 15px;
-        }
-        
-        .tab-content.current{
-            display: inherit;
-        }
-    </style>
-
-    <style>
-        /* common */
-        .tab-table {
-            position: relative;
-            overflow: hidden;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 1200px;
-            border-top: 2px solid #121212;
-            background: white;
-        }
-        .tab-table table {
-            display: table;
-            width: 100%;
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-        .tab-table table thead tr th,
-        .tab-table table tbody tr td {
-            text-align: center;
-            padding: 0.8125vw 1.25vw;
-            font-size: 15px;
-            font-size: 1.3vw;
-            line-height: 1.375vw;
-        }
-        .tab-table table thead tr th {
-            border-bottom: 1px solid #121212;
-        }
-        .tab-table table tbody tr td {
-            border-bottom: 1px solid #efefef;
-        }
-
-        /* desktop only */
-        @media screen and (min-width: 1200px) {
-            .tab-table table thead tr th,
-            .tab-table table tbody tr td {
-                padding: 12px 20px;
-                font-size: 16px;
-                line-height: 22px;
-            }
-        }
-
-        /* mobile only */
-        @media screen and (max-width: 990px) {
-            .tab-table table col {
-                width: 100% !important;
-            }
-            .tab-table table thead {
-                display: none;
-            }
-            .tab-table table tbody tr {
-                border-bottom: 1px solid #efefef;
-            }
-            .tab-table table tbody tr td {
-                width: 100%;
-                display: flex;
-                margin-bottom: 2px;
-                padding: 5px;
-                border-bottom: none;
-                font-size: 14px;
-                line-height: 18px;
-            }
-            .tab-table table tbody tr td:first-child, 
-            .tab-table table tbody tr th:first-child {
-                padding-top: 16px;
-            }
-            .tab-table table tbody tr td:last-child, 
-            .tab-table table tbody tr th:last-child {
-                padding-bottom: 15px;
-            }
-            .tab-table table tbody tr td:before {
-                display: inline-block;
-                margin-right: 12px;
-                -webkit-box-flex: 0;
-                -ms-flex: 0 0 100px;
-                flex: 0 0 100px;
-                font-weight: 700;
-                content: attr(data-label);
-            }
-        }
-    </style>
-</head>
+  </head>
 <body>
-    <header>
-        <nav class="wrap">
-            <label>
-                <a href="/">
-                    <strong>
-                        Consulting
-                    </strong>
-                </a>
-            </label>
-            <!-- ul>li*3>a -->
-            <ul>            
+    <main class="main" id="top" style="margin-bottom:300px;">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" data-navbar-on-scroll="light">
+          <div class="container"><label><a href="/"><strong>Consulting</strong></a></label>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+              <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base align-items-center">
                 {% if request.user.is_authenticated %}
-                    <li><a href="/mypage">{{ request.user.username }}</a></li>
-                    <li><a href="/">home</a></li>
-                    <li><a class="nav-link" href="/accounts/logout/">logout</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="/">home</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.username }}</a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                      <li><a class="dropdown-item" href="/mypage/">마이페이지</a></li>
+                      <li><a class="dropdown-item" href="/mypage/">내 정보 수정</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link pl-3 me-3" href="/accounts/logout/">logout</a></li>
                 {% else %}
-                    <li><a href="/">home</a></li>
-                    <li><a class="nav-link" href="/accounts/login/">login</a></li>
-                    <li><a class="nav-link" href="/accounts/signup/">signup</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="/">home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="/accounts/login/">login</a></li>
+                <button class="btn btn-primary"><a href="/accounts/signup/">Sign Up</a></button>
                 {% endif %}
-            </ul>
+              </ul>            
+            </div>
+          </div>
         </nav>
-    </header>
+    <div class="tab-wrap">
+                  <div class="nav-align-top mb-4">
+                    <ul class="nav nav-tabs" role="tablist">
+                      <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link active"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-top-home"
+                          aria-controls="navs-top-home"
+                          aria-selected="true"
+                        >
+                          FAQ
+                        </button>
+                      </li>
+                      <li class="nav-item">
+                        <button
+                          type="button"
+                          class="nav-link"
+                          role="tab"
+                          data-bs-toggle="tab"
+                          data-bs-target="#navs-top-profile"
+                          aria-controls="navs-top-profile"
+                          aria-selected="false"
+                        >
+                          Inquiry
+                        </button>
+                      </li>
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane fade show active" id="navs-top-home" role="tabpanel">
 
-    <main class="contents">
-        <div class="p1_div">
-            <p class="p1"><a href="/boards/">Notice</a></p>
-        </div>
+                        <!-- {% for p in posts_faq %}
+                        <div class="col-md mb-4 mb-md-0">
+                            <div class="accordion mt-3" id="accordionExample">
+                              <div class="card accordion-item active">
+                                <h2 class="accordion-header" id="headingOne">
+                                  <button
+                                    type="button"
+                                    class="accordion-button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordionOne"
+                                    aria-expanded="true"
+                                    aria-controls="accordionOne"
+                                  >
+                                  {{ p.title }}
+                                  </button>
+                                </h2>
+          
+                                <div
+                                  id="accordionOne"
+                                  class="accordion-collapse collapse show"
+                                  data-bs-parent="#accordionExample">
+                                  <div class="accordion-body">
+                                    {{ p.detail }}
+                                  </div>
+                                </div>
+                              </div>
+                              {% endfor %} -->
 
-        <div class="consults">
-            <ul class="tabs">
-                <li class="tab-link current" data-tab="tab-1">FAQ</li>
-                <li class="tab-link" data-tab="tab-2">Inquiry</li>
-            </ul>
-        
-            <div id="tab-1" class="tab-content current">
-                <div class="tab-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>NO</th>
-                                <th>TITILE</th>
-                                <th>WRITER</th>
-                                <th>DATE</th>
-                            </tr>
-                        </thead>
-                        {% for p in posts_faq %}
-                            <tbody>
-                                <tr>
-                                    <th>{{ forloop.counter }}</th>
-                                    <th><a class="table_title" href="{% url 'boards:faq_detail' p.id %}">{{ p.title }}</a></th>
-                                    <th>{{ p.writer }}</th>
-                                    <th>{{ p.date }}</th>
-                                </tr>
-                            </tbody>
-                            {% empty %}
-                            <tbody>
-                                <tr>
-                                    <th colspan="4" style="text-align:center">No consultation history.</th>
-                                </tr>
-                            </tbody>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
+                        <div class="col-md mb-4 mb-md-0">
+                            <div class="accordion mt-3" id="accordionExample">
+                              <div class="card accordion-item active">
+                                <h2 class="accordion-header" id="headingOne">
+                                  <button
+                                    type="button"
+                                    class="accordion-button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordionOne"
+                                    aria-expanded="true"
+                                    aria-controls="accordionOne"
+                                  >
+                                    Q. 상담을 받고 싶어요.
+                                  </button>
+                                </h2>
+          
+                                <div
+                                  id="accordionOne"
+                                  class="accordion-collapse collapse show"
+                                  data-bs-parent="#accordionExample">
+                                  <div class="accordion-body">
+                                    Lemon drops chocolate cake gummies carrot cake chupa chups muffin topping. Sesame snaps icing
+                                    marzipan gummi bears macaroon dragée danish caramels powder. Bear claw dragée pastry topping
+                                    soufflé. Wafer gummi bears marshmallow pastry pie.
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                  <button
+                                    type="button"
+                                    class="accordion-button collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordionTwo"
+                                    aria-expanded="false"
+                                    aria-controls="accordionTwo"
+                                  >
+                                    Q. 번역 시스템은 어떻게 이용하나요?
+                                  </button>
+                                </h2>
+                                <div
+                                  id="accordionTwo"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="headingTwo"
+                                  data-bs-parent="#accordionExample"
+                                >
+                                  <div class="accordion-body">
+                                    Dessert ice cream donut oat cake jelly-o pie sugar plum cheesecake. Bear claw dragée oat cake
+                                    dragée ice cream halvah tootsie roll. Danish cake oat cake pie macaroon tart donut gummies.
+                                    Jelly beans candy canes carrot cake. Fruitcake chocolate chupa chups.
+                                  </div>
+                                </div>
+                              </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                  <button
+                                    type="button"
+                                    class="accordion-button collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordionThree"
+                                    aria-expanded="false"
+                                    aria-controls="accordionThree"
+                                  >
+                                    Q. 폭언을 사용하면 어떻게 되나요?
+                                  </button>
+                                </h2>
+                                <div
+                                  id="accordionThree"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="headingThree"
+                                  data-bs-parent="#accordionExample"
+                                >
+                                  <div class="accordion-body">
+                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="heading4">
+                                  <button
+                                    type="button"
+                                    class="accordion-button collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordion4"
+                                    aria-expanded="false"
+                                    aria-controls="accordion4"
+                                  >
+                                    Q. 회원가입이 안돼요.
+                                  </button>
+                                </h2>
+                                <div
+                                  id="accordion4"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="heading4"
+                                  data-bs-parent="#accordionExample"
+                                >
+                                  <div class="accordion-body">
+                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="heading5">
+                                  <button
+                                    type="button"
+                                    class="accordion-button collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordion5"
+                                    aria-expanded="false"
+                                    aria-controls="accordion5"
+                                  >
+                                    Q. 비밀번호를 까먹었어요.
+                                  </button>
+                                </h2>
+                                <div
+                                  id="accordion5"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="heading5"
+                                  data-bs-parent="#accordionExample"
+                                >
+                                  <div class="accordion-body">
+                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="heading6">
+                                  <button
+                                    type="button"
+                                    class="accordion-button collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordion6"
+                                    aria-expanded="false"
+                                    aria-controls="accordion6"
+                                  >
+                                    Q. 상담 신청을 잘못했어요.
+                                  </button>
+                                </h2>
+                                <div
+                                  id="accordion6"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="heading6"
+                                  data-bs-parent="#accordionExample"
+                                >
+                                  <div class="accordion-body">
+                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="heading7">
+                                  <button
+                                    type="button"
+                                    class="accordion-button collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordion7"
+                                    aria-expanded="false"
+                                    aria-controls="accordion7"
+                                  >
+                                    Q. 상담 신청이 안돼요.
+                                  </button>
+                                </h2>
+                                <div
+                                  id="accordion7"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="heading7"
+                                  data-bs-parent="#accordionExample"
+                                >
+                                  <div class="accordion-body">
+                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="heading8">
+                                  <button
+                                    type="button"
+                                    class="accordion-button collapsed"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#accordion8"
+                                    aria-expanded="false"
+                                    aria-controls="accordion8"
+                                  >
+                                    Q. 14조는 왜이렇게 잘할까요?
+                                  </button>
+                                </h2>
+                                <div
+                                  id="accordion8"
+                                  class="accordion-collapse collapse"
+                                  aria-labelledby="heading8"
+                                  data-bs-parent="#accordionExample"
+                                >
+                                  <div class="accordion-body">
+                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                  </div>
+                                </div>
+                            </div>
+                            </div>
+                          </div>
 
-            <div id="tab-2" class="tab-content">
-                <div class="tab-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>NO</th>
-                                <th>TITILE</th>
-                                <th>WRITER</th>
-                                <th>DATE</th>
-                            </tr>
-                        </thead>
-                        {% for p in posts_inquiry %}
-                            <tbody>
-                                <tr>
-                                    <th>{{ forloop.counter }}</th>
-                                    <th><a class="table_title" href="{% url 'boards:inquiry_detail' p.id %}">{{ p.title }}</a></th>
-                                    <th>{{ p.writer }}</th>
-                                    <th>{{ p.date }}</th>
-                                </tr>
-                            </tbody>
-                            {% empty %}
-                            <tbody>
-                                <tr>
-                                    <th colspan="4" style="text-align:center">No consultation history.</th>
-                                </tr>
-                            </tbody>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
+                      </div>
+                      <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
+                        <div class="tab-table">
 
-        </div>
+                            <div class="card">
+                                <div class="table-responsive text-nowrap">
+                                  <table class="table">
+                                    <thead>
+                                      <tr>
+                                        <th>NO</th>
+                                        <th>TITILE</th>
+                                        <th>WRITER</th>
+                                        <th>DATE</th>
+                                      </tr>
+                                    </thead>
+                                    {% for p in posts_inquiry reversed %}
+                                    <tbody>
+                                      <tr>
+                                        <td>{{ forloop.revcounter }}</td>
+                                        <td><a class="table_title" href="{% url 'boards:inquiry_detail' p.id %}">{{ p.title }}</a></td>
+                                        <td>{{ p.writer }}</td>
+                                        <td>{{ p.date|date:"Y-m-d" }}</td>
+                                      </tr>
+                                      
+                                    </tbody>
+                                    {% endfor %}
+                                  </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                      </div>
+                    </div>
+                  </div>                
+    </div>
 
         <div class="btn">
-            <a href="posting/"><button class="posting-button">Posting</button></a>
+            <a href="/boards/posting/"
+            target="_blank"
+            class="btn btn-outline-primary"
+            style="position: fixed;
+            bottom: 5rem;
+            right: 3rem;
+            z-index: 999999;
+            box-shadow: 0 1px 20px 1px #696cff;"
+            >Posting</a>
         </div>
     </main>
 
-    <footer>
-        <p>All rights reserved. ©KT AIVLESCHOOL 14</p>
+
+        <!-- ============================================-->
+        <!-- <section> begin ============================-->
+            
+        <!-- <section> close ============================-->
+        <!-- ============================================-->
+    </main>
+
+    <footer class="footer">
+        <section class="py-0 bg-1000">
+        
+            <div class="container">
+            <div class="row justify-content-md-between justify-content-evenly py-3">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-auto text-center text-md-start">
+                <p class="fs--1 my-2 fw-bold text-200">&copy; 2023 KT AIVLESCHOOL 14</p>
+                </div>
+
+            </div>
+            </div>
+            <!-- end of .container-->
+
+        </section>
     </footer>
-</body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+    
+    
+
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="{% static "vendors/popper/popper.min.js" %}"></script>
+    <script src="{% static "vendors/bootstrap/bootstrap.min.js" %}"></script>
+    <script src="{% static "vendors/anchorjs/anchor.min.js" %}"></script>
+    <script src="{% static "vendors/is/is.min.js" %}"></script>
+    <script src="{% static "vendors/fontawesome/all.min.js" %}"></script>
+    <script src="{% static "vendors/lodash/lodash.min.js" %}"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"></script>
+    <script src="{% static "vendors/imagesloaded/imagesloaded.pkgd.js" %}"></script>
+    <script src="{% static "vendors/gsap/customEase.js" %}"></script>
+    <script src="{% static "vendors/gsap/scrollToPlugin.js" %}"></script>
+    <!--script(src=`${CWD}vendors/gsap/drawSVGPlugin.js`)-->
+    <script src="{% static "assets/js/theme.js" %}"></script>
+
+  </body>
+
+</html>
+    <footer class="footer">
+        <section class="py-0 bg-1000">
+        
+            <div class="container">
+            <div class="row justify-content-md-between justify-content-evenly py-3">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-auto text-center text-md-start">
+                <p class="fs--1 my-2 fw-bold text-200">&copy; 2023 KT AIVLESCHOOL 14</p>
+                </div>
+
+            </div>
+            </div>
+            <!-- end of .container-->
+
+        </section>
+    </footer>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+    
+    
+
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="{% static "vendors/popper/popper.min.js" %}"></script>
+    <script src="{% static "vendors/bootstrap/bootstrap.min.js" %}"></script>
+    <script src="{% static "vendors/anchorjs/anchor.min.js" %}"></script>
+    <script src="{% static "vendors/is/is.min.js" %}"></script>
+    <script src="{% static "vendors/fontawesome/all.min.js" %}"></script>
+    <script src="{% static "vendors/lodash/lodash.min.js" %}"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"></script>
+    <script src="{% static "vendors/imagesloaded/imagesloaded.pkgd.js" %}"></script>
+    <script src="{% static "vendors/gsap/customEase.js" %}"></script>
+    <script src="{% static "vendors/gsap/scrollToPlugin.js" %}"></script>
+    <!--script(src=`${CWD}vendors/gsap/drawSVGPlugin.js`)-->
+    <script src="{% static "assets/js/theme.js" %}"></script>
+
+  </body>
+
 </html>

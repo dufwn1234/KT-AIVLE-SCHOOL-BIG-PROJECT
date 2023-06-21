@@ -3,7 +3,7 @@ from accounts.models import User
 from chat.models import Chat
 from call.models import Call
 from django.contrib.auth.forms import UserChangeForm
-from mypage.forms import CustomerChangeForm
+from mypage.forms import CustomerChangeForm, CustomerImageChangeForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
@@ -13,6 +13,8 @@ from django.contrib.auth import logout
 # Create your views here.
 @login_required
 def mypage(request):
+    form = CheckPasswordForm(request.user)
+    img_form = CustomerImageChangeForm(instance=request.user)
     if request.user.member_type == 'Customer':
         chats = Chat.objects.filter(user=request.user.id)
         calls = Call.objects.filter(customer=request.user.id)
@@ -20,7 +22,7 @@ def mypage(request):
         chats = Chat.objects.filter(user=request.user.id)
         calls = Call.objects.filter(counselor=request.user.id)
         
-    return render(request, 'mypage.html', {'chats':chats, 'calls':calls})
+    return render(request, 'mypage.html', {'chats':chats, 'calls':calls, 'img_form':img_form, 'form':form})
 
 @login_required
 def chatdetail(request, cpk):
@@ -58,6 +60,26 @@ def update(request):
         form = CustomerChangeForm(instance=request.user)
         return render(request, 'mypage_update.html', {'form':form})
     
+@login_required
+@require_http_methods(['GET', 'POST'])
+def img_update(request):
+    if request.method == 'POST':
+        img_form = CustomerImageChangeForm(request.POST, request.FILES, instance=request.user)
+        if img_form.is_valid():
+            img_form.save()
+            return redirect('mypage:mypage')
+        else:
+            return render(request, 'mypage.html', {'img_form':img_form})
+    else:
+        img_form = CustomerImageChangeForm(instance=request.user)
+        return render(request, 'mypage.html', {'img_form':img_form})
+    
+@login_required
+@require_http_methods(['GET', 'POST'])
+def img_delete(request):
+    user = request.user
+    user.image.delete()
+    return redirect('mypage:mypage')
 
 @login_required
 def delete(request):
@@ -69,8 +91,11 @@ def delete(request):
                 request.user.delete()
                 logout(request)
                 messages.success(request, "Membership withdrawal is complete.")
-                return redirect('index')
+                return redirect('home')
         else:
             form = CheckPasswordForm(request.user)
         
     return render(request, 'mypage_delete.html', {'form':form})
+
+def delete_account(request):
+    pass

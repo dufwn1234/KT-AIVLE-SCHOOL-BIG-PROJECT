@@ -6,8 +6,6 @@ from channels.generic.websocket import WebsocketConsumer
 from .models import Message, Chat, Contact
 from .views import get_last_10_messages, get_user_contact, get_current_chat
 
-################################  models.py 수정 후 주석 해제 ############################## 
-
 class ChatConsumer(WebsocketConsumer):
     
     def fetch_messages(self, data):
@@ -19,18 +17,6 @@ class ChatConsumer(WebsocketConsumer):
         }
         self.send_message(content)
 
-    # def new_message(self, data):
-    #     user = data['user']
-    #     user_users = User.objects.filter(username=user)[0]
-    #     message = Chat.objects.create(
-    #         user=user_users, 
-    #         message=data['message']
-    #         )
-    #     content = {
-    #         'command': 'new_message',
-    #         'message': self.message_to_json(message)
-    #     }
-    #     return self.send_chat_message(content)
     def new_message(self, data):
         user = data['user']
         chat_id = int(self.room_name)

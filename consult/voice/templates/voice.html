@@ -129,9 +129,9 @@
                                 <div class="dialNumpadHWrapper">
                                     <div class="dialNumber"></div>
                                     <div class="dialNumber" method="post">
-                                        
-                                            {% csrf_token %}
-                                            <button method="post" class="btn btn-sm btn-primary my-4 me-1" name="action" value="start" onclick="call()">Call</button>    
+                
+                                        {% csrf_token %}
+                                        <button method="post" class="btn btn-sm btn-primary my-4 me-1" name="action" value="start" onclick="call()">Call</button>    
                                         
                                     </div>
                                     <div class="dialNumber"></div>
@@ -159,8 +159,8 @@
                                 <div class="itemWrapper" method="post">                                    
                                     <h2 style="line-height: 0px;"> <span id="otherUserNameCA"></span> 상담사와 연결중입니다.</h2>
                                     
-                                        {% csrf_token %}
-                                        <button method="post" class="btn btn-sm btn-primary my-4 me-1" name="action" value="stop" onclick="stop()">Call End</button>
+                                    {% csrf_token %}
+                                    <button method="post" class="btn btn-sm btn-primary my-4 me-1" name="action" value="stop" onclick="stop()">Call End</button>
                                     
                                 </div>
                             </div>
@@ -219,9 +219,10 @@
 
     </script>
     <script>
+
         function login() {
             let userName = '{{ username }}';
-            myName = userName;
+            let myName = userName;
             document.getElementById("userName").style.display = "none";
             document.getElementById("call").style.display = "block";
 
@@ -242,7 +243,7 @@
             const remainingSeconds = seconds % 60;
             
             const callDurationElement = document.getElementById("callDuration");
-            // callDurationElement.textContent = `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            //callDurationElement.textContent = `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
     
         function startCallDuration() {
@@ -273,20 +274,7 @@
     <script src="{% static "assets/js/theme.js" %}"></script>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-        $(document).ready(function() {
-            setInterval(updateTranscript, 1000);  // 1초마다 텍스트 업데이트 함수 호출
-
-            function updateTranscript() {
-                $.ajax({
-                    url: '/voice/',  // 업데이트를 처리할 Django 뷰 함수의 URL
-                    success: function(response) {
-                        $('#transcriptText').text(response); 
-                    }
-                });
-            }
-        });
-    </script>
+    
 
 </body>
 

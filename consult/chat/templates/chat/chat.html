@@ -62,27 +62,65 @@
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <!-- Chat Tab Pane Title Start -->
-                                    <h5 class="font-weight-semibold mb-0">상담 내역 요약</h5>
+                                    <h5 class="font-weight-semibold mb-0">상담사 목록</h5>
                                     <!-- Chat Tab Pane Title End -->
-
                                     <ul class="nav flex-nowrap">
-
                                         <li class="nav-item list-inline-item d-block d-xl-none mr-1">
                                             <a class="nav-link text-muted px-1" href="#" title="Appbar" data-toggle-appbar="">
                                                 <!-- Default :: Inline SVG -->
                                                 <svg class="hw-20" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-
-                                                <!-- Alternate :: External File link -->
-                                                <!-- <img class="hw-20" src="./../assets/media/heroicons/outline/view-grid.svg" alt="" class="injectable hw-20"> -->
                                             </a>
                                         </li>
-
-                                        
                                     </ul>
                                 </div>
                                 <!-- Sidebar Header End -->
                             </div>
                             <!-- Chat Header End -->
+
+                            <!-- Chat Contact List Start -->
+                            <ul class="contacts-list" id="chatContactTab" data-chat-list="">
+                                <!-- Chat Item Start -->
+                                <!-- Counselor 경우, 본인 채팅창만 보이도록 -->
+                                {% if request.user.member_type == 'Counselor' %}
+                                    <li class="contacts-item friends">
+                                        <a class="contacts-link" href="./{{ user.id}}">
+                                            <div class="avatar d-none d-sm-inline-block mr-3 {% if user.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
+                                                <img class="avatar-img" {% if user.image %}src={{ user.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
+                                            </div>
+                                            <div class="contacts-content">
+                                                <div class="contacts-info">
+                                                    <h6 class="chat-name text-truncate">{{ user.username }}</h6>
+                                                    <div class="chat-time"></div>
+                                                </div>
+                                                <div class="contacts-texts">
+                                                    <p class="text-truncate"></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                <!-- Customer일 경우, 모든 상담사 보이고 온라인/오프라인 표시 -->
+                                {% elif request.user.member_type == 'Customer' %}
+                                    {% for counselor in counselor_list %}
+                                        <li class="contacts-item friends">
+                                            <a class="contacts-link" {% if counselor.chat_active %}href="./{{ counselor.id}}"{% else %}href="#"{% endif %}>
+                                                <div class="avatar d-none d-sm-inline-block mr-3 {% if counselor.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
+                                                    <img class="avatar-img" {% if counselor.image %}src={{ counselor.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
+                                                </div>
+                                                <div class="contacts-content">
+                                                    <div class="contacts-info">
+                                                        <h6 class="chat-name text-truncate">{{ counselor.username }}</h6>
+                                                        <small class="text-muted">{% if counselor.chat_active %}온라인{% else %}오프라인{% endif %}</small>
+                                                        <div class="chat-time"></div>
+                                                    </div>
+                                                    <div class="contacts-texts">
+                                                        <p class="text-truncate"></p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            <!-- Chat Contact List End -->
 
             </div>
             <!-- Tab Content End -->
@@ -104,20 +142,17 @@
                             <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                             </svg>
-
-                            <!-- Alternate :: External File link -->
-                            <!-- <img class="injectable hw-20" src="./../assets/media/heroicons/outline/arrow-left.svg" alt=""> -->
                         </button>
 
                         <!-- Chat participant's Name -->
                         <div class="media chat-name align-items-center text-truncate">
-                            <div class="avatar avatar-online d-none d-sm-inline-block mr-3">
-                                <img src='{% static "media/avatar/2.png" %}' alt="">
+                            <div class="avatar d-none d-sm-inline-block mr-3 {% if counselor.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
+                                <img class="avatar-img" {% if user.image %}src={{ user.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
                             </div>
 
                             <div class="media-body align-self-center ">
-                                <h6 class="text-truncate mb-0">홍길동</h6>
-                                <small class="text-muted">온라인</small>
+                                <h6 class="text-truncate mb-0">{{ user.username }}</h6>
+                                <small class="text-muted">{% if user.chat_active %}온라인{% else %}오프라인{% endif %}</small>
                             </div>
                         </div>
                     </div>
@@ -130,13 +165,9 @@
                                 <input type="text" class="form-control form-control-md border-right-0 transparent-bg pr-0" placeholder="Search">
                                 <div class="input-group-append">
                                     <span class="input-group-text transparent-bg border-left-0">
-                                        <!-- Default :: Inline SVG -->
                                         <svg class="hw-20 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                         </svg>
-                                          
-                                        <!-- Alternate :: External File link -->
-                                        <!-- <img class="injectable hw-20" src="./../assets/media/heroicons/outline/search.svg" alt="Search icon"> -->
                                     </span>
                                 </div>
                             </div>
@@ -181,9 +212,6 @@
                         <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                         </svg>
-    
-                        <!-- Alternate :: External File link -->
-                        <!-- <img class="injectable hw-20" src="./../assets/media/heroicons/outline/arrow-left.svg" alt=""> -->
                     </button>
                 </div>
 
@@ -191,9 +219,6 @@
                 <div class="appbar-head">
                        <!-- Default :: Inline SVG -->
                     <svg class="hw-20" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-
-                    <!-- Alternate :: External File link -->
-                    <!-- <img class="hw-20" src="./../assets/media/heroicons/outline/view-grid.svg" alt="" class="injectable hw-20"> -->
                     <h6 class="mb-0 mt-1">Apps</h6>
                 </div>
 
@@ -202,16 +227,12 @@
                 <ul class="nav nav-minimal appbar-nav" id="appNavTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="translator-tab" data-toggle="tab" href="#translator" role="tab" aria-controls="translator" aria-selected="true">
-                            <!-- <img class="injectable hw-22" src="./../assets/media/heroicons/outline/translate.svg" alt=""> -->
-
                             <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
                             </svg>                              
                         </a>
                     </li>
-                    
                 </ul>
-                <!-- Appbar Nav End -->
             </div>
 
             <!-- Tab panes -->
@@ -250,9 +271,6 @@
                                             <svg class="hw-22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                                             </svg>
-                                                
-                                            <!-- Alternate :: External File link -->
-                                            <!-- <img class="injectable hw-22" src="./../assets/media/heroicons/outline/x.svg" alt=""> -->
                                         
                                         </div>
                                     </li>
@@ -264,56 +282,110 @@
                                 <div class="appnavbar-body-title">
                                     <div class="dropdown w-100">
                                         <!-- Dropdown Button Start -->
-                                        <button class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">중국어</button>
+                                        <button id="languageButton" class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">중국어</button>
                                         <!-- Dropdown Button End -->
 
                                         <!-- Dropdown Menu Start -->
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">한국어</a>
-                                            <a class="dropdown-item" href="#">영어</a>
-                                            <a class="dropdown-item" href="#">중국어</a>
-                                            <a class="dropdown-item" href="#">일본어</a>
-                                            <a class="dropdown-item" href="#">베트남어</a>
-                                            <a class="dropdown-item" href="#">태국어</a>
+                                            <a class="dropdown-item"  value="Korean">한국어</a>
+                                            <a class="dropdown-item"  value="English">영어</a>
+                                            <a class="dropdown-item"  value="Chinese">중국어</a>
+                                            <a class="dropdown-item"  value="Japanese">일본어</a>
+                                            <a class="dropdown-item"  value="Vietnamese">베트남어</a>
+                                            <a class="dropdown-item"  value="Thai">태국어</a>
                                         </div>
                                         <!-- Dropdown Menu End -->
                                     </div>
+                                    <script>
+                                        const languageButton = document.getElementById("languageButton");
+                                        const dropdownItems1 = document.querySelectorAll(".dropdown-item");
+                                    
+                                        dropdownItems1.forEach(item => {
+                                            item.addEventListener("click", function() {
+                                                const selectedLanguage = item.textContent;
+                                                languageButton.textContent = selectedLanguage;
+                                            });
+                                        });
+                                    </script>
                             
                                     <img class="injetable hw-16 text-muted mx-1" src='{% static "media/heroicons/outline/arrow-right.svg" %}' alt="">
 
                                     <div class="dropdown w-100">
                                         <!-- Dropdown Button Start -->
-                                        <button class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">한국어</button>
+                                        <button id="languageButton2" class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">한국어</button>
                                         <!-- Dropdown Button End -->
 
                                         <!-- Dropdown Menu Start -->
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">영어</a>
-                                            <a class="dropdown-item" href="#">중국어</a>
-                                            <a class="dropdown-item" href="#">일본어</a>
-                                            <a class="dropdown-item" href="#">베트남어</a>
-                                            <a class="dropdown-item" href="#">태국어</a>
+                                            <a class="dropdown-item"  value="Korean">한국어</a>
+                                            <a class="dropdown-item"  value="English">영어</a>
+                                            <a class="dropdown-item"  value="Chinese">중국어</a>
+                                            <a class="dropdown-item"  value="Japanese">일본어</a>
+                                            <a class="dropdown-item"  value="Vietnamese">베트남어</a>
+                                            <a class="dropdown-item"  value="Thai">태국어</a>
                                         </div>
                                         <!-- Dropdown Menu End -->
                                     </div>
+                                    <script>
+                                        const languageButton2 = document.getElementById("languageButton2");
+                                        const dropdownItems2 = document.querySelectorAll(".dropdown-item");
+                                    
+                                        dropdownItems2.forEach(item => {
+                                            item.addEventListener("click", function() {
+                                                const selectedLanguage = item.textContent;
+                                                languageButton2.textContent = selectedLanguage;
+                                            });
+                                        });
+                                    </script>
                                 </div>
 
                                 <div class="translator-container p-2">
                                     <div class="form-group">
-                                        <textarea class="form-control" rows="6" placeholder="Write text here" name="description">请告诉我kt的资费制度。 家庭可以打折吗?</textarea>
+                                        <textarea id="text" class="form-control" rows="6" placeholder="Write text here" name="description">请告诉我kt的资费制度。 家庭可以打折吗?</textarea>
                                     </div>
 
                                     <div class="card">
                                         <div class="card-body">
-                                            <p class="mb-0">kt 요금제 좀 알려주세요. 가족 할인 가능한가요?</p>
+                                            <textarea id="result" class="mb-0" style="width: 500px; height: 200px;">kt 요금제 좀 알려주세요. 가족 할인 가능한가요?</textarea>
+                                            <!-- <p id="result" class="mb-0">kt 요금제 좀 알려주세요. 가족 할인 가능한가요?</p> 이거 <p>타입은 안되는 것 같음 -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="appnavbar-footer">
-                                <div class="btn btn-primary btn-block">번역</div>
+                                <div id="button" class="btn btn-primary btn-block">번역</div>
                             </div>
+                            <script>
+                                let textareaTag = document.getElementById("text");
+                                let languageTag1 = document.getElementById("languageButton");
+                                let languageTag2 = document.getElementById("languageButton2");
+                                let buttonTag = document.getElementById("button");
+                                let resultTag = document.getElementById("result");
+
+                                buttonTag.addEventListener("click", async function () {
+                                    let text = textareaTag.value;
+                                    let language1 = languageTag1.textContent;
+                                    let language2 = languageTag2.textContent;
+                                    let data = {
+                                        text: text,
+                                        language1: language1,
+                                        language2: language2
+                                    };
+
+                                    let response = await fetch("{% url 'chat:translater1' %}", {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            "X-CSRFToken": "{{ csrf_token }}"
+                                        },
+                                        body: JSON.stringify(data)
+                                    });
+
+                                    let result = await response.text();
+                                    resultTag.value = result;
+                                 });
+                            </script>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,11 @@
+body {
+  margin-bottom: 60px; /* footer의 높이만큼 body의 하단 마진을 설정 */
+}
+.footer {
+  left: 0;
+  bottom: 0;
+}
+
 .tab-wrap{
     margin-top: 100px;
     width: 1000px;
@@ -748,3 +756,10 @@
     padding: 1.171875rem 0.9375rem;
   }
 
+  .btn.btn-outline-warning {
+    width: 80px;
+    height: 30px;
+    padding: 0; /* 텍스트와 버튼 경계 사이의 여백 제거 */
+    overflow: hidden; /* 넘치는 텍스트를 감추기 위해 영역 내부에 숨김 */
+  }
+  

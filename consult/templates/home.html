@@ -51,9 +51,10 @@
                 <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.username }}</a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
                     <li><a class="dropdown-item" href="/mypage/">마이페이지</a></li>
-                    <li><a class="dropdown-item" href="/mypage/">내 정보 수정</a></li>
+                    <li><a class="dropdown-item" href="/mypage/update/">내 정보 수정</a></li>
                 </ul>
               </li>
+              <li class="nav-item"><a class="nav-link px-3" href="/boards/faq/">FAQ</a></li>
               <li class="nav-item"><a class="nav-link pl-3 me-3" href="/accounts/logout/">logout</a></li>
               {% else %}
               <li class="nav-item"><a class="nav-link px-3" href="/">home</a></li>
@@ -82,7 +83,7 @@
                 <a class="btn btn-sm btn-primary me-1" href="/voice/" role="button">전화 상담</a>
                 <a class="btn btn-sm btn-primary me-1" href="/chat/" role="button">채팅 상담</a>
                 <a class="btn btn-sm btn-primary me-1" href="/foreign/" role="button">Foreign Page</a>
-                <a class="btn btn-sm btn-default" href="#" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
+                <a class="btn btn-sm btn-default" href="/boards/faq/" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
               </div>
             </div>
           </div>
@@ -97,14 +98,13 @@
         <div class="container">
           <div class="row mb-4">
             <div class="col-md-6 h-100 text-center text-md-start p-0 p-md-5 pb-3">
-              <h2 class="mt-3">ooo만의 상담 기능을 살펴보세요</h2>
-              <p class="mb-0">ooo은 다른 상담 프로그램과 차별화된 기능을 제공합니다!!!</p>
+              <h2 class="mt-3">우리만의 상담 기능을 살펴보세요</h2>
+              <p class="mb-0">우리는 다른 상담 프로그램과 차별화된 기능을 제공합니다!!!</p>
             </div>
             <div class="col-md-6">
               <div class="w-100 h-100 p-5 services-card-shadow rounded-4"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2013/240/iconmonstr-headphones-8.png" alt="Dashboard" style="width:95px;" />
                 <h3 class="mt-3 lh-base">폭언 감지</h3>
-                <p class="mb-0">전화 상담 중 폭언이 지속될 경우 채팅 상담으로 전환될 수 있습니다.<br>
-                  If verbal abuse persists during a phone call, you may be moved to a chat call.</p>
+                <p class="mb-0">전화 상담 중 폭언이 지속될 경우 채팅 상담으로 전환될 수 있습니다.</p>
               </div>
             </div>
           </div>
@@ -112,15 +112,13 @@
             <div class="col-md-6">
               <div class="w-100 h-100 p-5 services-card-shadow rounded-4"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2013/240/iconmonstr-note-23.png" alt="Comment" style="width:95px;" />
                 <h3 class="mt-3 lh-base">상담 내용 요약</h3>
-                <p class="mb-0">상담 종료 후 상담 내용을 요약하여 제공해드립니다.<br>
-                  We will provide a summary of the contents at the end of the call.</p>
+                <p class="mb-0">상담 종료 후 상담 내용을 요약하여 제공해드립니다.</p>
               </div>
             </div>
             <div class="col-md-6">
               <div class="w-100 h-100 p-5 services-card-shadow rounded-4"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2014/240/iconmonstr-language-10.png" alt="Tailored" style="width:95px;" />
                 <h3 class="mt-3 lh-base">실시간 번역</h3>
-                <p class="mb-0">전화, 채팅 상담 중 실시간 번역 서비스를 이용하실 수 있습니다.<br>
-                  Real-time translation services are available during the consultation.</p>
+                <p class="mb-0">전화, 채팅 상담 중 실시간 번역 서비스를 이용하실 수 있습니다.</p>
               </div>
             </div>
           </div>

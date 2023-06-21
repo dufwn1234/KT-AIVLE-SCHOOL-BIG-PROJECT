@@ -3,6 +3,7 @@ from .models import Post, Reply
 from boards.forms import PostingForm, PostingUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
+from django.core.paginator import Paginator
 
 # Create your views here.
 def boards(request):
@@ -15,14 +16,31 @@ def test(request):
     posts_faq = Post.objects.filter(category="FAQ")
     posts_inquiry = Post.objects.filter(category="Inquiry")
         
-    return render(request, 'boards_test.html', {'posts_faq':posts_faq, 'posts_inquiry':posts_inquiry})
+    return render(request, 'old_boards.html', {'posts_faq':posts_faq, 'posts_inquiry':posts_inquiry})
+
+def faq(request):
+    posts_faq = Post.objects.filter(category="FAQ")
+    posts_inquiry = Post.objects.filter(category="Inquiry")
+        
+    return render(request, 'boards_faq.html', {'posts_faq':posts_faq, 'posts_inquiry':posts_inquiry})
+
+def inquiry(request):
+    posts_faq = Post.objects.filter(category="FAQ")
+    posts_inquiry = Post.objects.filter(category="Inquiry")
+    
+    # paginator = Paginator(posts_inquiry, 10)
+    # page = int(request.GET.get('page', 1))
+    # board_list = paginator.get_page(page)
+        
+    return render(request, 'boards_inquiry.html', {'posts_faq':posts_faq, 'posts_inquiry':posts_inquiry}) #'board_list':board_list})
 
 @login_required
 def posting(request):
     if request.method == 'POST':
         form = PostingForm(request.POST)
         for field in form:
-            print("Field Error:", field.name, field.errors)
+            if field.errors:
+                print("Field Error:", field.name, field.errors)
             
         if form.is_valid():
             post = Post()
@@ -51,11 +69,6 @@ def inquiry_detail(request, bpk):
     reply = post.reply_set.all()
     return render(request, 'boards_detail.html', {'post':post, 'url':url, 'reply':reply})
 
-def test_detail(request, bpk):
-    url = 'inquiry_detail' + '/' + bpk
-    post = Post.objects.get(id=bpk)
-    reply = post.reply_set.all()
-    return render(request, 'test_detail.html', {'post':post, 'url':url, 'reply':reply})
 
 @login_required
 @require_http_methods(['GET', 'POST'])
@@ -83,6 +96,7 @@ def update(request, bpk):
     else:
         form = PostingUpdateForm(instance=post)
         return render(request, 'boards_update.html', {'form':form, 'post':post})
+    
     
 @login_required
 def delete(request, bpk):
@@ -112,3 +126,4 @@ def dreply(request, bpk, rpk):
         return redirect('boards:faq_detail', bpk)
     elif post.category == 'Inquiry':
         return redirect('boards:inquiry_detail', bpk)
+    

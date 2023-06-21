@@ -28,6 +28,21 @@
     <script src="{% static 'js/mypage.js' %}"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    
+    <script>
+        window.console = window.console || function(t) {};
+        </script>
+    
+        <script type="text/javascript">
+            function checkDisable(form) {
+                if (form.ck.checked == true) {
+                    form.delete_btn.disabled = false;
+                } else {
+                    form.delete_btn.disabled = true;
+                }
+            }
+        </script>
+        
 </head>
 
 <body class="chats-tab-open">
@@ -112,6 +127,25 @@
                                                         </svg>
                                                         <span>Settings</span> 
                                                     </button>
+                                                </div>
+                                                <div class="card-options">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted text-muted" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <!-- Default :: Inline SVG -->
+                                                            <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <form method="POST" enctype="multipart/form-data" action="{% url 'mypage:img_update' %}">
+                                                                {% csrf_token %}
+                                                                <!-- form -> img_form 변경-->
+                                                                <label class="dropdown-item" for="{{ form.image.id_for_label }}">Change Profile Picture</label>
+                                                                <input id="{{ form.image.id_for_label }}" name="{{ form.image.html_name }}" type="file" accept="image/*" style="display:none;" onchange="this.form.submit();"/>
+                                                            </form>
+                                                            <a class="dropdown-item" href="{% url 'mypage:img_delete' %}">Delete Profile Picture</a>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -372,8 +406,36 @@
     <script src='{% static "js/app.min.js" %}'></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      
 
+    <script>
+        // 버튼 클릭 시 드롭다운 메뉴를 토글하는 함수
+        function toggleDropdown() {
+            var dropdownMenu = document.querySelector('.dropdown-menu');
+            if (dropdownMenu.style.display === 'none') {
+                dropdownMenu.style.display = 'block';
+            } else {
+                dropdownMenu.style.display = 'none';
+            }
+        }
+
+        var dropdownButton = document.querySelector('.dropdown button');
+        dropdownButton.addEventListener('click', toggleDropdown);
+    </script>
+
+    <script>
+        function checkDisable(form) {
+            var checkbox = form.ck;
+            var deleteButton = form.delete_btn;
+            if (checkbox.checked) {
+                deleteButton.disabled = false;
+            } else {
+                deleteButton.disabled = true;
+            }
+        }
+        </script>
+
+
+    
 </body>
 
 </html>

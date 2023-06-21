@@ -15,6 +15,12 @@ class CustomerChangeForm(UserChangeForm):
         model = get_user_model()
         fields = ['image', 'email', 'phone_number', 'nation']
         
+class CustomerImageChangeForm(UserChangeForm):
+    image = forms.ImageField(label="image")
+    class Meta:
+        model = get_user_model()
+        fields = ['image']
+        
 class CheckPasswordForm(forms.Form):
     password = forms.CharField(label='비밀번호', widget=forms.PasswordInput(
         attrs={'class': 'form-control',}), 

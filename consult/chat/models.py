@@ -6,8 +6,8 @@ class Chat(models.Model):
     id = models.BigAutoField(primary_key=True)
     
     user = models.ForeignKey('accounts.User', related_name='chat_user', on_delete=models.CASCADE)
-    contact = models.ForeignKey('Contact', related_name='chat_contact', on_delete=models.CASCADE)
-    message = models.ForeignKey('Message', related_name='chat_messages', on_delete=models.CASCADE)
+    contact = models.ForeignKey('Contact', related_name='chat_contact', on_delete=models.CASCADE, null=True)
+    message = models.ForeignKey('Message', related_name='chat_messages', on_delete=models.CASCADE, null=True)
     timestamp = models.DateTimeField(auto_now_add=True, null=True)
     
     @classmethod

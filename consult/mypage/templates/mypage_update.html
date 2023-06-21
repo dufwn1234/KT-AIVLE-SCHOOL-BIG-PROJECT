@@ -248,11 +248,16 @@
             <p class="p1"><a href="/mypage">MyPage</a> > <a href="/mypage/update">Edit Profile</a></p>
         </div>
 
-        <form method="POST" class="update_form" id="UpdateForm" name="UpdateForm">
+        <form method="POST" class="update_form" id="UpdateForm" name="UpdateForm" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="update_detail">
                 <p>ID</p>
                 <p>{{ request.user.username }}</p>
+            </div>
+            <div class="update_detail">
+                <label for="{{ form.image.id_for_label }}">Image</label>
+                <img id="preview-img" {% if request.user.image %}src={{ request.user.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %}/>
+                <input type="file" id="{{ form.image.id_for_label }}" name="{{ form.image.html_name }}" accept="image/*" onchange="readURL(this);">
             </div>
             <div class="update_detail">
                 <label for="{{ form.phone_number.id_for_label }}">Phone number</label>
@@ -283,5 +288,19 @@
     <footer>
         <p>All rights reserved. ©KT AIVLESCHOOL 14</p>
     </footer>
+
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {  // 인풋 태그에 파일이 있는 경우
+              var reader = new FileReader();  // FileReader 인스턴스 생성
+              reader.onload = function(e) {  // 이미지가 로드된 경우
+                document.getElementById('preview-img').src = e.target.result;
+              };
+              reader.readAsDataURL(input.files[0]);  // reader가 이미지 읽도록.
+            } else {
+              document.getElementById('preview-img').src = "";
+            }
+          }
+    </script>
 </body>
 </html>
