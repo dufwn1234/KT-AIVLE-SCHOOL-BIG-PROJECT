@@ -12,4 +12,5 @@ class Call(models.Model):
     consult_text = models.TextField()
     consult_date = models.DateTimeField(auto_now_add=True)
     summary = models.TextField()
+    title = models.TextField(null=True)
     satisfaction = models.CharField(choices=SATICFACTION, max_length=1)

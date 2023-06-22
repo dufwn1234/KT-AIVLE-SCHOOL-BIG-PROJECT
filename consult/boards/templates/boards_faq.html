@@ -1,4 +1,5 @@
 {% load static %}
+{% load boards_filter %}
 <!doctype html>
 <html lang="en-US" dir="ltr">
 
@@ -336,34 +337,133 @@
                       </div>
                       <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
                         <div class="tab-table">
-
-                            <div class="card">
-                                <div class="table-responsive text-nowrap">
-                                  <table class="table">
-                                    <thead>
-                                      <tr>
-                                        <th>NO</th>
-                                        <th>TITILE</th>
-                                        <th>WRITER</th>
-                                        <th>DATE</th>
-                                      </tr>
-                                    </thead>
-                                    {% for p in posts_inquiry reversed %}
-                                    <tbody>
-                                      <tr>
-                                        <td>{{ forloop.revcounter }}</td>
-                                        <td><a class="table_title" href="{% url 'boards:inquiry_detail' p.id %}">{{ p.title }}</a></td>
-                                        <td>{{ p.writer }}</td>
-                                        <td>{{ p.date|date:"Y-m-d" }}</td>
-                                      </tr>
-                                      
-                                    </tbody>
+                          <div class="card">
+                            <div class="table-responsive text-nowrap">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>NO</th>
+                                    <th>TITILE</th>
+                                    <th>WRITER</th>
+                                    <th>DATE</th>
+                                  </tr>
+                                </thead>
+                                
+                                  
+                                  <tbody>
+                                  {% if board_list %}
+                                    {% for p in board_list %}
+                                    <tr>
+                                      <td>{{ board_list.paginator.count|sub:board_list.start_index|sub:forloop.counter0|add:1 }}</td>
+                                      <td><a class="table_title" href="{% url 'boards:inquiry_detail' p.id %}">{{ p.title }}</a></td>
+                                      <td>{{ p.writer }}</td>
+                                      <td>{{ p.date|date:"Y-m-d" }}</td>
+                                    </tr>
                                     {% endfor %}
-                                  </table>
-                                </div>
+                                  {% else %}
+                                    <tr>
+                                      <td>작성된 게시글이 없습니다.</td>
+                                    </tr>
+                                  {% endif %}
+                                </tbody>
+                              </table>
+                              <!--    페이징 시작-->
+                              <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                  <!--        이전 페이지-->
+                                          {% if board_list.has_previous %}
+                                          <li class="page-item first">
+                                              <a class="page-link"
+                                                href="/boards/inquiry/?page=1">&lt;&lt;<i class="tf-icon bx bx-chevrons-left"></i>
+                                              </a>
+                                          </li>
+                                          <li class="page-item prev">
+                                              <a class="page-link"
+                                                href="/boards/inquiry/?page={{ board_list.previous_page_number }}">&lt;<i class="tf-icon bx bx-chevron-left"></i>
+                                              </a>
+                                          </li>
+                                          {% else %}
+                                          <li class="page-item prev">
+                                              <a class="page-link" tabindex="-1" aria-disabled="true" href="#">&lt;<i class="tf-icon bx bx-chevron-left"></i>
+                                              </a>
+                                          </li>
+                                          {% endif %}
+                                  <!--        페이지 리스트-->
+                                          {% for page_number in board_list.paginator.page_range %}
+                                          {% if page_number >= board_list.number|add:-5 and page_number <= board_list.number|add:5 %}
+                                          {% if page_number == board_list.number %}
+                                          <li class="page-item active" aria-current="page">
+                                              <a class="page-link" href="/boards/inquiry/?page={{ page_number }}">
+                                                  {{ page_number }}
+                                              </a>
+                                          </li>
+                                          {% else %}
+                                          <li class="page-item">
+                                              <a class="page-link" href="/boards/inquiry/?page={{ page_number }}">
+                                                  {{ page_number }}
+                                              </a>
+                                          </li>
+                                          {% endif %}
+                                          {% endif %}
+                                          {% endfor %}
+                                  <!--        다음 페이지-->
+                                          {% if board_list.has_next %}
+                                          <li class="page-item next">
+                                              <a class="page-link"
+                                                href="/boards/inquiry/?page={{ board_list.next_page_number }}">&gt;<i class="tf-icon bx bx-chevron-right"></i>
+                                              </a>
+                                          </li>
+                                          <li class="page-item last">
+                                              <a class="page-link"
+                                                href="/boards/inquiry/?page={{ board_list.paginator.num_pages }}">&gt;&gt;<i class="tf-icon bx bx-chevrons-right"></i>
+                                              </a>
+                                          </li>
+                                          {% else %}
+                                          <li class="page-item next">
+                                              <a class="page-link" tabindex="-1" aria-disabled="true" href="#">&gt;<i class="tf-icon bx bx-chevron-right"></i>
+                                              </a>
+                                          </li>
+                                          {% endif %}
+                                      </ul>
+                                    </nav>
+                              
+                              
                             </div>
-                            
+                          </div>
                         </div>
+                        
+                        {% comment %} <div style="text-align:center">
+                          <div class="pagination">
+                          
+                              <div style="width:35%; margin: 5px;">
+                              {% if board_list.has_previous %}
+                                  <a class="abutton" href="?page=1">맨 앞으로</a>
+                                  <a class="abutton" href="?page={{ board_list.previous_page_number }}">이전</a>
+                              {% endif %}
+                              </div>
+              
+                              <div style="width:30%; margin: 5px;">
+                              {% for page in board_list.paginator.page_range %}
+                                  {% if page >= board_list.number|add:-2 and page <= board_list.number|add:2 %}
+                                  <span class="{% if page == board_list.number %}current{% endif %}">
+                                      <a href="?page={{ page }}">{{ page}}</a>
+                                  </span>
+                                  {% elif page >= board_list.number|add:-3 and page <= board_list.number|add:3 %}
+                                      ..
+                                  {% endif %}
+                              {% endfor %}
+                              </div>
+              
+                              <div style="width:35%; margin: 5px;">
+                              {% if board_list.has_next %}
+                                  <a class="abutton" href="?page={{ board_list.next_page_number }}">다음</a>
+                                  <a class="abutton" href="?page={{ board_list.paginator.num_pages }}">맨 뒤로</a>
+                              {% endif %}
+                              </div>
+              
+                          </div>  
+                        </div> {% endcomment %}
+                        
                       </div>
                     </div>
                   </div>                

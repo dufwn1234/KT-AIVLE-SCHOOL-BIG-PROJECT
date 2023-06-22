@@ -57,7 +57,7 @@ def signup(request):
     
         if form.is_valid():
             user = form.save()
-            return redirect('index')
+            return redirect('/')
         # else:
         #     messages.error(request, '회원가입에 실패했습니다.')
         #     print(form.errors)
@@ -75,7 +75,7 @@ def signup_form(request):
         if form.is_valid():
             # 유효성 검사 통과, 회원가입 성공
             user = form.save()
-            return redirect('index')  # 회원가입 성공 후 이동할 URL
+            return redirect('/')  # 회원가입 성공 후 이동할 URL
 
         # 유효성 검사 실패, 에러가 있는 경우
         return render(request, 'signup_form.html', {'form': form})
@@ -88,7 +88,7 @@ def signup_form(request):
 
 def login_view(request):
     if request.user.is_authenticated: 
-        return redirect('index') 
+        return redirect('/') 
     
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -98,7 +98,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('index')
+                return redirect('/')
             else:
                 messages.warning(request, "로그인 정보가 올바르지 않습니다.")
     else:
@@ -108,7 +108,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('index')
+    return redirect('/')
 
 class UserPasswordResetView(PasswordResetView):
     template_name = 'password_reset.html'

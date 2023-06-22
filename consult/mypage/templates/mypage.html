@@ -137,11 +137,11 @@
                                                             </svg>
                                                         </button>
                                                         <div class="dropdown-menu">
-                                                            <form method="POST" enctype="multipart/form-data" action="{% url 'mypage:img_update' %}">
+                                                            <form method="POST" enctype="multipart/form-data" action="{% url 'mypage:img_update' %}"> 
                                                                 {% csrf_token %}
                                                                 <!-- form -> img_form 변경-->
-                                                                <label class="dropdown-item" for="{{ form.image.id_for_label }}">Change Profile Picture</label>
-                                                                <input id="{{ form.image.id_for_label }}" name="{{ form.image.html_name }}" type="file" accept="image/*" style="display:none;" onchange="this.form.submit();"/>
+                                                                <label class="dropdown-item" for="{{ img_form.image.id_for_label }}">Change Profile Picture</label>
+                                                                <input id="{{ img_form.image.id_for_label }}" name="{{ img_form.image.html_name }}" type="file" accept="image/*" style="display:none;" onchange="this.form.submit();"/>
                                                             </form>
                                                             <a class="dropdown-item" href="{% url 'mypage:img_delete' %}">Delete Profile Picture</a>
                                                         </div>
@@ -366,7 +366,7 @@
                                                     <tr>
                                                         <td>{{ forloop.counter }}</td>
                                                         <td>{{ c.id }}</td>
-                                                        <td><a class="table_title" href="{% url 'mypage:calldetail' c.id %}">Call{{ c.id }}</a></td>
+                                                        <td><a class="table_title" href="{% url 'mypage:calldetail' c.id %}">{{ c.title }}</a></td>
                                                         {% if request.user.member_type == 'Customer' %}
                                                         <td>{{ c.counselor }}</td>
                                                         {% elif request.user.member_type == 'Counselor' %}

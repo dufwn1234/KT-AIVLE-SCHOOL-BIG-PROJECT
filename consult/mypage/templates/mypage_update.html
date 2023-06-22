@@ -1,306 +1,355 @@
 {% load static %}
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-    <title>Big Project</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Righteous&family=Roboto&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <!-- Viewport-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <!-- SEO Meta Tags-->
+    <meta name="keywords" content="quicky, chat, messenger, conversation, social, communication" />
+    <meta name="description" content="Quicky is a Bootstrap based modern and fully responsive Messaging template to help build Messaging or Chat application fast and easy." />
+    <meta name="subject" content="communication">
+    <meta name="copyright" content="frontendmatters">
+     <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
+    <title>My page</title>
+    <!-- Favicon and Touch Icons-->
+    <link rel="apple-touch-icon" sizes="180x180" href='{% static "/consult/workerschat/apple-touch-icon.png" %}'> 
+    <link rel="icon" type="image/png" sizes="32x32" href='{% static "/consult/workerschat/favicon-32x32.png" %}'>
+    <link rel="icon" type="image/png" sizes="16x16" href='{% static "/consult/workerschat/favicon-16x16.png" %}'>
+    <link rel="shortcut icon" href='{% static "/consult/workerschat/favicon.ico" %}' />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href='{% static "webfonts/inter/inter.css" %}'> 
+    <link rel="stylesheet" href='{% static "css/app.min.css" %}'>
 
     <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
     <script src="{% static 'js/mypage.js' %}"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     
-    <style>
-        body {
-            width: 100%;
-            height: 100vh;
-            margin: 0px;    
-            padding: 0px;
-            background-color: #FFFFFF;
-        }
-
-        header {
-            width: 100%;
-            height: 85px;
-            background-color: white;
-            color: black;
-            margin-bottom: 15px;
-            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
-            padding: 0;
-        }
-
-        header>nav {
-            margin: 0 auto;
-            padding: 20px 20px;
-        }
-
-        header>nav>label {
-            font-family: 'Righteous';
-            font-weight:bold;
-            font-size: 32px;
-            color: black;
-        }
-
-        header>nav>ul {
-            font-family: 'Noto Sans KR', sans-serif;
-            float: right;
-            font-size: 24px;
-            margin-top: -5px;
-            margin-right: 15px;
-            color: black;
-        }
-
-        header>nav>ul>li {
-            float: left;
-            list-style: none;
-            margin-left: 20px;
-        }
-
-        header>nav>ul>li>a {
-            text-decoration: none;
-            font-weight: bold;
-            color: black;
-            font-family: Roboto;
-        }
-
-        .wrap{
-            max-width:1200px;
-        }
-
-        .wrap a{
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .wrap a:hover{
-            color: inherit;
-        }
-
-        .contents {
-            display: block;
-            min-height: calc(100% - 12vh);
-            align-items: center;
-            width: 100%;
-            margin: 0 auto;    
-        }
-
-        .p1_div a{
-            text-decoration: none;
-            color: inherit;
-        }
-        .p1_div a:hover{
-            color: inherit;
-        }
-
-        .p1_div {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-        .p1{
-            height: 52px;
-            margin: 10px 50px;
-
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 30px;
-            line-height: 47px;
-
-            color: #000000;
-        }
-
-        .update_form{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-
-            margin: 10px 50px;
-
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 25px;
-            line-height: 35px;
-
-            color: #6D6D6D;
-        }
-        .update_detail {
-            display: flex;
-            justify-content: space-between;
-        }
-        .update_detail>p {
-            margin: 5px 0px;
-        }
-        .update_detail>label {
-            margin: 5px 0px;
-        }
-        .update_detail>input,
-        .update_detail>select {
-            margin: 5px 0px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            padding: 5px;
-            font-size: 15px;
-        }
-
-        .consults {
-            display: block;
-            margin: 10px 50px;
-        }
-
-        .btn {
-            display: flex;
-            margin: 10px 0px;
-            justify-content: flex-end;
-        }
-
-        .edit-button{
-            width: 150px;
-            height: 50px;
-            font-family: Roboto;
-            font-size: 20px;
-            border-radius: 10px;
-            background-color:white;
-            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-            cursor: pointer;
-        }
-        .edit-button:hover {
-            background-color: #D9D9D9;
-            color: #000000;
-        }
-
-        footer {
-            height: 12vh; 
-            background-color: #f8f8f8;
-            padding: 20px;
-            text-align: center;
-            margin: 0;
-            margin-top: 5vh;
-        }
-        footer>p{
-            margin: 0;
-            text-align: center;
-        }
-
-    </style>
-
-    <style>
-        ul.tabs{
-            margin: 0px;
-            padding: 0px;
-            list-style: none;
-        }
-        ul.tabs li{
-            background: none;
-            color: #222;
-            display: inline-block;
-            padding: 10px 15px;
-            cursor: pointer;
-        }
+    <script>
+        window.console = window.console || function(t) {};
+        </script>
+    
+        <script type="text/javascript">
+            function checkDisable(form) {
+                if (form.ck.checked == true) {
+                    form.delete_btn.disabled = false;
+                } else {
+                    form.delete_btn.disabled = true;
+                }
+            }
+        </script>
         
-        ul.tabs li.current{
-            background: #ededed;
-            color: #222;
-        }
-        
-        .tab-content{
-            display: none;
-            background: #ededed;
-            padding: 15px;
-        }
-        
-        .tab-content.current{
-            display: inherit;
-        }
-    </style>
 </head>
-<body>
-    <header>
-        <nav class="wrap">
-            <label>
-                <a href="/">
-                    <strong>
-                        Consulting
-                    </strong>
-                </a>
-            </label>
-            <!-- ul>li*3>a -->
-            <ul>            
-                {% if request.user.is_authenticated %}
-                    <li><a href="/mypage">{{ request.user.username }}</a></li>
-                    <li><a href="/">home</a></li>
-                    <li><a class="nav-link" href="/accounts/logout/">logout</a></li>
-                {% else %}
-                    <li><a href="/">home</a></li>
-                    <li><a class="nav-link" href="/accounts/login/">login</a></li>
-                    <li><a class="nav-link" href="/accounts/signup/">signup</a></li>
-                {% endif %}
+
+<body class="chats-tab-open">
+
+    <!-- Main Layout Start -->
+    <div class="main-layout">
+        <!-- Navigation Start -->
+        <div class="navigation navbar navbar-light bg-primary">
+            <!-- Logo Start -->
+            <a class="d-none d-xl-block bg-light rounded p-1" href="/">
+                <!-- Default :: Inline SVG -->
+                <svg height="30" width="30" viewBox="0 0 512 511" ><g><path d="m120.65625 512.476562c-7.25 0-14.445312-2.023437-20.761719-6.007812-10.929687-6.902344-17.703125-18.734375-18.117187-31.660156l-1.261719-41.390625c-51.90625-46.542969-80.515625-111.890625-80.515625-183.992188 0-68.816406 26.378906-132.101562 74.269531-178.199219 47.390625-45.609374 111.929688-70.726562 181.730469-70.726562s134.339844 25.117188 181.730469 70.726562c47.890625 46.097657 74.269531 109.382813 74.269531 178.199219 0 68.8125-26.378906 132.097657-74.269531 178.195313-47.390625 45.609375-111.929688 70.730468-181.730469 70.730468-25.164062 0-49.789062-3.253906-73.195312-9.667968l-46.464844 20.5c-5.035156 2.207031-10.371094 3.292968-15.683594 3.292968zm135.34375-471.976562c-123.140625 0-216 89.816406-216 208.925781 0 60.667969 23.957031 115.511719 67.457031 154.425781 8.023438 7.226563 12.628907 17.015626 13.015625 27.609376l.003906.125 1.234376 40.332031 45.300781-19.988281c8.15625-3.589844 17.355469-4.28125 25.921875-1.945313 20.132812 5.554687 41.332031 8.363281 63.066406 8.363281 123.140625 0 216-89.816406 216-208.921875 0-119.109375-92.859375-208.925781-216-208.925781zm-125.863281 290.628906 74.746093-57.628906c5.050782-3.789062 12.003907-3.839844 17.101563-.046875l55.308594 42.992187c16.578125 12.371094 40.304687 8.007813 51.355469-9.433593l69.519531-110.242188c6.714843-10.523437-6.335938-22.417969-16.292969-14.882812l-74.710938 56.613281c-5.050781 3.792969-12.003906 3.839844-17.101562.046875l-55.308594-41.988281c-16.578125-12.371094-40.304687-8.011719-51.355468 9.429687l-69.554688 110.253907c-6.714844 10.523437 6.335938 22.421874 16.292969 14.886718zm0 0" data-original="#000000" class="active-path" data-old_color="#000000" fill="#665dfe"/></g> </svg>
+            </a>
+            <!-- Logo End -->
+
+            <!-- Main Nav Start -->
+            <ul class="nav nav-minimal flex-row flex-grow-1 justify-content-between flex-xl-column justify-content-xl-center" id="mainNavTab" role="tablist">
+                <!-- Profile Tab Start -->
+                <li class="nav-item">
+                    <a class="nav-link p-0 py-xl-3" id="profile-tab" href="#profile-content" title="Profile">
+                        <!-- Default :: Inline SVG -->
+                        <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </a>
+                </li>
+                <!-- Profile Tab End -->
             </ul>
-        </nav>
-    </header>
-
-    <main class="contents">
-        <div class="p1_div">
-            <p class="p1"><a href="/mypage">MyPage</a> > <a href="/mypage/update">Edit Profile</a></p>
+            <!-- Main Nav End -->
         </div>
+        <!-- Navigation End -->
 
-        <form method="POST" class="update_form" id="UpdateForm" name="UpdateForm" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div class="update_detail">
-                <p>ID</p>
-                <p>{{ request.user.username }}</p>
-            </div>
-            <div class="update_detail">
-                <label for="{{ form.image.id_for_label }}">Image</label>
-                <img id="preview-img" {% if request.user.image %}src={{ request.user.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %}/>
-                <input type="file" id="{{ form.image.id_for_label }}" name="{{ form.image.html_name }}" accept="image/*" onchange="readURL(this);">
-            </div>
-            <div class="update_detail">
-                <label for="{{ form.phone_number.id_for_label }}">Phone number</label>
-                <input type="text" id="{{ form.phone_number.id_for_label }}" name="{{ form.phone_number.html_name }}" 
-                        placeholder="{{ request.user.phone_number }}" value="{{ form.phone_number.value|default_if_none:'' }}">
-            </div>
-            <div class="update_detail">
-                <label for="{{ form.email.id_for_label }}">Email address</label>
-                <input type="email" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" 
-                placeholder="{{ request.user.email }}" value="{{ form.email.value|default_if_none:'' }}">
-            </div>
-            <div class="update_detail">
-                <label for="{{ form.nation.id_for_label }}">Language</label>
-                <select id="{{ form.nation.id_for_label }}" name="{{ form.nation.html_name }}">
-                    {% for choice in form.nation.field.choices %}
-                        <option {% if form.nation.value == choice.0 %}selected{% endif %}>
-                            {{ choice.1 }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
+        <!-- Sidebar Start -->
+        <aside class="sidebar">
+            <!-- Tab Content Start -->
+            <div class="tab-content">
+                <!-- Profile Tab Content Start -->
+                <div class="tab-pane active" id="profile-content">
+                    <div class="d-flex flex-column h-100">
+                        <div class="hide-scrollbar">
+                            <!-- Sidebar Header Start -->
+                            <div class="sidebar-header sticky-top p-2 mb-3">
+                                <h5 class="font-weight-semibold">My Page</h5>
+                                <p class="text-muted mb-0">개인 정보 & 설정</p>
+                            </div>
+                            <!-- Sidebar Header end -->
 
-            <div class="btn">
-                <input class="edit-button" type="submit" value="Edit" onclick="sendit()">
-            </div>
-        </form>
+                            <!-- Sidebar Content Start -->
+                            <div class="container-xl">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col">
 
-    <footer>
-        <p>All rights reserved. ©KT AIVLESCHOOL 14</p>
-    </footer>
+                                        <!-- Card Start -->
+                                        <div class="card card-body card-bg-5">
+
+                                            <!-- Card Details Start -->
+                                            <div class="d-flex flex-column align-items-center">
+                                                <div class="avatar avatar-lg mb-3">
+                                                    <img class="avatar-img" {% if request.user.image %}src={{ request.user.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
+                                                </div>
+                
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <h5>{{ request.user.username }}</h5>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button class="btn btn-outline-default mx-1" type="button">
+                                                        <!-- Default :: Inline SVG -->
+                                                        <svg class="hw-18 d-none d-sm-inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                                                        </svg>
+                                                        <a href="/accounts/logout/"><span>Logout</span></a>
+ 
+                                                    </button>
+
+                                                    <button class="btn btn-outline-default mx-1 d-xl-none" data-profile-edit="" type="button">
+                                                        <!-- Default :: Inline SVG -->
+                                                        <svg class="hw-18 d-none d-sm-inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                        </svg>
+                                                        <span>Settings</span> 
+                                                    </button>
+                                                </div>
+                                                <div class="card-options">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted text-muted" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <!-- Default :: Inline SVG -->
+                                                            <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            <form method="POST" enctype="multipart/form-data" action="{% url 'mypage:img_update' %}"> 
+                                                                {% csrf_token %}
+                                                                <!-- form -> img_form 변경-->
+                                                                <label class="dropdown-item" for="{{ img_form.image.id_for_label }}">Change Profile Picture</label>
+                                                                <input id="{{ img_form.image.id_for_label }}" name="{{ img_form.image.html_name }}" type="file" accept="image/*" style="display:none;" onchange="this.form.submit();"/>
+                                                            </form>
+                                                            <a class="dropdown-item" href="{% url 'mypage:img_delete' %}">Delete Profile Picture</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Card End -->
+
+                                        <!-- Card Start -->
+                                        <div class="card mt-3">
+
+                                            <!-- List Group Start -->
+                                            <ul class="list-group list-group-flush">
+                                                
+                                                <!-- List Group Item Start -->
+                                                <li class="list-group-item py-2">
+                                                    <div class="media align-items-center">
+                                                        <div class="media-body">
+                                                            <p class="small text-muted mb-0">ID</p>
+                                                            <p class="mb-0">{{ request.user.username }}</p>
+                                                        </div>
+                                                        <!-- Default :: Inline SVG -->
+                                                        <svg class="text-muted hw-20 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <circle cx="12" cy="12" r="10" />
+                                                            <line x1="12" y1="16" x2="12" y2="12" />
+                                                            <line x1="12" y1="8" x2="12" y2="8" />
+                                                            <circle cx="12" cy="12" r="1" />
+                                                          </svg>
+                                                    </div>
+                                                </li>
+                                                <!-- List Group Item End -->
+
+                                                <!-- List Group Item Start -->
+                                                <li class="list-group-item py-2">
+                                                    <div class="media align-items-center">
+                                                        <div class="media-body">
+                                                            <p class="small text-muted mb-0">Phone</p>
+                                                            <p class="mb-0">{{ request.user.phone_number }}</p>
+                                                        </div>
+                                                        <!-- Default :: Inline SVG -->
+                                                        <svg class="text-muted hw-20 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                                        </svg>
+                                                    </div>
+                                                </li>
+                                                <!-- List Group Item End -->
+
+                                                <!-- List Group Item Start -->
+                                                <li class="list-group-item py-2">
+                                                    <div class="media align-items-center">
+                                                        <div class="media-body">
+                                                            <p class="small text-muted mb-0">Email</p>
+                                                            <p class="mb-0">{{ request.user.email }}</p>
+                                                        </div>
+
+                                                        <!-- Default :: Inline SVG -->
+                                                        <svg class="text-muted hw-20 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                                        </svg>
+                                                    </div>
+                                                </li>
+                                                <!-- List Group Item End -->
+                                            </ul>
+                                            <!-- List Group End -->
+
+                                        </div>
+                                        <!-- Card End -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Sidebar Content End -->
+                        </div>
+                    </div>
+                </div>
+                <!-- Profile Tab Content End -->
+            </div>
+            <!-- Tab Content End -->
+        </aside>
+        <!-- Sidebar End -->
+
+        <!-- Main Start -->
+        <main class="main">
+            <div class="chat-body"> <!--#############################################원래 profile이여야함 오류나면 고칠 것##############################################-->
+                <div class="page-main-heading sticky-top py-2 px-3 mb-3">
+
+                    <!-- Chat Back Button (Visible only in Small Devices) -->
+                    <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted d-xl-none" type="button" data-close="">
+                        <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                          </svg>
+                    </button>
+
+                    <div class="pl-2 pl-xl-0">
+                        <h5 class="font-weight-semibold">설정</h5>
+                        <p class="text-muted mb-0">개인정보 수정 &amp; 설정</p>
+                    </div>
+                </div>
+
+                <div class="container -xl px-2 px-sm-3">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-1">계정</h6>
+                                    <p class="mb-0 text-muted small">개인정보 수정 &amp; 연락처 정보</p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="firstName">이름</label>
+                                                <input type="text" class="form-control form-control-md" id="firstName" placeholder="Type your first name" value="{{ request.user.username }}">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="mobileNumber">핸드폰 번호</label>
+                                                <input type="text" class="form-control form-control-md" id="mobileNumber" placeholder="Type your mobile number" value="{{ request.user.phone_number }}">
+                                            </div>
+                                        </div>
+                                        
+                                        
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="emailAddress">이메일 주소</label>
+                                                <input type="email" class="form-control form-control-md" id="emailAddress" placeholder="Type your email address" value="{{ request.user.email }}">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group">
+                                                <label for="country">국가</label>
+                                                <select class="form-control form-control-md" id="country" name="country">
+                                                    <option value="영어">Korean</option>
+                                                    <option value="영어">English</option>
+                                                    <option value="일본어">Japanese</option>
+                                                    <option value="중국어">Chinese</option>
+                                                    <option value="태국어">Vietnamese</option>
+                                                    <option value="베트남어">Thai</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="card-footer d-flex justify-content-end">
+                                    <a href="/mypage/" class="btn btn-primary">저장</a>
+                                </div>
+                            </div>
+
+                            <!--################################################비밀번호 변경 원할시 여기###############################################-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Profile Settings End -->
+        </main>
+        <!-- Main End -->
+
+    </div>
+    <!-- Main Layout End -->
+    
+
+    <!-- Javascript Files -->
+    <script src='{% static "vendors/jquery/jquery-3.5.0.min.js" %}'></script>
+    <script src='{% static "vendors/bootstrap/bootstrap.bundle.min.js" %}'></script>
+    <script src='{% static "vendors/magnific-popup/jquery.magnific-popup.js" %}'></script>
+    <script src='{% static "vendors/svg-inject/svg-inject.js" %}'></script>
+    <script src='{% static "vendors/modal-stepes/modal-steps.min.js" %}'></script>
+    <script src='{% static "js/app.min.js" %}'></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        function readURL(input) {
-            if (input.files && input.files[0]) {  // 인풋 태그에 파일이 있는 경우
-              var reader = new FileReader();  // FileReader 인스턴스 생성
-              reader.onload = function(e) {  // 이미지가 로드된 경우
-                document.getElementById('preview-img').src = e.target.result;
-              };
-              reader.readAsDataURL(input.files[0]);  // reader가 이미지 읽도록.
+        // 버튼 클릭 시 드롭다운 메뉴를 토글하는 함수
+        function toggleDropdown() {
+            var dropdownMenu = document.querySelector('.dropdown-menu');
+            if (dropdownMenu.style.display === 'none') {
+                dropdownMenu.style.display = 'block';
             } else {
-              document.getElementById('preview-img').src = "";
+                dropdownMenu.style.display = 'none';
             }
-          }
+        }
+
+        var dropdownButton = document.querySelector('.dropdown button');
+        dropdownButton.addEventListener('click', toggleDropdown);
     </script>
+
+    <script>
+        function checkDisable(form) {
+            var checkbox = form.ck;
+            var deleteButton = form.delete_btn;
+            if (checkbox.checked) {
+                deleteButton.disabled = false;
+            } else {
+                deleteButton.disabled = true;
+            }
+        }
+        </script>
+
+
+    
 </body>
+
 </html>

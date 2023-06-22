@@ -20,19 +20,27 @@ def test(request):
 
 def faq(request):
     posts_faq = Post.objects.filter(category="FAQ")
-    posts_inquiry = Post.objects.filter(category="Inquiry")
+    posts_inquiry = Post.objects.filter(category="Inquiry").order_by('-date')
         
-    return render(request, 'boards_faq.html', {'posts_faq':posts_faq, 'posts_inquiry':posts_inquiry})
+    page = int(request.GET.get('page', 1))
+    paginator = Paginator(posts_inquiry, 10)
+    board_list = paginator.get_page(page)
+    
+    total_count = posts_inquiry.count()
+        
+    return render(request, 'boards_faq.html', {'posts_faq':posts_faq, 'posts_inquiry':posts_inquiry, 'board_list':board_list, 'total_count': total_count})
 
 def inquiry(request):
     posts_faq = Post.objects.filter(category="FAQ")
-    posts_inquiry = Post.objects.filter(category="Inquiry")
+    posts_inquiry = Post.objects.filter(category="Inquiry").order_by('-date')
     
-    # paginator = Paginator(posts_inquiry, 10)
-    # page = int(request.GET.get('page', 1))
-    # board_list = paginator.get_page(page)
+    page = int(request.GET.get('page', 1))
+    paginator = Paginator(posts_inquiry, 10)
+    board_list = paginator.get_page(page)
+    
+    total_count = posts_inquiry.count()
         
-    return render(request, 'boards_inquiry.html', {'posts_faq':posts_faq, 'posts_inquiry':posts_inquiry}) #'board_list':board_list})
+    return render(request, 'boards_inquiry.html', {'posts_faq':posts_faq, 'posts_inquiry':posts_inquiry, 'board_list':board_list, 'total_count': total_count})
 
 @login_required
 def posting(request):
@@ -49,7 +57,7 @@ def posting(request):
             post.writer = request.user
             post.category = form.cleaned_data['category']
             post.save()
-            return redirect('boards:boards')
+            return redirect('boards:inquiry')
         else:
             print('is not valid')
             return render(request, 'boards_posting.html', {'form':form})

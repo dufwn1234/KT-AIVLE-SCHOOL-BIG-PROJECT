@@ -15,4 +15,7 @@ urlpatterns = [
     path('voice_ch/', views.voice_ch, name='voice_ch'),
     path('voice_vi/', views.voice_vi, name='voice_vi'),
     path('voice_th/', views.voice_th, name='voice_th'),
+    path('stttest/', views.stttest, name='stttest'),
+    path('apitest/', views.apitest, name='apitest'),
+    
 ]

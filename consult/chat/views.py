@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from . import models
 from accounts.models import User
 from .models import Chat, Contact, Message
+from call.models import Call
+from boards.models import Post
 from django.utils.safestring import mark_safe
 
 
@@ -65,7 +67,6 @@ def translater1(request):
     language2 = data["language2"]
     text = data["text"]
     
-    #prompt = f"{text}\n\nTranslate this sentence into {language1}"
     prompt = f"{text}\n\nTranslate this sentence from {language1} to {language2}"
     response = openai.ChatCompletion.create(
          model="gpt-3.5-turbo",
@@ -86,9 +87,36 @@ def translater1(request):
     if "Note:" in result:
             result = result.split("Note:", 1)[0].strip()
 
-    #return JsonResponse({"result": result}, json_dumps_params={'ensure_ascii': False})
     return HttpResponse(result, content_type="text/plain; charset=utf-8")
+
+def translater2(request):
+    data = json.loads(request.body)
+    language1 = data["language1"]
+    #language2 = data["language2"]
+    text = data["text"]
     
+    prompt = f"{text}\n\nTranslate this sentence into {language1}"
+    #prompt = f"{text}\n\nTranslate this sentence from {language1} to {language2}"
+    response = openai.ChatCompletion.create(
+         model="gpt-3.5-turbo",
+        messages=[
+                {
+                    "role": "system",
+                    "content": "you are a translater"
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            max_tokens=500,
+        )
+
+    result = response["choices"][0]["message"]["content"]
+    if "Note:" in result:
+            result = result.split("Note:", 1)[0].strip()
+
+    return HttpResponse(result, content_type="text/plain; charset=utf-8")    
 ################################################################33
 ###### 코드 정리 하면서 진행 부탁 드립니다 #######
 
@@ -111,16 +139,41 @@ def chat(request):
 
 @login_required
 def room(request, room_name):
-    # try:
-        # chat_active 변경
-        user = User.objects.get(username=request.user.username)
-        user.chat_active = True
-        user.save()
+    # chat_active 변경
+    user = User.objects.get(username=request.user.username)
+    user.chat_active = True
+    user.save()
+    
+    # 상담사 정보
+    counselor = User.objects.get(id=room_name)
+    
+    # 고객 정보  --> 수정 중
+    customer = None
+    if request.user.member_type == 'Customer':
+        customer = User.objects.get(id=request.user.id)
+    
+    # message = Message.objects.latest('timestamp')
+    # customer = User.objects.get(id=message.user_id)
         
-        return render(request, "chat/room.html", {"room_name": mark_safe(json.dumps(room_name)),
-                                                  'username': request.user.username})
-    # except:
-    #     return redirect('chat:chat')
+    customers = User.objects.filter(member_type='Customer')
+    chats = Chat.objects.all()
+    calls = Call.objects.all()
+    
+    # FAQ
+    faqs = Post.objects.filter(category='FAQ')
+        
+    return render(request, "chat/room.html", {"room_name": mark_safe(json.dumps(room_name)),
+                                                'username': request.user.username,
+                                                'counselor':counselor, 'customer':customer, 
+                                                'customers':customers, 'chats':chats, 'calls':calls,
+                                                'faqs':faqs})
+
+def save_customer_info(chat_id, user):
+    customer_info = User.objects.get(id=user.id)
+    print(customer_info)
+    
+def get_customer_info():
+    return customer_info
 
 def get_last_10_messages(chatId):
     chat = get_object_or_404(Chat, id=chatId)

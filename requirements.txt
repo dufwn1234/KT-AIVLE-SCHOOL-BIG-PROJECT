@@ -14,3 +14,4 @@ bleach==4.1.0
 django-summernote==0.8.20.0 
 webencodings==0.5.1
 bootstrap4==0.1.0
+azure-cognitiveservices-speech==1.29.0

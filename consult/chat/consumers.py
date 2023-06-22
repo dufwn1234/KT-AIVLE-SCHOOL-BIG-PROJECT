@@ -4,7 +4,7 @@ from accounts.models import User
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from .models import Message, Chat, Contact
-from .views import get_last_10_messages, get_user_contact, get_current_chat
+from .views import get_last_10_messages, get_user_contact, get_current_chat, save_customer_info
 
 class ChatConsumer(WebsocketConsumer):
     
@@ -30,12 +30,13 @@ class ChatConsumer(WebsocketConsumer):
             chat=chat_contact,
             content=message_content
         )
+        message_instance = message
 
         content = {
             'command': 'new_message',
             'message': self.message_to_json(message)
         }
-        self.send_chat_message(content)
+        self.send_chat_message(content, message_instance, chat_id)
     
     
     def messages_to_json(self, messages):
@@ -75,12 +76,14 @@ class ChatConsumer(WebsocketConsumer):
         data = json.loads(text_data)
         self.commands[data['command']](self, data)
 
-    def send_chat_message(self, message):
+    def send_chat_message(self, message, message_instance, chat_id):
+        save_customer_info(chat_id, message_instance.user)
+        
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'message': message,
             }
         )
 

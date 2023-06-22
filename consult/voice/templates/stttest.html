@@ -1,0 +1,295 @@
+<!-- 중간에 주석 처리 절대 금지 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Call</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700&amp;family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,300&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <link href="{% static "assets/css/theme.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/my.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/myvoice.css" %}" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="/static/call.css"> -->
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 24px;
+            min-height: 90vh;
+        }
+    </style>
+
+    <script>
+        let myName = '{{ username }}';
+    </script>
+</head>
+
+<body>
+    <main class="main" id="top">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" data-navbar-on-scroll="light">
+          <div class="container"><label><a href="/"><strong>Consulting</strong></a></label>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+              <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base align-items-center">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item"><a class="nav-link px-3" href="/">home</a></li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.username }}</a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                      <li><a class="dropdown-item" href="/mypage/">마이페이지</a></li>
+                      <li><a class="dropdown-item" href="/mypage/">내 정보 수정</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link pl-3 me-3" href="/accounts/logout/">logout</a></li>
+                {% else %}
+                <li class="nav-item"><a class="nav-link px-3" href="/">home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="/accounts/login/">login</a></li>
+                <button class="btn btn-primary"><a href="/accounts/signup/">Sign Up</a></button>
+                {% endif %}
+              </ul>            
+            </div>
+          </div>
+        </nav>
+        <section id="pricing">
+
+            <div class="container">
+              <div class="row flex-center">
+                <div class="col-md-6 text-center text-md-start">
+                  <h4 class="fw-normal fs-3" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">상담사와 <br />전화 상담을 해보세요</h4>
+                  <p class="fs-0 pe-xl-8" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">지금 전화 받는 상담원은 누군가의 소중한 가족입니다.<br>AI 기반 폭언 감지 시스템으로 인해<br>지속적인 폭언시 채팅 상담으로 전환될 수 있습니다.</p>
+                  <div class="d-flex justify-content-space-between align-item-center my-3 mt-2">
+                    <div>
+                      <h4 class="fw-normal fs-1">친절한 어쩌구</h4>
+                      <p class="my-1 fs-0 pe-xl-8">친절하게 상담해드림 ㅎ</p>
+                    </div>
+                    <div>
+                      <h4 class="fw-normal fs-1">자세한 저쩌구</h4>
+                      <p class="my-1 fs-0 pe-xl-8">자세하게 상담해드림 ㅎ</p>
+                    </div>
+                  </div>
+                  <!-- to input username and login -->
+                  <div id="userName">
+                    <button onclick="login()" class="btn btn-sm btn-primary my-4 me-1" >전화 연결하기</button>
+                    <a class="btn btn-sm my-2 btn-default" href="#" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
+                  </div>
+                  <div>
+                    <div>
+                        <!-- to input username and login -->
+            
+                        {% comment %} <div id="userName">
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 300px;">
+                                
+                                <div style="height: 5px;"></div>
+                                <button onclick="login()" class="actionButton">접속하기</button>
+                            </div>
+                        </div> {% endcomment %}
+            
+                        <!-- to display current login user information  -->
+                        <div id="userInfo">
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 300px;">
+                                <h1>Hello, <span id="nameHere"></span></h1>
+                            </div>
+                        </div>
+            
+                        <!-- to make a call with name -->
+                        <!-- <div id="call">
+                            <div class="dialWrapper">
+                                <input placeholder="Whom to call?" style="text-align:center; height: 50px; font-size: xx-large;"
+                                    type="text" name="callName" id="callName">
+                                <div class="dialNumpadHWrapper">
+                                    <div class="dialNumber">
+                                    </div>
+                                    <div class="dialNumber">
+                                        <button class="dialActionButton" onclick="call()">Call</button>
+                                    </div>
+                                    <div class="dialNumber">
+                                    </div>
+                                </div>
+            
+                            </div>
+                        </div> -->
+            
+                        <div id="call">
+                            <div class="dialWrapper">
+                                <select name="counselor" id="callName" style="text-align:center; height: 50px; font-size: xx-large;">
+                                    <option value="">상담사를 선택해주세요.</option>
+                                    {% for counselor in counselor_list %}
+                                        <option value="{{ counselor.username }}">{{ counselor.username }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="dialNumpadHWrapper">
+                                    <div class="dialNumber"></div>
+                                    <div class="dialNumber" method="post">
+                
+                                        {% csrf_token %}
+                                        <button method="post" class="btn btn-sm btn-primary my-4 me-1" name="action" value="start" onclick="call()">Call</button>    
+                                        
+                                    </div>
+                                    <div class="dialNumber"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+            
+                        <!-- to show incommming call and accept -->
+                        <div id="answer">
+                            <div class="incomingWrapper">
+                                <div class="itemWrapper">
+                                    <h2 style="line-height: 0px;"> <span id="callerName"></span> 님에게 전화 수신 중 </h2>
+                                </div>
+                                <div class="itemWrapper" style="display: flex; flex-direction: row; margin-bottom: 20px;">
+                                    <button class="btn btn-sm btn-primary my-4 me-1" onclick="answer()">Answer</button>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- to show outgoing call -->
+                        <div id="calling">
+                            <div class="incomingWrapper">
+                                <div class="itemWrapper" method="post">                                    
+                                    <h2 style="line-height: 0px;"> <span id="otherUserNameCA"></span> 상담사와 연결중입니다.</h2>
+                                    
+                                    {% csrf_token %}
+                                    <button method="post" class="btn btn-sm btn-primary my-4 me-1" name="action" value="stop" onclick="stop()">Call End</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- to show call in progress call -->
+                        <div id="inCall">
+                            <div class="incomingWrapper">
+                                <div class="itemWrapper">
+                                    <h3>On Call With</h3>
+                                    <h2 style="line-height: 0px;"><span id="otherUserNameC"></span></h2>
+                                    <p id="callDuration">통화 시간: </p>
+                                    <!-- <button class="btn btn-sm btn-primary my-4 me-1" name="action" value="stop" onclick="stop()">Call End</button> -->
+                                    <!-- 이 버튼 템플릿 적용해주세요 !!!!!!! -->
+                                    <a href="/survey/">
+                                        <button>Call End</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <br>
+            
+                        <!-- to show local and remote audio -->
+                        <div id="audios">
+                            <div style="position:absolute; top:0; right:0; padding-right: 20px; padding-top: 20px">
+                                <audio id="localAudio" autoplay muted playsinline></audio>
+                            </div>
+                            <div id="remoteAudioDiv">
+                                <audio id="remoteAudio" autoplay playsinline></audio>
+                            </div>
+                        </div>
+                        <div style="flex-grow: 1;">
+                        </div>
+                    </div>
+            
+                </div>
+                </div>
+                <textarea id="transcriptText" rows="10" cols="50" readonly>{{transcriptText}}</textarea>
+              </div>
+            </div>
+            <!-- end of .container-->
+    
+          </section>
+
+</main>
+
+    <script src="/static/stt.js"></script>
+    <script>
+        document.getElementById("call").style.display = "none";
+        document.getElementById("userInfo").style.display = "none";
+        document.getElementById("answer").style.display = "none";
+        document.getElementById("inCall").style.display = "none";
+        document.getElementById("calling").style.display = "none";
+        document.getElementById("audios").style.display = "none";
+
+    </script>
+    <script>
+
+        function login() {
+            let userName = '{{ username }}';
+            let myName = userName;
+            document.getElementById("userName").style.display = "none";
+            document.getElementById("call").style.display = "block";
+
+            document.getElementById("nameHere").innerHTML = userName;
+            document.getElementById("userInfo").style.display = "block";
+
+            connectSocket();
+        }
+    </script>
+    <script>
+        let start_Time;
+        let endTime;
+    
+        function updateCallDuration() {
+            const duration = new Date() - startTime;
+            const seconds = Math.floor(duration / 1000);
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            
+            const callDurationElement = document.getElementById("callDuration");
+            //callDurationElement.textContent = `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+    
+        function startCallDuration() {
+            startTime = new Date();
+            setInterval(updateCallDuration, 1000);
+        }
+    
+        document.getElementById("inCall").style.display = "none";
+    
+        function answer() {
+            document.getElementById("answer").style.display = "none";
+            document.getElementById("inCall").style.display = "block";
+            startCallDuration();
+        }
+    </script>
+    <script src="{% static "vendors/popper/popper.min.js" %}"></script>
+    <script src="{% static "vendors/bootstrap/bootstrap.min.js" %}"></script>
+    <script src="{% static "vendors/anchorjs/anchor.min.js" %}"></script>
+    <script src="{% static "vendors/is/is.min.js" %}"></script>
+    <script src="{% static "vendors/fontawesome/all.min.js" %}"></script>
+    <script src="{% static "vendors/lodash/lodash.min.js" %}"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"></script>
+    <script src="{% static "vendors/imagesloaded/imagesloaded.pkgd.js" %}"></script>
+    <script src="{% static "vendors/gsap/customEase.js" %}"></script>
+    <script src="{% static "vendors/gsap/scrollToPlugin.js" %}"></script>
+    <!--script(src=`${CWD}vendors/gsap/drawSVGPlugin.js`)-->
+    <script src="{% static "assets/js/theme.js" %}"></script>
+
+
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+        $(document).ready(function() {
+            setInterval(updateTranscript, 1000);  // 1초마다 텍스트 업데이트 함수 호출
+
+            function updateTranscript() {
+                $.ajax({
+                    url: '/voice/stttest/',  // 업데이트를 처리할 Django 뷰 함수의 URL
+                    success: function(response) {
+                        $('#transcriptText').text(response);  // <pre> 요소에 텍스트 업데이트
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

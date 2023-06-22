@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "plucky-stratum-390307",
+  "private_key_id": "caacb375a463dbddb3dbc9694ec53e8071db38ac",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQClKNNHIGwgagLL\n9HTepAg2pGdlfRK1UCxzWcTCJ/uI+xJ0ioWUrjouQsSyOkLte28LncaZcTWOs62g\nVuSgwgQcjUpkQUQf6NV7RiFzfnDCR4nFPFysvI7B0dA5u4JADLPI1GtkhSWNDuMQ\nXZEYnDqioLc1ZmH369Gi4b5WrGF2ftJTBi6G5xFOgHkRAEdIGdLBGlxZtqPg43zE\nLcYgtSvqnkEBWirg+dJQp8Zfk6zGV9IOOVDU0XinPcMYSYqVhfd4T3w2mZt7ITDb\nDMnoobemEfO06Eg3+gTg/XNmi5nF8wRGy1f1vLbF1CQSazNDBjOCvj/+b7Jy/Vpp\nX2kb2c1hAgMBAAECggEAENaIL7yw+V8FePirv5UWl0eMmQ62zRBm772rryW3YcBD\nIemLc9yNZvD8r7T75M1MRXFo8XTWwn00CuBA/9i35ZdMCcuTn/MzbJV6TJWL9mqn\ns5mTUzMIFN+IrJIe1dvVqnhpmH5wlSB66sy3QbyPx8u90e5lt4ptvX7pUlnRt+xN\nJDUMPdGVTRgIoNkUiEGDwRCEAkqwo6319snhJkorkqkm88LiZuC1zCpjiMyQsUuB\nhFo37OkF+Jyb/xJuVhp3B4Jhcd6iWIlekg2r9RJUiiJK2tlOnRQSEiC1sh0+LgRr\n0e1ZjYLiMKpYvQ/V0xbxO6CauLp1b/OA3V+AMhxKiQKBgQDPpKr+K0TOqKjaND9Z\n3kXhiFKUH1YSIm+A4cI8mrHwx2jvBips8kJvyOO9GD5Cb7Q9INqL1C+vCQbWY+iR\nY4CoBrvP09Y4VoBPKoB/Vp+ZIuIXYD4DctwYIrQnD8WYd+UChm/hh/JygpBciafb\n03qI3DPpld8PrhO+SvFEXG1nLQKBgQDLn1lGbq7XlvG0Urd8xjjc6XViKjhNmy41\nD0YCoULlbxT/Vu/63K9Z6g4cMu1fO4YRQ5ao/UzxsKj23sbgAIt7xloH1WD3s7Tl\nnq8edfNr1T6S7vPQsyjM6lGBGui0/blWZP0/Vmuo6enR8LBhTf2kABGrx7Z3HOx9\nkU2SyI/fhQKBgBrZNerreVgnYr3kJ5TdMrf4woS4kI6DuVs21cC0V/HENwNBDtdL\nc9+0YA4hRlucyfdlehy+cPP2/NVX0ciKzyXqyPoUcAyU0r5pxnewoa5RXl6baSlU\n/rR4OEccuPX/+rKa43iL9YNs8nGksvmvnJZ5spSvdko2vgLK+etW8CZ5AoGAetJ8\nfDKJPjurQdTfHuFGLWKYzoSe/5jKD3FODooNGu2dIcPj71KsZrT6m+HQMrBp1wII\n35gikGq6EGciWL2bZSao6a641dDNHfBQuzP0h6fSHbkK0mkvBCOW1CRSF9IvuEAk\nTc8oE3Q8+MiQ67CqfQEZp59InaKRt9AslYxq1C0CgYA7OCYB4cHT0Ukrt2fME6wN\n//GP9wJ5c0jlZ1E3pmvRLJLDf8vVwh9z79tluJkwNMj0UjOgi2rKd7jzQHWZTEi+\nnKJmOtJ40ldkjPzUeWL091SdZjGJWZOEJdYIRLsy1MWhMtQUJbXlrRck910P/MLf\nw61p0nf8V5nPa99uSHOCOQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "aivle14@plucky-stratum-390307.iam.gserviceaccount.com",
+  "client_id": "107705059773177790744",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/aivle14%40plucky-stratum-390307.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -9,6 +9,7 @@ urlpatterns = [
     path("translater/",views.translater,name='translater'),
     path("test1/",views.test1,name='test1'),
     path("tanslater1/",views.translater1,name='translater1'),
+    path("tanslater2/",views.translater2,name='translater2'),
     ########################################
     path("<str:room_name>/", views.room, name="room"),   
 ]

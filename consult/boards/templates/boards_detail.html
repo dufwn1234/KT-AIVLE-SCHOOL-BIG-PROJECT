@@ -115,22 +115,22 @@
                   <div class="alert alert-warning">
                     <!-- Inquiry만 댓글 작성 가능 -->
                     {% if post.category == 'Inquiry' %}
-                    {% for r in reply %}
-                    <div class="reply-wrap reply_form">
-                        <div>
-                            <p class="reply-text">Counselor({{ r.commenter }})</p>
-                        </div>
-                        <div>
-                          <textarea class="reply-input" name="comment" style="width: 890px; border-radius: 5px; background-color: #FFF1EA;  min-height: 100px;" disabled>{{ r.comment }}</textarea>
-                        </div>
-                        {% if r.commenter == request.user %}
-                        <div>
-                            <a class="btn rounded-pill btn-warning" href="{% url 'boards:dreply' post.id  r.id %}" role="button" style="margin-top: 10px; margin-left:800px; font-size: 15px; width:80px; height:30px; padding:0; display: flex; align-items: center; justify-content: center;">Delete</a>
-                        </div>
-                        {% endif %}
-                    </div>
-                    <hr class="reply_form">
-                    {% endfor %}
+                      {% for r in reply %}
+                      <div class="reply-wrap reply_form">
+                          <div>
+                              <p class="reply-text">Counselor({{ r.commenter }})</p>
+                          </div>
+                          <div>
+                            <textarea class="reply-input" name="comment" style="width: 890px; border-radius: 5px; background-color: #FFF1EA;  min-height: 100px;" disabled>{{ r.comment }}</textarea>
+                          </div>
+                          {% if r.commenter == request.user %}
+                          <div>
+                              <a class="btn rounded-pill btn-warning" href="{% url 'boards:dreply' post.id  r.id %}" role="button" style="margin-top: 10px; margin-left:800px; font-size: 15px; width:80px; height:30px; padding:0; display: flex; align-items: center; justify-content: center;">Delete</a>
+                          </div>
+                          {% endif %}
+                      </div>
+                      <hr class="reply_form">
+                      {% endfor %}
                     {% endif %}
 
                     <!-- 댓글 작성은 Counselor만 가능 -->
@@ -142,7 +142,7 @@
                                 <p class="reply-text">Counselor({{ request.user.username }})</p>
                             </div>
                             <div>
-                                <input class="reply-input" type="text" name="comment" placeholder="Enter your comment." style="height:100px; width: 890px; border-radius:5px; background-color: #FFF1EA ">
+                              <input class="reply-input" type="text" name="comment" placeholder="Enter your comment." style="height:100px; width: 890px; border-radius:5px; background-color: #FFF1EA ">
                             </div>
                             <div>
                               <a class="btn rounded-pill btn-warning" href="{% url 'boards:creply' post.id %}" role="button" style="margin-top: 10px; margin-left:800px; font-size: 15px; width:80px; height:30px; padding:0; display: flex; align-items: center; justify-content: center;">Reply</a>

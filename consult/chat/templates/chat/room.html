@@ -25,6 +25,7 @@
     <link rel="stylesheet" href='{% static "webfonts/inter/inter.css" %}'> 
     <link rel="stylesheet" href='{% static "css/app.min.css" %}'>
 
+
 </head>
 
 <body class="chats-tab-open">
@@ -63,7 +64,12 @@
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <!-- Chat Tab Pane Title Start -->
-                                    <h5 class="font-weight-semibold mb-0">상담 목록</h5>
+                                    {% if request.user.member_type == 'Counselor' %}
+                                        <h5 class="font-weight-semibold mb-0">상담 목록</h5>
+                                    {% elif request.user.member_type == 'Customer' %}
+                                        <h5 class="font-weight-semibold mb-0">FAQ</h5>
+                                    {% endif %}
+                                    
                                     <!-- Chat Tab Pane Title End -->
                                     <ul class="nav flex-nowrap">
                                         <li class="nav-item list-inline-item d-block d-xl-none mr-1">
@@ -75,43 +81,101 @@
                                     </ul>
                                 </div>
                                 <!-- Sidebar Header End -->
+
                             </div>
                             <!-- Chat Header End -->
 
                             <!-- Chat Contact List Start -->
                             <ul class="contacts-list" id="chatContactTab" data-chat-list="">
                                 <!-- Chat Item Start -->
-                                <!-- Counselor 경우, 고객 상담 이력 보이도록 -->
+
+                                <!-- user가 Counselor 경우, 고객 상담 이력 보이도록 -->
                                 {% if request.user.member_type == 'Counselor' %}
-                                    <li class="contacts-item friends">
-                                        {% comment %} <a class="contacts-link" href="./{{ user.id}}">
-                                            <div class="avatar d-none d-sm-inline-block mr-3 {% if user.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
-                                                <img class="avatar-img" {% if user.image %}src={{ user.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
+
+                                    <!-- 고객 정보 모두 출력(임시) -->
+                                    <!--
+                                    {% for c in customers %}
+                                        <li class="contacts-item friends">
+                                            <div class="avatar d-none d-sm-inline-block mr-3 {% if c.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
+                                                <img class="avatar-img" {% if c.image %}src={{ c.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
                                             </div>
                                             <div class="contacts-content">
                                                 <div class="contacts-info">
-                                                    <h6 class="chat-name text-truncate">{{ user.username }}</h6>
-                                                    <div class="chat-time"></div>
+                                                    <h6 class="chat-name text-truncate">{{ c.username }}</h6>
+                                                    <div class="chat-time">{{ c.nation }}</div>
                                                 </div>
                                                 <div class="contacts-texts">
-                                                    <p class="text-truncate"></p>
+                                                    <p class="text-truncate">{{ c.phone_number }}</p>
                                                 </div>
                                             </div>
-                                        </a> {% endcomment %}
-                                    </li>
-                                <!-- Customer일 경우, 상담이력 안 보이게 -->
-                                {% elif request.user.member_type == 'Customer' %}
-                                    <ul class="nav flex-nowrap">
-                                        <li class="nav-item list-inline-item d-block d-xl-none mr-1">
-                                            <a class="nav-link text-muted px-1" href="#" title="Appbar" data-toggle-appbar="">
-                                                <!-- Default :: Inline SVG -->
-                                                <svg class="hw-20" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-
-                                                <!-- Alternate :: External File link -->
-                                                <!-- <img class="hw-20" src="./../assets/media/heroicons/outline/view-grid.svg" alt="" class="injectable hw-20"> -->
-                                            </a>
                                         </li>
-                                    </ul>
+
+                                        {% for call in calls %}
+                                            {% if call.customer_id == c.id %}
+                                                <li class="contacts-item friends">
+                                                    <div class="contacts-content">
+                                                        <div class="contacts-info">
+                                                            <h6 class="chat-name text-truncate">{{ call.title }}</h6>
+                                                            <div class="chat-time">Call({{ call.counselor.username }})</div>
+                                                        </div>
+                                                        <div class="contacts-texts">
+                                                            <p class="text-truncate">{{ call.summary }}</p>
+                                                        </div>
+                                                        <div class="contacts-texts">
+                                                            <p class="text-truncate">{{ call.consult_date }}</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    {% endfor %}
+                                    -->
+
+                                    <!-- cutomser 정보 없을 경우 -->
+                                    {% if customer is None %}
+                                        <li class="contacts-item friends">
+                                            <div class="contacts-texts">
+                                                <p class="text-truncate">상담 목록이 존재하지 않습니다.</p>
+                                            </div>
+                                        </li>
+                                    
+                                    <!-- customer 정보 있을 경우, 상담 이력 출력 -->
+                                    {% else %}
+                                        {% for call in calls %}
+                                            {% if call.customer_id == customer.id %}
+                                                <li class="contacts-item friends">
+                                                    <div class="contacts-content">
+                                                        <div class="contacts-info">
+                                                            <h6 class="chat-name text-truncate">{{ call.title }}</h6>
+                                                            <div class="chat-time">Call({{ call.counselor.username }})</div>
+                                                        </div>
+                                                        <div class="contacts-texts">
+                                                            <p class="text-truncate">{{ call.summary }}</p>
+                                                        </div>
+                                                        <div class="contacts-texts">
+                                                            <p class="text-truncate">{{ call.consult_date }}</p>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %} 
+                                    {% endif %}
+
+                                <!-- user가 Customer일 경우, FAQ 보이게 -->
+                                {% elif request.user.member_type == 'Customer' %}
+                                    {% for faq in faqs %}
+                                        <li class="contacts-item friends">
+                                            <div class="contacts-content">
+                                                <div class="contacts-info">
+                                                    <h6 class="chat-name text-truncate">{{ faq.title }}</h6>
+                                                </div>
+                                                <div class="contacts-texts">
+                                                    <p class="text-truncate">{{ faq.detail|safe }}</p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
                                 {% endif %}
                             <!-- Chat Contact List End -->
 
@@ -138,16 +202,49 @@
                         </button>
 
                         <!-- Chat participant's Name -->
-                        <div class="media chat-name align-items-center text-truncate">
-                            <div class="avatar d-none d-sm-inline-block mr-3 {% if user.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
-                                <img class="avatar-img" {% if user.image %}src={{ user.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
-                            </div>
+                        <!-- Counselor인 경우, Customer 정보 보이도록-->
+                        {% if request.user.member_type == 'Counselor' %}
 
-                            <div class="media-body align-self-center ">
-                                <h6 class="text-truncate mb-0">{{ username }}</h6>
-                                <small class="text-muted">{% if user.chat_active %}온라인{% else %}오프라인{% endif %}</small>
+                            <!-- customer 정보가 없을 경우 -->
+                            {% if customer is None %}
+                                <div class="media chat-name align-items-center text-truncate">
+                                    <div class="avatar d-none d-sm-inline-block mr-3 avatar-offline">
+                                        <img class="avatar-img" src="{% static 'images/user_default_image.png' %}" alt="">
+                                    </div>
+
+                                    <div class="media-body align-self-center ">
+                                        <h6 class="text-truncate mb-0">상대 없음</h6>
+                                        <small class="text-muted">오프라인</small>
+                                    </div>
+                                </div>
+
+                            <!-- customer 정보가 있을 경우, customer 정보 출력 -->
+                            {% else%}
+                                <div class="media chat-name align-items-center text-truncate">
+                                    <div class="avatar d-none d-sm-inline-block mr-3 {% if customer.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
+                                        <img class="avatar-img" {% if customer.image %}src={{ customer.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
+                                    </div>
+
+                                    <div class="media-body align-self-center ">
+                                        <h6 class="text-truncate mb-0">{{ customer.username }}</h6>
+                                        <small class="text-muted">{% if customer.chat_active %}온라인{% else %}오프라인{% endif %}</small>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        <!-- Customer인 경우, Counselor 정보 보이도록 -->
+                        {% elif request.user.member_type == 'Customer' %}
+                            <div class="media chat-name align-items-center text-truncate">
+                                <div class="avatar d-none d-sm-inline-block mr-3 {% if counselor.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
+                                    <img class="avatar-img" {% if counselor.image %}src={{ counselor.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
+                                </div>
+
+                                <div class="media-body align-self-center ">
+                                    <h6 class="text-truncate mb-0">{{ counselor.username }}</h6>
+                                    <small class="text-muted">{% if counselor.chat_active %}온라인{% else %}오프라인{% endif %}</small>
+                                </div>
                             </div>
-                        </div>
+                        {% endif %}
                     </div>
                     <!-- Chat Header End-->
 
@@ -174,14 +271,7 @@
                     <div class="chat-content p-2" id="messageBody">
 						<div class="container" id="chat-log">
 							<!-- 채팅 로그가 표시될 영역 -->
-                            <div class="message self">
-                                <div class="message-wrapper">
-                                    <div class="message-content"> 
-                                        <span id="chatMessage"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div> 
 						
 						<!-- Scroll to finish -->
 						<div class="chat-finished" id="chat-finished"></div>
@@ -190,12 +280,12 @@
 					
 					<!-- Chat Footer Start-->
 					<div class="chat-footer">
-						<textarea class="form-control emojionearea-form-control" id="messageInput" rows="1" placeholder="메세지를 작성해주세요"></textarea>
-						<div class="btn btn-primary btn-icon send-icon rounded-circle text-light mb-1" id="chat-message-submit" role="button">
-							<svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-							</svg>
-						</div>
+                        <textarea class="form-control emojionearea-form-control" id="messageInput" rows="1" placeholder="메세지를 작성해주세요"></textarea>
+                        <div class="btn btn-primary btn-icon send-icon rounded-circle text-light mb-1" id="chat-message-submit" role="button">
+                            <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </div>
 					</div>
                 </div>
             </div>
@@ -296,56 +386,82 @@
                                 <div class="appnavbar-body-title">
                                     <div class="dropdown w-100">
                                         <!-- Dropdown Button Start -->
-                                        <button class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">중국어</button>
+                                        <button id="languageButton" class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">中国话(중국어)</button>
                                         <!-- Dropdown Button End -->
 
                                         <!-- Dropdown Menu Start -->
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">한국어</a>
-                                            <a class="dropdown-item" href="#">영어</a>
-                                            <a class="dropdown-item" href="#">중국어</a>
-                                            <a class="dropdown-item" href="#">일본어</a>
-                                            <a class="dropdown-item" href="#">베트남어</a>
-                                            <a class="dropdown-item" href="#">태국어</a>
+                                            <a class="dropdown-item"  value="Korean">한국어</a>
+                                            <a class="dropdown-item"  value="English">English(영어)</a>
+                                            <a class="dropdown-item"  value="Chinese">中国话(중국어)</a>
+                                            <a class="dropdown-item"  value="Japanese">日本語(일본어)</a>
+                                            <a class="dropdown-item"  value="Vietnamese">Tiếng Việt(베트남어)</a>
+                                            <a class="dropdown-item"  value="Thai">แบบไทย(태국어)</a>
                                         </div>
                                         <!-- Dropdown Menu End -->
                                     </div>
+                                    <script>
+                                        const languageButton = document.getElementById("languageButton");
+                                        const dropdownItems1 = document.querySelectorAll(".dropdown-item");
+                                    
+                                        dropdownItems1.forEach(item => {
+                                            item.addEventListener("click", function() {
+                                                const selectedLanguage = item.textContent;
+                                                languageButton.textContent = selectedLanguage;
+                                            });
+                                        });
+                                    </script>
                             
-                                    <img class="injetable hw-16 text-muted mx-1" src='{% static "media/heroicons/outline/arrow-right.svg" %}' alt="">
-
-                                    <div class="dropdown w-100">
-                                        <!-- Dropdown Button Start -->
-                                        <button class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">한국어</button>
-                                        <!-- Dropdown Button End -->
-
-                                        <!-- Dropdown Menu Start -->
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">영어</a>
-                                            <a class="dropdown-item" href="#">중국어</a>
-                                            <a class="dropdown-item" href="#">일본어</a>
-                                            <a class="dropdown-item" href="#">베트남어</a>
-                                            <a class="dropdown-item" href="#">태국어</a>
-                                        </div>
-                                        <!-- Dropdown Menu End -->
-                                    </div>
+                                    
                                 </div>
 
                                 <div class="translator-container p-2">
                                     <div class="form-group">
-                                        <textarea class="form-control" rows="6" placeholder="Write text here" name="description">请告诉我kt的资费制度。 家庭可以打折吗?</textarea>
+                                        <textarea id="text" class="form-control" rows="6" placeholder="Write text here" name="description"></textarea>
                                     </div>
 
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="mb-0">kt 요금제 좀 알려주세요. 가족 할인 가능한가요?</p>
-                                        </div>
+                                    <div class="form-group">
+                                        
+                                        <textarea id="result" class="form-control" rows="10" placeholder="Wait Answer"></textarea>
+                                        <!-- <p id="result" class="mb-0">kt 요금제 좀 알려주세요. 가족 할인 가능한가요?</p> 이거 <p>타입은 안되는 것 같음 -->
+                                    
                                     </div>
                                 </div>
                             </div>
 
                             <div class="appnavbar-footer">
-                                <div class="btn btn-primary btn-block">번역</div>
+                                <div id="button" class="btn btn-primary btn-block">번역</div>
                             </div>
+                            <script>
+                                let textareaTag = document.getElementById("text");
+                                let languageTag1 = document.getElementById("languageButton");
+                                
+                                let buttonTag = document.getElementById("button");
+                                let resultTag = document.getElementById("result");
+
+                                buttonTag.addEventListener("click", async function () {
+                                    let text = textareaTag.value;
+                                    let language1 = languageTag1.textContent;
+                                    
+                                    let data = {
+                                        text: text,
+                                        language1: language1,
+                                        
+                                    };
+
+                                    let response = await fetch("{% url 'chat:translater2' %}", {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                            "X-CSRFToken": "{{ csrf_token }}"
+                                        },
+                                        body: JSON.stringify(data)
+                                    });
+
+                                    let result = await response.text();
+                                    resultTag.value = result;
+                                 });
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -359,7 +475,7 @@
     </div>
     <!-- Main Layout End -->
 	{{ room_name|json_script:"room-name" }}
-	{{ user.username|json_script:"user_email" }}
+	{{ user.username|json_script:"username" }}
 	{{ user.id|json_script:"user_id" }}
 
     <!-- Javascript Files -->
@@ -382,10 +498,9 @@
 
     <script>
 		const roomName = JSON.parse(document.getElementById('room-name').textContent);
-		const user_email = JSON.parse(document.getElementById('user_email').textContent);
+		const username = JSON.parse(document.getElementById('username').textContent);
 		const user_id = JSON.parse(document.getElementById('user_id').textContent);
 
-	
 		const chatSocket = new WebSocket(
 			'ws://' + window.location.host + '/ws/chat/' + roomName.replace(/"/g, '') + '/'
 		);
@@ -396,6 +511,7 @@
 	
 		chatSocket.onmessage = function (e) {
 			const data = JSON.parse(e.data);
+            
 			if (data['command'] === 'messages') {
 				for (let i = 0; i < data['messages'].length; i++) {
 					createMessage(data['messages'][i]);
@@ -420,7 +536,7 @@
 			const message = messageInputDom.value;
 			chatSocket.send(JSON.stringify({
 				'message': message,
-				'user': user_email,
+				'user': username,
 				'user_id': user_id,
 				'command': 'new_message'
 			}));
@@ -430,20 +546,22 @@
 		function fetchMessages() {
 			chatSocket.send(JSON.stringify({
 				'command': 'fetch_messages',
-				'from': user_email
+				'from': username
 			}));
 		}
-        // 원본 코드 삭제 금지
-		function createMessage(data) {
-			const author = data['user'];
-			const content = data['content'];
-			const chatLog = document.querySelector('#chat-log');
-			const messageElement = document.createElement('div');
-			messageElement.innerText = `${author}: ${content}`;
-			chatLog.appendChild(messageElement);
-			scrollToBottom();
-		}
-	
+        // 원본 코드// 아래 코드 작동 잘되니 이거 삭제해도될거같아요!
+		//function createMessage(data) {
+        //    const author = data['user'];
+		//    const content = data['content'];
+		//    const chatLog = document.querySelector('#chat-log');
+		//    const messageElement = document.createElement('div');
+
+		//    messageElement.innerText = `${author}: ${content}`;
+        //    messageElement.classList.add(author === 'self' ? 'message self' : 'message');
+		//    chatLog.appendChild(messageElement);
+		//    scrollToBottom();
+        //}
+
 		function scrollToBottom() {
 			const chatContent = document.querySelector('#messageBody');
 			chatContent.scrollTop = chatContent.scrollHeight;
@@ -453,17 +571,46 @@
             const author = data['user'];
             const content = data['content'];
 
-            // 채팅 메시지를 표시할 span 요소 가져오기
-            const chatMessageSpan = document.querySelector('#chatMessage');
-            // 새로운 메시지를 생성하여 span 요소에 추가하기
-            const messageElement = document.createElement('div');
-            messageElement.innerText = `${author}: ${content}`;
-            chatMessageSpan.appendChild(messageElement);
-            scrollToBottom();
+            const chatLogDiv = document.querySelector('#chat-log');
+
+            const chatLogDownDiv = document.createElement('div');
+            chatLogDownDiv.classList.add('message');
+            if (author === username) {
+                chatLogDownDiv.classList.add('self');
+            }
+            chatLogDiv.appendChild(chatLogDownDiv);
+
+            const chatLogDownDownDiv = document.createElement('div');
+            chatLogDownDownDiv.classList.add('message-wrapper');
+            chatLogDownDiv.appendChild(chatLogDownDownDiv);
+
+            const chatLogDownDownDownDiv = document.createElement('div');
+            chatLogDownDownDownDiv.classList.add('message-content');
+            chatLogDownDownDownDiv.id = "chat-message-div";
+            chatLogDownDownDiv.appendChild(chatLogDownDownDownDiv);
+
+            const chatLogDownDownDownDownSpan = document.createElement('span');
+            chatLogDownDownDownDownSpan.innerText = `${author}: ${content} `;
+            if (author === username) {
+                chatLogDownDownDownDownSpan.id = 'selfmessage';
+            }
+            else {
+                chatLogDownDownDownDownSpan.id = 'chatmessage';
+            }
+            chatLogDownDownDownDiv.appendChild(chatLogDownDownDownDownSpan);
+            
+            scrollToBottom();  
         }
 
+        function fetchMessages() {
+			chatSocket.send(JSON.stringify({
+				'command': 'fetch_messages',
+				'from': user_email   
+			})); 
+        }
 
-	</script>
+            
+    </script>
 </body>
 
 </html>
