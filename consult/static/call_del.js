@@ -20,11 +20,68 @@ function call() {
     let userToCall = document.getElementById("callName").value;
     otherUser = userToCall;
 
+    // beReady()
+    //     .then(bool => {
+    //         processCall(userToCall)
+    //     })
+
+//     // 전화를 거는 대상자가 로그인 상태인지 확인하는 로직 추가
+//   if (isUserLoggedIn(userToCall)) {
     beReady()
-        .then(bool => {
-            processCall(userToCall)
-        })
+      .then(bool => {
+        processCall(userToCall);
+        // 'callEvent' 이벤트를 발생시키고 전달할 데이터를 설정
+        const callEventData = {
+          userToCall: userToCall
+        };
+        const callEvent = new CustomEvent('callEvent', { detail: callEventData });
+        document.dispatchEvent(callEvent);
+      });
+//   }
 }
+
+// // 대상자의 마우스 위치에 말풍선과 이미지를 표시하는 함수
+// function showSpeechBubbleAndImage(x, y) {
+//     const speechBubble = document.createElement("div");
+//     speechBubble.classList.add("speech-bubble");
+//     speechBubble.innerHTML = "<p>전화가 왔어요!</p>";
+//     speechBubble.style.left = x + "px";
+//     speechBubble.style.top = y + "px";
+//     document.body.appendChild(speechBubble);
+  
+//     const image = document.createElement("img");
+//     image.src = "https://cdn.pixabay.com/photo/2015/11/06/13/13/call-center-1027585_1280.jpg";
+//     image.alt = "말풍선과 이미지";
+//     image.width = 80;
+//     image.height = 80;
+//     document.body.appendChild(image);
+
+// 대상자의 말풍선과 이미지를 오른쪽 하단에 표시하는 함수
+function showSpeechBubbleAndImage() {
+    const speechBubble = document.createElement("div");
+    speechBubble.classList.add("speech-bubble");
+    speechBubble.innerHTML = "<p>전화가 왔어요!</p>";
+    speechBubble.style.right = "10px";
+    speechBubble.style.bottom = "10px";
+    document.body.appendChild(speechBubble);
+  
+    const image = document.createElement("img");
+    image.src = "https://cdn.pixabay.com/photo/2015/11/06/13/13/call-center-1027585_1280.jpg";
+    image.alt = "말풍선과 이미지";
+    image.width = 80;
+    image.height = 80;
+    document.body.appendChild(image);
+  
+    // 전화를 받은 후 말풍선과 이미지를 제거하는 함수
+    function removeSpeechBubbleAndImage() {
+      document.body.removeChild(speechBubble);
+      document.body.removeChild(image);
+      document.removeEventListener("click", answer);
+    }
+  
+    // 전화를 받는 동작 실행 시 말풍선과 이미지를 제거하는 함수를 호출
+    setTimeout(removeSpeechBubbleAndImage, 5000); // 예시로 5초 후에 제거하도록 설정
+  }
 
 //event from html
 function answer() {
@@ -355,6 +412,7 @@ function stop() {
     document.getElementById("calling").style.display = "none";
     document.getElementById("endAudioButton").style.display = "none"
     otherUser = null;
+    window.location.href = '/survey/';
 }
 
 function callProgress() {
@@ -365,3 +423,24 @@ function callProgress() {
 
     callInProgress = true;
 }
+
+
+var start_Time = new Date();
+
+function updateCallDuration() {
+    var currentTime = new Date();
+    var timeDifference = currentTime - start_Time;
+    var seconds = Math.floor(timeDifference / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = Math.floor(minutes / 60);
+    seconds %= 60;
+    minutes %= 60;
+
+    var durationString = hours.toString().padStart(2, '0') + ':' +
+                         minutes.toString().padStart(2, '0') + ':' +
+                         seconds.toString().padStart(2, '0');
+
+    document.getElementById("callDuration").textContent = "Call Duration: " + durationString;
+}
+
+setInterval(updateCallDuration, 1000);

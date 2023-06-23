@@ -41,7 +41,7 @@ def calldetail(request, cpk):
     return render(request, 'mypage_detail.html', {'consult_type':consult_type, 'consult':consult, 'url':url})
 
 @login_required
-@require_http_methods(['GET', 'POST'])
+@require_http_methods(['GET', 'POST'])#mypage_update_test.html 만들어서 테스트중
 def update(request):
     if request.method == 'POST':
         form = CustomerChangeForm(request.POST, request.FILES, instance=request.user)
@@ -55,10 +55,10 @@ def update(request):
             form.save()
             return redirect('mypage:mypage')
         else:
-            return render(request, 'mypage_update.html', {'form':form})
+            return render(request, 'mypage_update_test.html', {'form':form})
     else:
         form = CustomerChangeForm(instance=request.user)
-        return render(request, 'mypage_update.html', {'form':form})
+        return render(request, 'mypage_update_test.html', {'form':form})
     
 @login_required
 @require_http_methods(['GET', 'POST'])

@@ -221,13 +221,13 @@
                             <!-- customer 정보가 있을 경우, customer 정보 출력 -->
                             {% else%}
                                 <div class="media chat-name align-items-center text-truncate">
-                                    <div class="avatar d-none d-sm-inline-block mr-3 {% if customer.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
-                                        <img class="avatar-img" {% if customer.image %}src={{ customer.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
+                                    <div class="avatar d-none d-sm-inline-block mr-3 {% if customer.chat_active %}avatar-online{% else %}avatar-offline{% endif %}" id="customer-img-div">
+                                        <img class="avatar-img" {% if customer.image %}src={{ customer.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="" id="customer-img">
                                     </div>
 
                                     <div class="media-body align-self-center ">
-                                        <h6 class="text-truncate mb-0">{{ customer.username }}</h6>
-                                        <small class="text-muted">{% if customer.chat_active %}온라인{% else %}오프라인{% endif %}</small>
+                                        <h6 class="text-truncate mb-0" id="customer-info-name">{{ customer.username }}</h6>
+                                        <small class="text-muted" id="customer-info-active">{% if customer.chat_active %}온라인{% else %}오프라인{% endif %}</small>
                                     </div>
                                 </div>
                             {% endif %}
@@ -609,6 +609,56 @@
 			})); 
         }
 
+        // customer 정보 출력
+        function showCustomerInfo(customer) {
+            const author = customer;
+
+            // customer 프로필 표시
+            const customerImgDiv = document.querySelector('#customer-img-div');  // 온/오프라인 이미지 표시
+            customerImgDiv.classList.remove('avatar-offline');
+            customerImgDiv.classList.add('avatar-online');
+            
+            const customerImg = document.querySelector('#customer-img');  // 이미지 출력
+            customerImg.src = author.image.url;
+
+            const customerInfoNameH = document.querySelector('#customer-info-name');  // 이름 출력
+            customerInfoNameH.src = author.username;
+
+            const customerInfoActiveSmall = document.querySelector('#customer-info-active');  // 온/오프라인 출력
+            customerInfoActiveSmall.classList.remove('avatar-offline');
+            customerInfoActiveSmall.classList.add('avatar-online');
+
+            // customer 상담 이력 출력
+            /*for (call in calls) {
+                if (call.customer_id == author.id) {
+                    
+                }
+            }*/
+
+            /* 
+            {% for call in calls %}
+                {% if call.customer_id == customer.id %}
+                    <li class="contacts-item friends">
+                        <div class="contacts-content">
+                            <div class="contacts-info">
+                                <h6 class="chat-name text-truncate">{{ call.title }}</h6>
+                                <div class="chat-time">Call({{ call.counselor.username }})</div>
+                            </div>
+                            <div class="contacts-texts">
+                                <p class="text-truncate">{{ call.summary }}</p>
+                            </div>
+                            <div class="contacts-texts">
+                                <p class="text-truncate">{{ call.consult_date }}</p>
+                            </div>
+                        </div>
+                    </li>
+                {% endif %}
+            {% endfor %} 
+            */
+
+        }
+        
+    
             
     </script>
 </body>

@@ -27,3 +27,5 @@ def test(request):
         print(result.alternatives[0].transcript)
     
     return render(request, 'calltest.html', {'call':call})
+
+    

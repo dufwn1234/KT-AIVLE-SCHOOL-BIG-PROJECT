@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from accounts.models import User
 from django.utils import timezone
 from .models import Voice
+from django.http import JsonResponse
 
 import re
 import sys
@@ -235,8 +236,7 @@ def listen_print_loop(responses):
                 break
 
             num_chars_printed = 0
-            a=transcript + overwrite_chars
-            return a
+            
 
 def main():
     language_code = "ko-KR" 
@@ -329,38 +329,38 @@ def main():
 #     return render(request, 'apitest.html', {'call': call, 'transcript': transcript})
 
 
-def transcribe_audio(content, language_code):
-    client = speech.SpeechClient()
+# def transcribe_audio(content, language_code):
+#     client = speech.SpeechClient()
 
-    config = speech.RecognitionConfig(
-        encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=RATE,
-        language_code=language_code,
-        profanity_filter=True,
-    )
+#     config = speech.RecognitionConfig(
+#         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+#         sample_rate_hertz=RATE,
+#         language_code=language_code,
+#         profanity_filter=True,
+#     )
 
-    streaming_config = speech.StreamingRecognitionConfig(
-        config=config,
-        interim_results=True,
-    )
+#     streaming_config = speech.StreamingRecognitionConfig(
+#         config=config,
+#         interim_results=True,
+#     )
 
-    transcript = ""
+#     transcript = ""
 
-    audio_generator = content.generator()
-    requests = [
-        speech.StreamingRecognizeRequest(audio_content=audio_content)
-        for audio_content in audio_generator
-    ]
+#     audio_generator = content.generator()
+#     requests = [
+#         speech.StreamingRecognizeRequest(audio_content=audio_content)
+#         for audio_content in audio_generator
+#     ]
 
-    responses = client.streaming_recognize(streaming_config, requests)
+#     responses = client.streaming_recognize(streaming_config, requests)
 
-    for response in responses:
-        if response.results:
-            for result in response.results:
-                if result.is_final:
-                    transcript += result.alternatives[0].transcript
+#     for response in responses:
+#         if response.results:
+#             for result in response.results:
+#                 if result.is_final:
+#                     transcript += result.alternatives[0].transcript
 
-    return transcript
+#     return transcript
 
 
 def apitest(request):
@@ -375,3 +375,150 @@ def apitest(request):
         transcripts[call] = transcript
 
     return render(request, 'apitest.html', {'call': calls, 'transcript': transcripts})
+
+
+###################################tts 테스트 ###################################
+import os
+import azure.cognitiveservices.speech as speechsdk
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def tts(request):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+
+        subscription_key = '612d765c764e4794be080931e3b768fb'
+        region = 'koreacentral'
+
+        speech_config = speechsdk.SpeechConfig(subscription=subscription_key, region=region)
+        audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
+
+        speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
+        speech_synthesizer.speak_text_async(text).get()
+
+        return render(request, 'tts.html')
+
+    return render(request, 'tts.html')
+
+######################### 상담 내용 요약 #########################
+
+# # Bard API 키 설정
+
+# from django.db.models import Max
+# from call.models import Call
+# from bardapi import Bard
+
+# os.environ["_BARD_API_KEY"] = "sidts-CjEBLFra0tGGxmom7Gw7eOu9FnHKBjErUcnrPpEc3DX3ThN_q8Ld94nhCGlF19Dh7oF7EAA" # 쿠키에서 받아오는 거
+
+# def summary():
+#     # 가장 최근에 등록된 Call 객체 가져오기
+#     latest_call = Call.objects.latest('id')
+
+#     # Consult text 가져오기
+#     consult_text = latest_call.consult_text
+
+#     # Bard API를 사용하여 요약 처리
+#     bard = Bard()
+#     response = bard.get_answer(consult_text)
+#     summary = response["choices"][0]["content"][0]  # 요약된 내용
+
+#     # 요약된 내용을 Call 객체의 summary 필드에 저장
+#     latest_call.summary = summary
+#     latest_call.save()
+
+# # JSON 형식으로 응답
+#     response_data = {
+#         'status': 'success',
+#         'message': 'Summary saved successfully',
+#     }
+#     return JsonResponse(response_data)
+
+
+
+
+
+# # open ai 활용 시
+
+# import mysql.connector
+# import openai
+
+# # 데이터베이스 연결 설정
+# db_config = {
+#     'host': 'localhost',
+#     'user': 'username',
+#     'password': 'password',
+#     'database': 'database_name',
+# }
+
+# # Bard API 인증 설정
+# openai.api_key = 'your_bard_api_key'
+
+# # 데이터베이스 연결 생성
+# connection = mysql.connector.connect(**db_config)
+# cursor = connection.cursor()
+
+# # 데이터베이스에서 데이터 가져오고 요약 처리 후 저장하는 함수
+# def summarize_data():
+#     # 데이터베이스 쿼리 실행
+#     query = 'SELECT contacts FROM chat'
+#     cursor.execute(query)
+#     results = cursor.fetchall()
+
+#     for result in results:
+#         contact = result[0]
+#         prompt = f'Summarize: {contact}'
+
+#         # Bard API 호출
+#         response = openai.Completion.create(
+#             engine='davinci',
+#             prompt=prompt,
+#             max_tokens=100,
+#             temperature=0.5
+#         )
+
+#         summary = response.choices[0].text.strip()
+
+#         # 요약된 내용을 데이터베이스에 저장
+#         update_query = 'UPDATE chat SET summary = %s WHERE contacts = %s'
+#         cursor.execute(update_query, (summary, contact))
+
+#     connection.commit()
+
+# # summarize_data 함수 실행
+# summarize_data()
+
+# # 데이터베이스 연결 종료
+# cursor.close()
+# connection.close()
+
+# bard api 활용 시
+# import mysql.connector
+# import os        # 위에 있어서 빼도 됨.
+# from bardapi import Bard
+
+# # MySQL 연결 설정
+# mysql_config = {
+#     'host': 'localhost',
+#     'database': 'your_database',
+#     'user': 'your_username',
+#     'password': 'your_password'
+# }
+
+
+
+
+
+
+# .... 키 없어도 가능하다는데 과연...?
+
+# pip install bard-api
+
+# from bard_api import summarizer
+ 
+# # 입력 텍스트
+# input_text = '''  '''
+ 
+# # Bard-API로 입력 텍스트 요약하기
+# summary = summarizer.summarize(input_text)
+ 
+# print(summary)
