@@ -91,7 +91,7 @@
                             <!-- Sidebar Header end -->
 
                             <!-- Sidebar Content Start -->
-                            <div class="container-xl">
+                            <div class="container-xl" method="POST" class="update_form" id="UpdateForm" name="UpdateForm" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col">
@@ -225,86 +225,73 @@
 
         <!-- Main Start -->
         <main class="main">
-            <div class="chat-body"> <!--#############################################원래 profile이여야함 오류나면 고칠 것##############################################-->
-                <div class="page-main-heading sticky-top py-2 px-3 mb-3">
-
-                    <!-- Chat Back Button (Visible only in Small Devices) -->
-                    <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted d-xl-none" type="button" data-close="">
-                        <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                          </svg>
-                    </button>
-
-                    <div class="pl-2 pl-xl-0">
-                        <h5 class="font-weight-semibold">설정</h5>
-                        <p class="text-muted mb-0">개인정보 수정 &amp; 설정</p>
+            <form method="POST" class="update_form" id="UpdateForm" name="UpdateForm" enctype="multipart/form-data">
+                <div class="chat-body">
+                    <div class="page-main-heading sticky-top py-2 px-3 mb-3">
+                        <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted d-xl-none" type="button" data-close="">
+                            <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                            </svg>
+                        </button>
+                        <div class="pl-2 pl-xl-0">
+                            <h5 class="font-weight-semibold">설정</h5>
+                            <p class="text-muted mb-0">개인정보 수정 &amp; 설정</p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="container -xl px-2 px-sm-3">
-                    <div class="row">
-                        <div class="col">
-                            <div class="card mb-3">
-                                <div class="card-header">
-                                    <h6 class="mb-1">계정</h6>
-                                    <p class="mb-0 text-muted small">개인정보 수정 &amp; 연락처 정보</p>
-                                </div>
-                                
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="firstName">이름</label>
-                                                <input type="text" class="form-control form-control-md" id="firstName" placeholder="Type your first name" value="{{ request.user.username }}">
+                    <div class="container-xl px-2 px-sm-3">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <h6 class="mb-1">계정</h6>
+                                        <p class="mb-0 text-muted small">개인정보 수정 &amp; 연락처 정보</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="firstName">이름 <span style="color: red">*</span><span style="color: red">변경 불가</span></label>
+                                                    <input type="text" class="form-control form-control-md" id="firstName" placeholder="Type your first name" value="{{ request.user.username }}" readonly style="background-color: white;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="{{ form.phone_number.id_for_label }}">핸드폰 번호</label>
+                                                    <input type="text" class="form-control form-control-md" id="{{ form.phone_number.id_for_label }}" name="{{ form.phone_number.html_name }}" 
+                                                        placeholder="{{ request.user.phone_number }}" value="{{ form.phone_number.value|default_if_none:'' }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="{{ form.email.id_for_label }}">이메일 주소</label>
+                                                    <input type="email" class="form-control form-control-md" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}"  
+                                                        placeholder="{{ request.user.email }}" value="{{ form.email.value|default_if_none:'' }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="{{ form.nation.id_for_label }}">국가</label>
+                                                    <select class="form-control form-control-md" id="{{ form.nation.id_for_label }}" name="{{ form.nation.html_name }}">
+                                                        {% for choice in form.nation.field.choices %}
+                                                            <option {% if form.nation.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="mobileNumber">핸드폰 번호</label>
-                                                <input type="text" class="form-control form-control-md" id="mobileNumber" placeholder="Type your mobile number" value="{{ request.user.phone_number }}">
-                                            </div>
-                                        </div>
-                                        
-                                        
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="emailAddress">이메일 주소</label>
-                                                <input type="email" class="form-control form-control-md" id="emailAddress" placeholder="Type your email address" value="{{ request.user.email }}">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="country">국가</label>
-                                                <select class="form-control form-control-md" id="country" name="country">
-                                                    <option value="영어">Korean</option>
-                                                    <option value="영어">English</option>
-                                                    <option value="일본어">Japanese</option>
-                                                    <option value="중국어">Chinese</option>
-                                                    <option value="태국어">Vietnamese</option>
-                                                    <option value="베트남어">Thai</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-end">
+                                        {% csrf_token %}
+                                        <button class="btn btn-primary" type="submit" onclick="sendit()">저장</button>
                                     </div>
                                 </div>
-
-                                <div class="card-footer d-flex justify-content-end">
-                                    <a href="/mypage/" class="btn btn-primary">저장</a><!---->
-                                </div>
                             </div>
-
-                            <!--################################################비밀번호 변경 원할시 여기###############################################-->
-
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Profile Settings End -->
+            </form>
         </main>
+        
         <!-- Main End -->
 
     </div>

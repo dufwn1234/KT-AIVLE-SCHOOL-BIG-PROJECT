@@ -3,7 +3,7 @@ from accounts.models import User
 from django.utils import timezone
 from .models import Voice
 from django.http import JsonResponse
-
+import os
 import re
 import sys
 from google.cloud import speech
@@ -377,61 +377,39 @@ def apitest(request):
     return render(request, 'apitest.html', {'call': calls, 'transcript': transcripts})
 
 
-###################################tts 테스트 ###################################
-import os
-import azure.cognitiveservices.speech as speechsdk
-from django.views.decorators.csrf import csrf_exempt
-
-@csrf_exempt
-def tts(request):
-    if request.method == 'POST':
-        text = request.POST.get('text')
-
-        subscription_key = '612d765c764e4794be080931e3b768fb'
-        region = 'koreacentral'
-
-        speech_config = speechsdk.SpeechConfig(subscription=subscription_key, region=region)
-        audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
-
-        speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
-        speech_synthesizer.speak_text_async(text).get()
-
-        return render(request, 'tts.html')
-
-    return render(request, 'tts.html')
 
 ######################### 상담 내용 요약 #########################
 
-# # Bard API 키 설정
+# Bard API 키 설정
 
-# from django.db.models import Max
-# from call.models import Call
-# from bardapi import Bard
+from django.db.models import Max
+from call.models import Call
+from bardapi import Bard
 
-# os.environ["_BARD_API_KEY"] = "sidts-CjEBLFra0tGGxmom7Gw7eOu9FnHKBjErUcnrPpEc3DX3ThN_q8Ld94nhCGlF19Dh7oF7EAA" # 쿠키에서 받아오는 거
+os.environ["_BARD_API_KEY"] = "sidts-CjEBLFra0tGGxmom7Gw7eOu9FnHKBjErUcnrPpEc3DX3ThN_q8Ld94nhCGlF19Dh7oF7EAA" # 쿠키에서 받아오는 거
 
-# def summary():
-#     # 가장 최근에 등록된 Call 객체 가져오기
-#     latest_call = Call.objects.latest('id')
+def summary():
+    # 가장 최근에 등록된 Call 객체 가져오기
+    latest_call = Call.objects.latest('id')
 
-#     # Consult text 가져오기
-#     consult_text = latest_call.consult_text
+    # Consult text 가져오기
+    consult_text = latest_call.consult_text
 
-#     # Bard API를 사용하여 요약 처리
-#     bard = Bard()
-#     response = bard.get_answer(consult_text)
-#     summary = response["choices"][0]["content"][0]  # 요약된 내용
+    # Bard API를 사용하여 요약 처리
+    bard = Bard()
+    response = bard.get_answer(consult_text)
+    summary = response["choices"][0]["content"][0]  # 요약된 내용
 
-#     # 요약된 내용을 Call 객체의 summary 필드에 저장
-#     latest_call.summary = summary
-#     latest_call.save()
+    # 요약된 내용을 Call 객체의 summary 필드에 저장
+    latest_call.summary = summary
+    latest_call.save()
 
-# # JSON 형식으로 응답
-#     response_data = {
-#         'status': 'success',
-#         'message': 'Summary saved successfully',
-#     }
-#     return JsonResponse(response_data)
+# JSON 형식으로 응답
+    response_data = {
+        'status': 'success',
+        'message': 'Summary saved successfully',
+    }
+    return JsonResponse(response_data)
 
 
 
@@ -505,20 +483,38 @@ def tts(request):
 # }
 
 
+import bardapi
+import os
+from twilio.rest import Client
+# Create your views here.
+def sum(request):
+    return render(request, 'sum.html')
+
+def Bard(prompt):
+    os.environ["_BARD_API_KEY"] = "XQgOVGsSD7eGDvKozvshtguxw_ocrPgdqwOopYUDYMfX9B1FlsXc2bJ27Ip945izhZoYAA."
+    input_text = prompt
+    response = bardapi.core.Bard().get_answer(input_text)
+    twilio(response["choices"][0]["content"][0])
+    return response["choices"][0]["content"][0]
+    
+def summ(request):
+    prompt = request.POST.get('question')
+    result = Bard(prompt)
+
+    context = {
+        'question': prompt,
+        'result': result
+    }
+
+    return render(request, 'result.html', context) 
 
 
-
-
-# .... 키 없어도 가능하다는데 과연...?
-
-# pip install bard-api
-
-# from bard_api import summarizer
- 
-# # 입력 텍스트
-# input_text = '''  '''
- 
-# # Bard-API로 입력 텍스트 요약하기
-# summary = summarizer.summarize(input_text)
- 
-# print(summary)
+def twilio(prompt):
+    account_sid = "ACa0a888268f1ccccc271e417826c74886"
+    auth_token = "18d1c29db7eec5b093ee24bd6069e2f7"
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+    body=prompt,
+    from_="+13613154870",
+    to="+821020631392"
+    )

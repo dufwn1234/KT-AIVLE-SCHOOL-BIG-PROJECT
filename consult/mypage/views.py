@@ -40,6 +40,7 @@ def calldetail(request, cpk):
         
     return render(request, 'mypage_detail.html', {'consult_type':consult_type, 'consult':consult, 'url':url})
 
+'''
 @login_required
 @require_http_methods(['GET', 'POST'])#mypage_update_test.html 만들어서 테스트중
 def update(request):
@@ -59,6 +60,26 @@ def update(request):
     else:
         form = CustomerChangeForm(instance=request.user)
         return render(request, 'mypage_update_test.html', {'form':form})
+'''
+@login_required
+@require_http_methods(['GET', 'POST'])
+def update(request):
+    if request.method == 'POST':
+        form = CustomerChangeForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            phone_number = form.cleaned_data['phone_number']
+            email = form.cleaned_data['email']
+            if phone_number == '':
+                phone_number = request.user.phone_number
+            if email == '':
+                email = request.user.email
+            form.save()
+            return redirect('mypage:mypage')
+        else:
+            return render(request, 'mypage_update.html', {'form':form})
+    else:
+        form = CustomerChangeForm(instance=request.user)
+        return render(request, 'mypage_update.html', {'form':form})
     
 @login_required
 @require_http_methods(['GET', 'POST'])
@@ -91,7 +112,7 @@ def delete(request):
                 request.user.delete()
                 logout(request)
                 messages.success(request, "Membership withdrawal is complete.")
-                return redirect('home')
+                return redirect('/')
         else:
             form = CheckPasswordForm(request.user)
         
@@ -99,3 +120,4 @@ def delete(request):
 
 def delete_account(request):
     pass
+

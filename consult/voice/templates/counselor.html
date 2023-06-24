@@ -306,31 +306,29 @@
     <!-- build:js assets/vendor/js/core.js -->
     <script src="/static/call.js"></script>
     <script>
-        document.getElementById("call").style.display = "none";
-        document.getElementById("userInfo").style.display = "none";
-        document.getElementById("answer").style.display = "none";
-        document.getElementById("inCall").style.display = "none";
-        document.getElementById("calling").style.display = "none";
-        document.getElementById("audios").style.display = "none";
-
+      document.getElementById("call").style.display = "none";
+      document.getElementById("userInfo").style.display = "none";
+      document.getElementById("answer").style.display = "none";
+      document.getElementById("inCall").style.display = "none";
+      document.getElementById("calling").style.display = "none";
+      document.getElementById("audios").style.display = "none";
     </script>
     <script>
+      window.onload = function() {
+          login();
+      }
 
-        window.onload = function() {
-            login();
-        }
+      function login() {
+        let userName = '{{ username }}';
+        myName = userName;
+        document.getElementById("userName").style.display = "none";
+        document.getElementById("call").style.display = "block";
 
-        function login() {
-            let userName = '{{ username }}';
-            myName = userName;
-            document.getElementById("userName").style.display = "none";
-            document.getElementById("call").style.display = "block";
+        document.getElementById("nameHere").innerHTML = userName;
+        document.getElementById("userInfo").style.display = "block";
 
-            document.getElementById("nameHere").innerHTML = userName;
-            document.getElementById("userInfo").style.display = "block";
-
-            connectSocket();
-        }
+        connectSocket();
+      }
     </script>
 
     <script>
@@ -353,8 +351,12 @@
       }
   
       document.getElementById("inCall").style.display = "none";
-  
-  </script>
+    </script>
+
+    <!--  -->
+
+
+
     <script src="{% static "assets/vendor/libs/jquery/jquery.js" %}"></script>
     <script src="{% static "assets/vendor/libs/popper/popper.js" %}"></script>
     <script src="{% static "assets/vendor/js/bootstrap.js" %}"></script>

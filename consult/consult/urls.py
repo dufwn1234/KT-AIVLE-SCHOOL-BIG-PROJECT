@@ -22,6 +22,7 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     path('survey/', include('survey.urls')),
     # path('STT/', include('STT.urls')),
+    path('voicechat/', include('voicechat.urls')),
 ]
 
 from django.conf import settings

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Speech to Text, Translation and Text to Speech</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        button {
+            padding: 8px;
+        }
+
+        #message {
+            color: #996600;
+        }
+
+        .textWrapper {
+            width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .textbox {
+            height: 100px;
+            border: 1px solid #d3d3d3;
+            flex: 1;
+            margin: 5px 15px;
+            border-radius: 6px;
+            text-align: left;
+            padding: 16px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+<body>
+
+<h1>Speech to Text, Translation and Text to Speech</h1>
+
+<label for="language">언어 선택:</label>
+<select id="language">
+    <option value="en-US">English</option>
+    <option value="ja-JP">日本語</option>
+    <option value="zh-CN">中文</option>
+    <option value="th-TH">ภาษาไทย</option>
+    <option value="vi-VN">Tiếng Việt</option>
+  <!-- 다른 언어 옵션 추가 가능 -->
+</select>
+
+<button id="speech" onclick="startSTT()">Start STT</button>
+<button id="stop" onclick="stopSTT()">Stop</button>
+<button id="call" onclick="startCall()">Call</button>
+<button id="hangup" onclick="hangUpCall()" disabled>Hang Up</button>
+<p id="message">버튼을 누르고 아무 말이나 하세요.</p>
+
+<div class="textWrapper">
+    <div id="japanese" class="textbox"></div>
+    <div id="korean" class="textbox"></div>
+</div>
+
+<script type="text/javascript">
+
+    var message = document.querySelector("#message");
+    var speechButton = document.querySelector("#speech");
+    var stopButton = document.querySelector("#stop");
+    var callButton = document.querySelector("#call");
+    var hangupButton = document.querySelector("#hangup");
+    var languageSelect = document.querySelector("#language");
+    var japanese = document.querySelector("#japanese");
+    var korean = document.querySelector("#korean");
+    var isRecognizing = false;
+
+    var localStream;
+    var remoteStream;
+    var localPeerConnection;
+    var remotePeerConnection;
+
+    var servers = {
+        iceServers: [
+            {
+                urls: 'stun:stun.l.google.com:19302'
+            }
+        ]
+    };
+
+    var mediaStreamConstraints = {
+        audio: true,
+        video: false
+    };
+
+    function startSTT() {
+        var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+        var selectedLanguage = languageSelect.value;
+        recognition.lang = selectedLanguage;
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 5;
+
+        recognition.onstart = function () {
+            console.log("enter your voice");
+            message.innerHTML = "speech recognition...";
+            speechButton.innerHTML = "Listening...";
+            speechButton.disabled = true;
+        };
+
+        recognition.onspeechend = function () {
+            message.innerHTML = "enter your voice";
+            speechButton.disabled = false;
+            speechButton.innerHTML = "Start STT";
+        };
+
+        recognition.onresult = function (event) {
+            console.log('You said:', event.results[0][0].transcript);
+            var resText = event.results[0][0].transcript;
+            japanese.innerHTML = resText;
+            translate(resText);
+        };
+
+        recognition.onend = function () {
+            message.innerHTML = "enter your voice";
+            speechButton.disabled = false;
+            speechButton.innerHTML = "Start STT";
+            isRecognizing = false;
+        };
+
+        recognition.start();
+        isRecognizing = true;
+    }
+
+    function stopSTT() {
+        recognition.stop();
+        message.innerHTML = "enter your voice";
+        speechButton.disabled = false;
+        speechButton.innerHTML = "Start STT";
+        isRecognizing = false;
+    }
+
+    function translate(text) {
+        var apiKey = "AIzaSyAaQGwWd7MTIe5tCeeikiXzwXxLIKxI09M";
+        var url = "https://translation.googleapis.com/language/translate/v2";
+        var targetLang = "ko";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            dataType: "json",
+            data: {
+                q: text,
+                target: targetLang,
+                key: apiKey
+            },
+            success: function (response) {
+                var translatedText = response.data.translations[0].translatedText;
+                korean.innerHTML = translatedText;
+                textToSpeech(translatedText, 'ko');
+            },
+            error: function (error) {
+                console.log("Translation API error:", error);
+            }
+        });
+    }
+
+    function textToSpeech(txt, lang) {
+        // Web Speech API - speech synthesis
+        if ('speechSynthesis' in window) {
+            console.log("speech synthesis");
+        }
+        var msg = new SpeechSynthesisUtterance();
+        var voices = window.speechSynthesis.getVoices();
+        msg.voiceURI = 'native';
+        msg.volume = 1; // 0 to 1
+        msg.rate = 1.3; // 0.1 to 10
+        msg.text = txt;
+        msg.lang = lang;
+
+        msg.onend = function (e) {
+            if (isRecognizing == false) {
+                startSTT();
+            }
+            console.log('Finished in ' + event.elapsedTime + ' seconds.');
+        };
+        window.speechSynthesis.speak(msg);
+    }
+
+
+</script>
+
+</body>
+</html>

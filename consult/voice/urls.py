@@ -17,7 +17,6 @@ urlpatterns = [
     path('voice_th/', views.voice_th, name='voice_th'),
     path('stttest/', views.stttest, name='stttest'),
     path('apitest/', views.apitest, name='apitest'),
-    path('tts/', views.tts, name='tts'),
-    # path('summary/', views.summary, name='summary'),
-    
+    path('sum', views.sum, name='sum'),
+    path('summ', views.summ, name='summ'),
 ]

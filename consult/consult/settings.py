@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'boards',
     'django_summernote',
     'survey',
+    'voicechat',
     # 'STT',
 ]
 

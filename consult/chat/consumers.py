@@ -57,7 +57,7 @@ class ChatConsumer(WebsocketConsumer):
 
         if predicted_class == 0:
             # 폭언인 경우
-            message_content = "폭언입니다. 바른 말을 사용해주세요."
+            message_content = "폭언입니다. 바른 말을 사용해주세요." 
         
         # 새로운 Message 인스턴스 생성
         message = Message.objects.create(
@@ -129,9 +129,7 @@ class ChatConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps(message))
 
 
-#######################
-
-''' 원본코드 삭제 금지
+''' 원본코드 삭제 금지 // 에러나면 이걸로 바꿔요...
 
 # chat/consumers.py
 import json
