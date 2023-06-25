@@ -42,7 +42,7 @@
 
 <h1>Speech to Text, Translation and Text to Speech</h1>
 
-<label for="language">언어 선택:</label>
+<label for="language"> STT언어 선택:</label>
 <select id="language">
     <option value="en-US">English</option>
     <option value="ja-JP">日本語</option>
@@ -51,6 +51,15 @@
     <option value="vi-VN">Tiếng Việt</option>
   <!-- 다른 언어 옵션 추가 가능 -->
 </select>
+<!-- <label for="trans_language"> Translation 언어 선택:</label>
+<select id="trans_language">
+    <option value="ko">한국어</option>
+    <option value="en">English</option>
+    <option value="ja">日本語</option>
+    <option value="zh-CN">中文</option>
+    <option value="th-TH">ภาษาไทย</option>
+    <option value="vi-VN">Tiếng Việt</option>
+</select> -->
 
 <button id="speech" onclick="startSTT()">Start STT</button>
 <button id="stop" onclick="stopSTT()">Stop</button>

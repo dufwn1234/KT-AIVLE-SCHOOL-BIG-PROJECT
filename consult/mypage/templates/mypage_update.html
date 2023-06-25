@@ -64,9 +64,7 @@
                 <li class="nav-item">
                     <a class="nav-link p-0 py-xl-3" id="profile-tab" href="#profile-content" title="Profile">
                         <!-- Default :: Inline SVG -->
-                        <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
+                        
                     </a>
                 </li>
                 <!-- Profile Tab End -->
@@ -226,6 +224,7 @@
         <!-- Main Start -->
         <main class="main">
             <form method="POST" class="update_form" id="UpdateForm" name="UpdateForm" enctype="multipart/form-data">
+                {% csrf_token %}
                 <div class="chat-body">
                     <div class="page-main-heading sticky-top py-2 px-3 mb-3">
                         <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted d-xl-none" type="button" data-close="">
@@ -254,21 +253,21 @@
                                                     <input type="text" class="form-control form-control-md" id="firstName" placeholder="Type your first name" value="{{ request.user.username }}" readonly style="background-color: white;">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <div class="update_detail col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="{{ form.phone_number.id_for_label }}">핸드폰 번호</label>
                                                     <input type="text" class="form-control form-control-md" id="{{ form.phone_number.id_for_label }}" name="{{ form.phone_number.html_name }}" 
                                                         placeholder="{{ request.user.phone_number }}" value="{{ form.phone_number.value|default_if_none:'' }}">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <div class="update_detail col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="{{ form.email.id_for_label }}">이메일 주소</label>
                                                     <input type="email" class="form-control form-control-md" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}"  
                                                         placeholder="{{ request.user.email }}" value="{{ form.email.value|default_if_none:'' }}">
                                                 </div>
                                             </div>
-                                            <div class="col-md-6 col-12">
+                                            <div class="update_detail col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="{{ form.nation.id_for_label }}">국가</label>
                                                     <select class="form-control form-control-md" id="{{ form.nation.id_for_label }}" name="{{ form.nation.html_name }}">
@@ -280,7 +279,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer d-flex justify-content-end">
+                                    <div class="btn card-footer d-flex justify-content-end">
                                         {% csrf_token %}
                                         <button class="btn btn-primary" type="submit" onclick="sendit()">저장</button>
                                     </div>

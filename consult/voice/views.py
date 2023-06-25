@@ -486,7 +486,6 @@ def summary():
 import bardapi
 import os
 from twilio.rest import Client
-# Create your views here.
 def sum(request):
     return render(request, 'sum.html')
 

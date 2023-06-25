@@ -566,6 +566,8 @@
 			const chatContent = document.querySelector('#messageBody');
 			chatContent.scrollTop = chatContent.scrollHeight;
 		}
+
+        
         // 채팅 템플렛 적용 코드
         function createMessage(data) {
             const author = data['user'];
@@ -602,12 +604,7 @@
             scrollToBottom();  
         }
 
-        function fetchMessages() {
-			chatSocket.send(JSON.stringify({
-				'command': 'fetch_messages',
-				'from': user_email   
-			})); 
-        }
+        
 
         // customer 정보 출력
         function showCustomerInfo(customer) {

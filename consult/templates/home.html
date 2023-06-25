@@ -86,6 +86,20 @@
                 <a class="btn btn-sm btn-primary me-1" href="/foreign/" role="button">Foreign Page</a>
                 <a class="btn btn-sm btn-default" href="/boards/faq/" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
               </div>
+
+              <!-- 웹사이트 번역 -->
+              <div>
+                <div id="google_translate_element" style="display:none;"></div>
+                <ul class="translation-links">
+                  <li><a href="javascript:void(0)" class="korean" data-lang="ko">한국어</a></li>
+                  <li><a href="javascript:void(0)" class="english" data-lang="en">English</a></li>
+                  <li><a href="javascript:void(0)" class="japanese" data-lang="ja">日本語</a></li>
+                  <li><a href="javascript:void(0)" class="chinese" data-lang="zh-CN">中文</a></li>
+                  <li><a href="javascript:void(0)" class="thai" data-lang="th">ภาษาไทย</a></li>
+                  <li><a href="javascript:void(0)" class="vietnamese" data-lang="vi">Tiếng Việt</a></li>
+                </ul>
+              </div>
+              <!-- 웹사이트 번역 end -->
             </div>
           </div>
         </div>
@@ -441,6 +455,33 @@
     <script src="{% static "vendors/gsap/scrollToPlugin.js" %}"></script>
     <!--script(src=`${CWD}vendors/gsap/drawSVGPlugin.js`)-->
     <script src="{% static "assets/js/theme.js" %}"></script>
+
+    <!-- 웹사이트 번역 -->
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {pageLanguage: 'ko,en', autoDisplay: true}, 
+          'google_translate_element');}
+    </script>
+
+    <script>
+      document.querySelector('.translation-links').addEventListener('click',function(event) {
+        let el = event.target;
+        if(el != null){
+          while(el.nodeName == 'FONT'){el = el.parentElement;}  // data-lang 속성이 있는 태그 찾기
+          const tolang = el.dataset.lang;  // 변경할 언어 코드 얻기
+          const gtcombo = document.querySelector('.goog-te-combo');
+          if (gtcombo == null) {
+            alert("Error: Could not find Google translate Combolist.");
+            return false;
+          }
+          gtcombo.value = tolang;  // 변경할 언어 적용
+          gtcombo.dispatchEvent(new Event('change'));  // 변경 이벤트 트리거
+        }
+        return false;
+      });
+    </script>
 
   </body>
 

@@ -1,8 +1,38 @@
 import json
+from datetime import datetime
 from accounts.models import User
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from .models import Message, Chat, Contact
+import torch
+from transformers import BertForSequenceClassification, BertTokenizer
+
+output_dir = "C:/Users/User/Desktop/Portfolio/KT_AIVLE_BigProject/consult/kcbert"
+
+model = BertForSequenceClassification.from_pretrained(output_dir)
+tokenizer = BertTokenizer.from_pretrained(output_dir)
+
+def classify_text(text):
+    encoded_input = tokenizer.encode_plus(
+        text,
+        add_special_tokens=True,
+        max_length=128,
+        padding='max_length',
+        truncation=True,
+        return_tensors='pt'
+    )
+    
+    with torch.no_grad():
+        outputs = model(**encoded_input)
+        logits = outputs.logits
+    
+    probabilities = torch.softmax(logits, dim=1)
+    
+    predicted_class = torch.argmax(probabilities, dim=1).item()
+    predicted_probability = probabilities[0][predicted_class].item()
+    
+    return predicted_class, predicted_probability
+
 
 class VoiceChatConsumer(WebsocketConsumer):
     
@@ -22,6 +52,11 @@ class VoiceChatConsumer(WebsocketConsumer):
         chat_contact = Contact.objects.filter(id=chat_id).first()
         message_content = data['message']
         room_name_contant = User.objects.get(id=chat_id)
+
+        predict_class, predicted_probability = classify_text(message_content)
+
+        if predict_class == 0:
+            message_content = "폭언입니다 test"
 
         # 새로운 Message 인스턴스 생성
         message = Message.objects.create(

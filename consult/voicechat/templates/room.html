@@ -208,9 +208,8 @@
                         <!-- Chat participant's Name -->
                         <!-- Counselor인 경우, Customer 정보 보이도록-->
                         {% if request.user.member_type == 'Counselor' %}
-
                             <!-- customer 정보가 없을 경우 -->
-                            <!-- {% if customer is None %}
+                            {% if customer is None %}
                                 <div class="media chat-name align-items-center text-truncate">
                                     <div class="avatar d-none d-sm-inline-block mr-3 avatar-offline">
                                         <img class="avatar-img" src="{% static 'images/user_default_image.png' %}" alt="">
@@ -220,7 +219,7 @@
                                         <h6 class="text-truncate mb-0">상대 없음</h6>
                                         <small class="text-muted">오프라인</small>
                                     </div>
-                                </div> -->
+                                </div>
 
                             <!-- customer 정보가 있을 경우, customer 정보 출력 -->
                             {% else%}
@@ -271,10 +270,21 @@
                     </div>
 
 
-                    <label for="language">언어 선택:</label>
+                    <label for="language">STT, TTS 언어 선택:</label>
                     <select id="language">
+                        <option value="ko">한국어</option>
                         <option value="en-US">English</option>
                         <option value="ja-JP">日本語</option>
+                        <option value="zh-CN">中文</option>
+                        <option value="th-TH">ภาษาไทย</option>
+                        <option value="vi-VN">Tiếng Việt</option>
+                    <!-- 다른 언어 옵션 추가 가능 -->
+                    </select>
+                    <label for="translation-language"> Translation 언어 선택:(고객은 한국어 default, 상담원은 고객 국적에 맞게 설정)</label>
+                    <select id="translation-language">
+                        <option value="ko">한국어</option>
+                        <option value="en">English</option>
+                        <option value="ja">日本語</option>
                         <option value="zh-CN">中文</option>
                         <option value="th-TH">ภาษาไทย</option>
                         <option value="vi-VN">Tiếng Việt</option>
@@ -288,8 +298,6 @@
 						<!-- Scroll to finish -->
 						<div class="chat-finished" id="chat-finished"></div>
 					</div>
-                    <!-- <button id="speech" onclick="startSTT()">Start STT</button>
-                    <button id="stop" onclick="stopSTT()">Stop</button> -->
                     <p id="message">버튼을 누르고 아무 말이나 하세요.</p>
 
                     <div class="textWrapper">
@@ -300,12 +308,7 @@
 					
                     <div id="message"></div>
                     <button id="speech" onclick="startSTT()">Start STT</button>
-                    <button id="stop" onclick="stopSTT()" disabled>Stop STT</button>
-
-                    
-                    <button id="chat-message-submit" onclick="sendMessage()">Send</button> 
-
-                    
+                    <button id="stop" onclick="stopSTT()" disabled>Stop STT</button>   
                 </div>
             </div>
         </main>
@@ -387,13 +390,18 @@
             if (data['command'] === 'messages') {
               for (let i = 0; i < data['messages'].length; i++) {
                 createMessage(data['messages'][i]);
-                const messageText = JSON.stringify(data['messages'][i]);
-                textToSpeech(messageText, 'ko'); // 메시지 도착 시 TTS 실행
+                if (message.user != username){
+                    const messageText = JSON.stringify(data['messages'][1]);
+                    textToSpeech(messageText, 'ko'); // 메시지 도착 시 TTS 실행
+                }
               }
             } else if (data['command'] === 'new_message') {
               createMessage(data['message']);
-              const messageText = JSON.stringify(data['message']);
-              textToSpeech(messageText, 'ko'); // 메시지 도착 시 TTS 실행
+              const message = data['message'];
+              if (message.user != username){
+                const messageText = `${message.content}`;
+                textToSpeech(messageText, 'ko'); // 메시지 도착 시 TTS 실행
+              }
             }
           };
           VoicechatSocket.onclose = function (e) {
@@ -423,16 +431,6 @@
         );
         }
 
-        /*function fetchMessages() {
-			chatSocket.send(JSON.stringify({
-				'command': 'fetch_messages',
-				'from': user_email   
-			})); 
-        }
-        // 이거 맨 아래 있던 함수인데 똑같은 것 같아서 주석처리했어요!
-        */
-            //네넵~!!
-
         function scrollToBottom() {
         const chatContent = document.querySelector('#messageBody');
         chatContent.scrollTop = chatContent.scrollHeight;
@@ -440,11 +438,15 @@
         
     </script>
 
+    
+    <script src="https://aka.ms/csspeech/jsbrowserpackageraw"></script>
+
     <script>
         var message = document.querySelector('#message');
         var speechButton = document.querySelector('#speech');
         var stopButton = document.querySelector('#stop');
         var languageSelect = document.querySelector('#language');
+        var translationLanguage = document.querySelector("#translation-language");
         var japanese = document.querySelector('#japanese');
         var korean = document.querySelector('#korean');
         var isRecognizing = false;
@@ -521,7 +523,8 @@
         function translate(text) {
         var apiKey = 'AIzaSyAaQGwWd7MTIe5tCeeikiXzwXxLIKxI09M';
         var url = 'https://translation.googleapis.com/language/translate/v2';
-        var targetLang = 'ko';
+        var selectedTranslationLanguage = translationLanguage.value;
+        var targetLang = selectedTranslationLanguage;
 
         $.ajax({
             url: url,
@@ -535,7 +538,36 @@
             success: function (response) {
                 var translatedText = response.data.translations[0].translatedText;
                 korean.innerHTML = translatedText;
-                //textToSpeech(translatedText, 'ko');
+                //자동 전송 코드
+                const messageInputDom = document.querySelector('#korean');
+                const message = messageInputDom.textContent;
+                VoicechatSocket.send(
+                    JSON.stringify({
+                        message: message,
+                        user: username,
+                        user_id: user_id,
+                        command: 'new_message'
+                    })
+                );
+                messageInputDom.textContent = '';
+                const data = JSON.parse(e.data);
+                //tts
+                if (data['command'] === 'messages') {
+                for (let i = 0; i < data['messages'].length; i++) {
+                    createMessage(data['messages'][i]);
+                    if (message.user != username){
+                        const messageText = JSON.stringify(data['messages'][1]);
+                        textToSpeech(messageText, 'ko'); // 메시지 도착 시 TTS 실행
+                    }
+                }
+                } else if (data['command'] === 'new_message') {
+                createMessage(data['message']);
+                const message = data['message'];
+                if (message.user != username){
+                    const messageText = `${message.content}`;
+                    textToSpeech(messageText, 'ko'); // 메시지 도착 시 TTS 실행
+                }
+                }
             },
             error: function (error) {
                 console.log("Translation API error:", error);
@@ -547,20 +579,84 @@
         if ('speechSynthesis' in window) {
             var msg = new SpeechSynthesisUtterance();
             var voices = window.speechSynthesis.getVoices();
+            // var selectedTranslationLanguage = translationLanguage.value;
+            // var targetLang = selectedTranslationLanguage;
+            var selectedLanguage = languageSelect.value;
+            var targetLang = selectedLanguage;
             msg.voiceURI = 'native';
             msg.volume = 1; // 0 to 1
-            msg.rate = 1.3; // 0.1 to 10
+            msg.rate = 1.0; // 0.1 to 10
             msg.text = txt;
-            msg.lang = lang;
-
+            if (targetLang === 'ko') {
+            msg.lang = 'ko-KR'; // 한국어 (대한민국)
+        } else if (targetLang === 'en-US') {
+            msg.lang = 'en-US'; // 영어 (미국)
+        } else if (targetLang === 'zh-CN') {
+            msg.lang = 'zh-CN'; // 중국어 (간체)
+        } else if (targetLang === 'ja-JP') {
+            msg.lang = 'ja-JP'; // 일본어
+        } else if (targetLang === 'vi-VN') {
+            msg.lang = 'vi-VN'; // 베트남어 - 현재 지원 안함
+        } else if (targetLang === 'th-TH') {
+            msg.lang = 'th-TH'; // 태국어 - 현재 지원 안함
+        }
             msg.onend = function (e) {
             if (isRecognizing == false) {
                 startSTT();
             }
             console.log('Finished in ' + event.elapsedTime + ' seconds.');
             };
-            window.speechSynthesis.speak(msg);
+
+            if (targetLang === 'vi-VN') {
+                tts_th_vi(msg.text, "vi-VN-HoaiMyNeural");
+            }
+            else if (targetLang === 'th-TH') {
+                tts_th_vi(msg.text, "th-TH-PremwadeeNeural");
+            }
+            else {
+                window.speechSynthesis.speak(msg);
+            }
         }
+        }
+
+        // --------- tts --------- 
+        function tts_th_vi(text, lang) {
+            var SpeechSDK;
+            var speech_key = "8be3ca470cb14bfda118b4a64126ddc8"
+            var speech_region = "koreacentral"
+
+            if (!!window.SpeechSDK) {
+                SpeechSDK = window.SpeechSDK;
+                
+                // in case we have a function for getting an authorization token, call it.
+                if (typeof RequestAuthorizationToken === "function") {
+                    RequestAuthorizationToken();
+                }
+            }
+        
+            // var sdk = require("microsoft-cognitiveservices-speech-sdk");
+
+            const speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speech_key, speech_region);
+            const audioConfig = SpeechSDK.AudioConfig.fromDefaultSpeakerOutput();
+        
+            speechConfig.speechSynthesisVoiceName = lang;   // 베트남어 : vi-VN-HoaiMyNeural 태국어 : th-TH-PremwadeeNeural
+        
+            var synthesizer = new SpeechSDK.SpeechSynthesizer(speechConfig, audioConfig);
+
+            synthesizer.speakTextAsync(
+                text,
+                function (result) {
+                    window.console.log(result);
+                    synthesizer.close();
+                    synthesizer = undefined;
+                    return result.audioData;
+                },
+                function (err) {
+                    window.console.log(err);
+                    synthesizer.close();
+                    synthesizer = undefined;
+                }
+            );
         }
 
         // 채팅 템플렛 적용 코드
@@ -587,7 +683,7 @@
             chatLogDownDownDiv.appendChild(chatLogDownDownDownDiv);
 
             const chatLogDownDownDownDownSpan = document.createElement('span');
-            chatLogDownDownDownDownSpan.innerText = `${author}: ${content} `;
+            chatLogDownDownDownDownSpan.innerText = `${content} `;
             if (author === username) {
                 chatLogDownDownDownDownSpan.id = 'selfmessage';
             }

@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from accounts.models import User
+from .models import Chat, Contact, Message
+from call.models import Call
+from boards.models import Post
 from django.utils.safestring import mark_safe
 import json
 
@@ -35,6 +38,24 @@ def room(request, room_name):
     
     # 상담사 정보
     counselor = User.objects.get(id=room_name)
+    
+    # 고객 정보  --> 수정 중
+    customer = None
+    if request.user.member_type == 'Customer':
+        customer = User.objects.get(id=request.user.id)
+    
+    # message = Message.objects.latest('timestamp')
+    # customer = User.objects.get(id=message.user_id)
+        
+    customers = User.objects.filter(member_type='Customer')
+    chats = Chat.objects.all()
+    calls = Call.objects.all()
+    
+    # FAQ
+    faqs = Post.objects.filter(category='FAQ')
         
     return render(request, "room.html", {"room_name": mark_safe(json.dumps(room_name)),
-                                         'counselor':counselor})
+                                                'username': request.user.username,
+                                                'counselor':counselor, 'customer':customer, 
+                                                'customers':customers, 'chats':chats, 'calls':calls,
+                                                'faqs':faqs})

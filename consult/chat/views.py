@@ -162,7 +162,7 @@ def room(request, room_name):
     # FAQ
     faqs = Post.objects.filter(category='FAQ')
         
-    return render(request, "chat/room.html", {"room_name": mark_safe(json.dumps(room_name)),
+    return render(request, "chat/room_.html", {"room_name": mark_safe(json.dumps(room_name)),
                                                 'username': request.user.username,
                                                 'counselor':counselor, 'customer':customer, 
                                                 'customers':customers, 'chats':chats, 'calls':calls,
