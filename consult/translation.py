@@ -2,7 +2,7 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
 
 
-model_dir = "C:/Users/dufwn/Desktop/results"
+model_dir = "C:/Users/User/Desktop/Portfolio/KT_AIVLE_BigProject/consult/results"
 tokenizer = AutoTokenizer.from_pretrained(model_dir)
 model = AutoModelForSeq2SeqLM.from_pretrained(model_dir)
 
