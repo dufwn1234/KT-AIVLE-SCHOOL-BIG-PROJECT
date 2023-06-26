@@ -171,7 +171,7 @@
                                                     <h6 class="chat-name text-truncate">{{ faq.title }}</h6>
                                                 </div>
                                                 <div class="contacts-texts">
-                                                    <p class="text-truncate">{{ faq.detail|safe }}</p>
+                                                    {{ faq.detail|safe }}
                                                 </div>
                                             </div>
                                         </li>
@@ -346,8 +346,6 @@
                                     <img class="avatar-img" src='{% static "media/avatar/4.png" %}' alt="">
                                 </div>
         
-                                <h5>환영합니다! 홍길동님</h5>
-                                <p class="text-muted">아래 번역 서비스를 사용해주세요.</p>
         
                             </div>
                         </div>

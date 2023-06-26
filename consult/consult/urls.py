@@ -5,8 +5,8 @@ from django.shortcuts import render
 def home(request):
     return render(request, 'home.html')
 
-def home2(request):
-    return render(request, 'home3.html')
+def test(request):
+    return render(request, 'call_draft.html')
 
 urlpatterns = [
     path('', home),
@@ -22,7 +22,8 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     path('survey/', include('survey.urls')),
     # path('STT/', include('STT.urls')),
-    path('voicechat/', include('voicechat.urls')),
+    path('voicetalk/', include('voicechat.urls')),
+    path('test/', test),
 ]
 
 from django.conf import settings

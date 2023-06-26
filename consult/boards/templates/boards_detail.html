@@ -55,6 +55,21 @@
               <li class="nav-item"><a class="nav-link px-3" href="/accounts/login/">login</a></li>
               <button class="btn btn-primary"><a href="/accounts/signup/">Sign Up</a></button>
               {% endif %}
+
+              <!-- 웹사이트 번역 -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Language</a>
+                <div id="google_translate_element" style="display:none;"></div>
+                <ul class="dropdown-menu dropdown-menu-end translation-links" aria-labelledby="navbarDropdownBlog">
+                  <li><a href="javascript:void(0)" class="korean dropdown-item" data-lang="ko">한국어</a></li>
+                  <li><a href="javascript:void(0)" class="english dropdown-item" data-lang="en">English</a></li>
+                  <li><a href="javascript:void(0)" class="japanese dropdown-item" data-lang="ja">日本語</a></li>
+                  <li><a href="javascript:void(0)" class="chinese dropdown-item" data-lang="zh-CN">中文</a></li>
+                  <li><a href="javascript:void(0)" class="thai dropdown-item" data-lang="th">ภาษาไทย</a></li>
+                  <li><a href="javascript:void(0)" class="vietnamese dropdown-item" data-lang="vi">Tiếng Việt</a></li>
+                </ul>
+              </li>
+              <!-- 웹사이트 번역 end -->
             </ul>            
           </div>
         </div>
@@ -63,7 +78,7 @@
     <main class="main" id="top">
     <div class="tab-wrap">
         <div class="p1_div">
-            <p class="p1"><a href="/boards/">Notice</a> > {{ post.category }} > <a href="/boards/{{ url }}">{{ post.title }}</a></p>
+            <p class="p1"><a href="/boards/faq/">Notice</a> > <a href="/boards/inquiry/">{{ post.category }}</a> > <a href="/boards/{{ url }}">{{ post.title }}</a></p>
         </div>
     <div class="container-xxl flex-grow-1 container-p-y">
         
@@ -145,7 +160,7 @@
                               <input class="reply-input" type="text" name="comment" placeholder="Enter your comment." style="height:100px; width: 890px; border-radius:5px; background-color: #FFF1EA ">
                             </div>
                             <div>
-                              <a class="btn rounded-pill btn-warning" href="{% url 'boards:creply' post.id %}" role="button" style="margin-top: 10px; margin-left:800px; font-size: 15px; width:80px; height:30px; padding:0; display: flex; align-items: center; justify-content: center;">Reply</a>
+                              <a href="{% url 'boards:creply' post.id %}"><button class="btn rounded-pill btn-warning" style="margin-top: 10px; margin-left:800px; font-size: 15px; width:80px; height:30px; padding:0; display: flex; align-items: center; justify-content: center;">Reply</button></a>
                             </div>
                         </div>
                     </form>
@@ -217,6 +232,34 @@
     <script src="{% static "vendors/gsap/scrollToPlugin.js" %}"></script>
     <!--script(src=`${CWD}vendors/gsap/drawSVGPlugin.js`)-->
     <script src="{% static "assets/js/theme.js" %}"></script>
+    
+    <!-- 웹사이트 번역 -->
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {pageLanguage: 'ko,en', autoDisplay: true}, 
+          'google_translate_element');}
+    </script>
+
+    <script>
+      document.querySelector('.translation-links').addEventListener('click',function(event) {
+        let el = event.target;
+        if(el != null){
+          while(el.nodeName == 'FONT'){el = el.parentElement;}  // data-lang 속성이 있는 태그 찾기
+          const tolang = el.dataset.lang;  // 변경할 언어 코드 얻기
+          const gtcombo = document.querySelector('.goog-te-combo');
+          if (gtcombo == null) {
+            alert("Error: Could not find Google translate Combolist.");
+            return false;
+          }
+          gtcombo.value = tolang;  // 변경할 언어 적용
+          gtcombo.dispatchEvent(new Event('change'));  // 변경 이벤트 트리거
+        }
+        return false;
+      });
+    </script>
+    <!-- 웹사이트 번역 end -->
 
   </body>
 

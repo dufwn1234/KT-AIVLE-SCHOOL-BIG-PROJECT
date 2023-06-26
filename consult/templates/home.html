@@ -62,12 +62,30 @@
               <li class="nav-item"><a class="nav-link px-3" href="/accounts/login/">login</a></li>
               <button class="btn btn-primary"><a href="/accounts/signup/">Sign Up</a></button>
               {% endif %}
+
+              <!-- 웹사이트 번역 -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Language</a>
+                <div id="google_translate_element" style="display:none;"></div>
+                <ul class="dropdown-menu dropdown-menu-end translation-links" aria-labelledby="navbarDropdownBlog">
+                  <li><a href="javascript:void(0)" class="korean dropdown-item" data-lang="ko">한국어</a></li>
+                  <li><a href="javascript:void(0)" class="english dropdown-item" data-lang="en">English</a></li>
+                  <li><a href="javascript:void(0)" class="japanese dropdown-item" data-lang="ja">日本語</a></li>
+                  <li><a href="javascript:void(0)" class="chinese dropdown-item" data-lang="zh-CN">中文</a></li>
+                  <li><a href="javascript:void(0)" class="thai dropdown-item" data-lang="th">ภาษาไทย</a></li>
+                  <li><a href="javascript:void(0)" class="vietnamese dropdown-item" data-lang="vi">Tiếng Việt</a></li>
+                </ul>
+              </li>
+              <!-- 웹사이트 번역 end -->
             </ul>            
           </div>
         </div>
       </nav>
       <section class="py-7 py-lg-10" id="home">
-        {% comment %} <div class="bg-holder bg-size" style="background-image:url(https://images.unsplash.com/photo-1464692805480-a69dfaafdb0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80);"> {% endcomment %}
+        {% comment %} <div class="bg-holder bg-size" style="background-image:url(https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=464&q=80);"> {% endcomment %}
+        {% comment %} <div class="bg-holder bg-size" style="background-image:url(https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80);"> {% endcomment %}
+        {% comment %} <div class="bg-holder bg-size" style="background-image:url(https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80);"> {% endcomment %}
+          
         </div>
         <!--/.bg-holder-->
 
@@ -79,27 +97,13 @@
           <div class="row align-items-center h-100 justify-content-center justify-content-lg-start">
             <div class="col-md-9 col-xxl-5 text-md-start text-center py-6 pt-8">
               <h1 class="fs-4 fs-md-5 fs-xxl-4" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">Consulting</h1>
-              <p class="fs-1" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">여기에 우리 서비스에 대한 설명을 쓰면 될 것 같은 느낌입니당.<br> 다른 파트 파랑파랑 한 것 같던데 파란색으로 바꿀까용?!?!!??! 배경 사진은 뭘로하지ㅠ^ㅠ</p>
+              <p class="fs-1" style="margin-left:20px; width:600px;" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll"><strong>첫째,</strong> AI를 통한 폭언 감지 시스템으로 온라인 커뮤니티에서의 <br> &nbsp;편안하고 안전한 환경을 조성하며, 부정적인 경험을 최소화합니다.</p>
+              <p class="fs-1" style="margin-left:20px; width:600px;" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll"><strong>둘째,</strong> 실시간 번역 시스템으로 인해 문화적, 언어적인 장벽을 <br>&nbsp;극복하고 외국인들에게 동등한 상담 기회를 제공합니다.</p>
+              <p class="fs-1" style="margin-left:20px; width:600px;" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll"><strong>셋째,</strong> 상담 완료 후 내용을 정확∙간결하게 요약하여 제공함으로써 <br> &nbsp;시간과 노력을 절약하며, 명확한 방향성을 제시합니다.</p>
               <div class="d-flex flex-column flex-sm-row justify-content-center justify-content-md-start mt-5" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">
-                <a class="btn btn-sm btn-primary me-1" href="/voice/" role="button">전화 상담</a>
+                <a class="btn btn-sm btn-primary me-1" href="/voicetalk/" role="button">전화 상담</a>
                 <a class="btn btn-sm btn-primary me-1" href="/chat/" role="button">채팅 상담</a>
-                <a class="btn btn-sm btn-primary me-1" href="/foreign/" role="button">Foreign Page</a>
-                <a class="btn btn-sm btn-default" href="/boards/faq/" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
-              </div>
-
-              <!-- 웹사이트 번역 -->
-              <div>
-                <div id="google_translate_element" style="display:none;"></div>
-                <ul class="translation-links">
-                  <li><a href="javascript:void(0)" class="korean" data-lang="ko">한국어</a></li>
-                  <li><a href="javascript:void(0)" class="english" data-lang="en">English</a></li>
-                  <li><a href="javascript:void(0)" class="japanese" data-lang="ja">日本語</a></li>
-                  <li><a href="javascript:void(0)" class="chinese" data-lang="zh-CN">中文</a></li>
-                  <li><a href="javascript:void(0)" class="thai" data-lang="th">ภาษาไทย</a></li>
-                  <li><a href="javascript:void(0)" class="vietnamese" data-lang="vi">Tiếng Việt</a></li>
-                </ul>
-              </div>
-              <!-- 웹사이트 번역 end -->
+                {% comment %} <a class="btn btn-sm btn-primary me-1" href="/foreign/" role="button">Foreign Page</a> {% endcomment %}
             </div>
           </div>
         </div>
@@ -113,8 +117,8 @@
         <div class="container">
           <div class="row mb-4">
             <div class="col-md-6 h-100 text-center text-md-start p-0 p-md-5 pb-3">
-              <h2 class="mt-3">우리만의 상담 기능을 살펴보세요</h2>
-              <p class="mb-0">우리는 다른 상담 프로그램과 차별화된 기능을 제공합니다!!!</p>
+              <h2 class="mt-3">핵심 기능 살펴보기</h2>
+              <p class="mb-0">우리는 다른 상담 프로그램과는 차별화된 기능을 제공하여 고객들에게 최고의 상담 경험을 선사합니다. <br>우리의 프로그램은 전문성과 혁신적인 기술을 통해 지속적인 성장과 변화를 돕는 것을 자부합니다.</p>
             </div>
             <div class="col-md-6">
               <div class="w-100 h-100 p-5 services-card-shadow rounded-4"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2013/240/iconmonstr-headphones-8.png" alt="Dashboard" style="width:95px;" />
@@ -152,62 +156,41 @@
       <section id="customers">
 
         <div class="container">
-          <h1 class="text-center display-5 fw-semi-bold" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll"> Proof makes increasing conversion simple</h1>
-          <p class="text-center fs-0 fs-md-1" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll"> Getting a conversion boost didn't used to be this easy. Luckily, you found Proof. Now <br class="d-none d-lg-block" />you have the tools to let your customer do the selling for you.</p>
-          <div class="row mb-4 mt-6">
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/4.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">High Conversions</h4>
-              <p class="fs-0">Convert more wesite visitors in signups ans purchases.</p>
+          <h1 class="text-center display-5 fw-semi-bold" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">Counselor</h1>
+          <p class="text-center fs-0 fs-md-1" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll"> 상담은 안전하고 신뢰성 있는 환경에서 진행되며, 모든 정보는 엄격한 기밀이 유지됩니다.<br>상황에 따라 다양한 상담 기술과 접근법을 사용하여 최적의 결과를 얻을 수 있도록 노력하겠습니다.</p>
+          <div class="row mb-4 mt-6 d-flex justify-content-center">
+            <div class="col-md-6 col-lg-3 text-center"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2018/240/iconmonstr-id-card-thin.png" alt="Dashboard" style="width:95px;" />
+              <h4 class="mt-3 lh-base">강성필</h4>
+              <p class="fs-0">a031158@aivle.kt.co.kr</p>
             </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/5.png" alt="Comment" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Save on Acquisition</h4>
-              <p class="fs-0">Your advertising spend will go further than ever before.</p>
+            <div class="col-md-6 col-lg-3 text-center"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2018/240/iconmonstr-id-card-thin.png" alt="Comment" style="width:95px;" />
+              <h4 class="mt-3 lh-base">김주열</h4>
+              <p class="fs-0">a031151@aivle.kt.co.kr</p>
             </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/6.png" alt="Tailored" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Increase Trust</h4>
-              <p class="fs-0">People trust companies they see other people buy.</p>
-            </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/7.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Social Influence</h4>
-              <p class="fs-0">Seeing other visitor taking action creates fear of missing out.</p>
+            <div class="col-md-6 col-lg-3 text-center"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2018/240/iconmonstr-id-card-thin.png" alt="Tailored" style="width:95px;" />
+              <h4 class="mt-3 lh-base">이유진</h4>
+              <p class="fs-0">a031174@aivle.kt.co.kr</p>
             </div>
           </div>
-          <div class="row mb-6">
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/8.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Activity Notifications</h4>
-              <p class="fs-0">Display recent sales and opt-ins on your pages and drive visitors.</p>
+          <div class="row mb-6" style="margin-top:50px;">
+            <div class="col-md-6 col-lg-3 text-center"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2018/240/iconmonstr-id-card-thin.png" alt="Dashboard" style="width:95px;" />
+              <h4 class="mt-3 lh-base">이주영</h4>
+              <p class="fs-0">a031148@aivle.kt.co.kr</p>
             </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/9.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Custom Journeys</h4>
-              <p class="fs-0">Take your journey with ease and comfort of different level.</p>
+            <div class="col-md-6 col-lg-3 text-center"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2018/240/iconmonstr-id-card-thin.png" alt="Dashboard" style="width:95px;" />
+              <h4 class="mt-3 lh-base">이지현</h4>
+              <p class="fs-0">a031146@aivle.kt.co.kr</p>
             </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/10.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Custom Timing</h4>
-              <p class="fs-0">Control how fast your notification will display on your screen</p>
+            <div class="col-md-6 col-lg-3 text-center"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2018/240/iconmonstr-id-card-thin.png" alt="Dashboard" style="width:95px;" />
+              <h4 class="mt-3 lh-base">이채원</h4>
+              <p class="fs-0">a031139@aivle.kt.co.kr</p>
             </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/11.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Live Visitor Count</h4>
-              <p class="fs-0">Show how many visitors are browing your site in a time</p>
-            </div>
-          </div>
-          <div class="row mb-6">
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/12.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Visitor Identification</h4>
-              <p class="fs-0">We will show you detailed profiles of every visitor of the site.</p>
-            </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/13.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Custom Rules</h4>
-              <p class="fs-0">Granular control over the notification of your activity.</p>
-            </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/14.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Mobile Optimized</h4>
-              <p class="fs-0">Optimize the traffic to bring the best to your project.</p>
-            </div>
-            <div class="col-md-6 col-lg-3 text-center"><img src="assets/img/icons/15.png" alt="Dashboard" style="width:95px;" />
-              <h4 class="mt-3 lh-base">Language Translation</h4>
-              <p class="fs-0">Translate recent activity notification into any language.</p>
+            <div class="col-md-6 col-lg-3 text-center"><img src="https://cdns.iconmonstr.com/wp-content/releases/preview/2018/240/iconmonstr-id-card-thin.png" alt="Dashboard" style="width:95px;" />
+              <h4 class="mt-3 lh-base">채종현</h4>
+              <p class="fs-0">a031185@aivle.kt.co.kr</p>
             </div>
           </div>
+          
         </div>
         <!-- end of .container-->
 
@@ -225,21 +208,22 @@
         <div class="container">
           <div class="row flex-center">
             <div class="col-md-6 text-center text-md-start">
-              <h4 class="fw-normal fs-3" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">Your safety is always <br />a top priority</h4>
-              <p class="fs-0 pe-xl-8" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">We are committed to help drivers and riders get where they want to go with confidence</p>
+              <h4 class="fw-normal fs-3" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">전화 상담을 <br />이용해 보세요.</h4>
+              <p class="fs-0 pe-xl-8" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">지금 전화 받는 상담원은 누군가의 소중한 가족입니다.<br>바르고 고운 말을 사용해 주세요.</p>
               <div class="d-flex justify-content-space-between align-item-center my-3 mt-2">
                 <div>
-                  <h4 class="fw-normal fs-1">Drive</h4>
-                  <p class="my-1 fs-0 pe-xl-8">Drive when you want. Find ooprtunities around you.</p>
+                  <h4 class="fw-normal fs-1">실시간 번역</h4>
+                  <p class="my-1 fs-0 pe-xl-8">근데 너무 같은 말 반복하는 기분이라 여기에 뭐 쓸지 추천해주세요ㅠ</p>
                 </div>
                 <div>
-                  <h4 class="fw-normal fs-1">Ride</h4>
-                  <p class="my-1 fs-0 pe-xl-8">Tap your phone. Get where you're headed</p>
+                  <h4 class="fw-normal fs-1">상담 요약</h4>
+                  <p class="my-1 fs-0 pe-xl-8">근데 너무 같은 말 반복하는 기분이라 여기에 뭐 쓸지 추천해주세요ㅠ</p>
                 </div>
               </div>
-              <button class="btn btn-sm btn-primary my-4 me-1" href="#!" role="button">Get started</button><a class="btn btn-sm my-2 btn-default" href="#" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
+              <a href="/voicetalk/"><button class="btn btn-sm btn-primary my-4 me-1" role="button">Get started</button></a>
+              <a class="btn btn-sm my-2 btn-default" href="/boards/faq/" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
             </div>
-            <div class="col-md-6 mb-4"><img class="w-100" src="assets/img/illustration/4.png" alt="..." /></div>
+            <div class="col-md-6 mb-4"><img class="w-100" src="https://images.unsplash.com/photo-1613993995046-07bce4b0bfed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="..." /></div>
           </div>
         </div>
         <!-- end of .container-->
@@ -257,21 +241,22 @@
 
         <div class="container">
           <div class="row align-items-center">
-            <div class="col-md-6 mb-4"><img class="w-100" src="assets/img/illustration/5.png" alt="..." /></div>
+            <div class="col-md-6 mb-4"><img class="w-100" src="https://images.unsplash.com/photo-1518674660708-0e2c0473e68e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="..." /></div>
             <div class="col-md-6 text-center text-md-start">
-              <h4 class="fs-3 fw-normal" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">Move the way you want, <br />Roads are open</h4>
-              <p class="fs-0 pe-xl-7" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">Opportunity is everything. Get out there and find it with Uber.</p>
+              <h4 class="fs-3 fw-normal" data-zanim-xs='{"delay":0.3}' data-zanim-trigger="scroll">채팅 상담을 <br />이용해 보세요.</h4>
+              <p class="fs-0 pe-xl-7" data-zanim-xs='{"delay":0.5}' data-zanim-trigger="scroll">지금 채팅을 하는 상담원은 누군가의 소중한 가족입니다.<br>바르고 고운 말을 사용해 주세요.</p>
               <div class="d-flex justify-content-center align-item-center my-3 mt-2">
                 <div>
-                  <h4 class="fw-normal fs-1">Route</h4>
-                  <p class="my-1 fs-0 pe-xl-8">Route among the safe roads. Find what's waiting for you.</p>
+                  <h4 class="fw-normal fs-1">실시간 번역</h4>
+                  <p class="my-1 fs-0 pe-xl-8">근데 너무 같은 말 반복하는 기분이라 여기에 뭐 쓸지 추천해주세요ㅠ</p>
                 </div>
                 <div>
-                  <h4 class="fw-normal fs-1">Share</h4>
-                  <p class="my-1 fs-0 pe-xl-8">Your caring gets it's way. Let your people know.</p>
+                  <h4 class="fw-normal fs-1">내용 요약</h4>
+                  <p class="my-1 fs-0 pe-xl-8">근데 너무 같은 말 반복하는 기분이라 여기에 뭐 쓸지 추천해주세요ㅠ</p>
                 </div>
               </div>
-              <button class="btn btn-sm btn-primary btn-bg-purple my-4 me-1" href="#!" role="button">Get started</button><a class="btn btn-sm my-2 btn-default" href="#" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
+              <a href="/chat/"><button class="btn btn-sm btn-primary my-4 me-1" role="button">Get started</button></a>
+              <a class="btn btn-sm my-2 btn-default" href="/boards/faq/" role="button">Questions? Talk to our team<i class="fas fa-arrow-right ms-2"></i></a>
             </div>
           </div>
         </div>
@@ -482,6 +467,7 @@
         return false;
       });
     </script>
+    <!-- 웹사이트 번역 end -->
 
   </body>
 

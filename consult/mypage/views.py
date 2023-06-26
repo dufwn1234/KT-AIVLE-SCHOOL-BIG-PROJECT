@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from accounts.models import User
-from chat.models import Chat
+from chat.models import Chats
 from call.models import Call
 from django.contrib.auth.forms import UserChangeForm
 from mypage.forms import CustomerChangeForm, CustomerImageChangeForm
@@ -16,10 +16,10 @@ def mypage(request):
     form = CheckPasswordForm(request.user)
     img_form = CustomerImageChangeForm(instance=request.user)
     if request.user.member_type == 'Customer':
-        chats = Chat.objects.filter(user=request.user.id)
+        chats = Chats.objects.filter(customer=request.user.id)
         calls = Call.objects.filter(customer=request.user.id)
     elif request.user.member_type == 'Counselor':
-        chats = Chat.objects.filter(user=request.user.id)
+        chats = Chats.objects.filter(counselor=request.user.id)
         calls = Call.objects.filter(counselor=request.user.id)
         
     return render(request, 'mypage.html', {'chats':chats, 'calls':calls, 'img_form':img_form, 'form':form})
@@ -28,7 +28,7 @@ def mypage(request):
 def chatdetail(request, cpk):
     url = 'chatdetail' + '/' + cpk
     consult_type = 'chat'
-    consult = Chat.objects.get(id=cpk)
+    consult = Chats.objects.get(id=cpk)
         
     return render(request, 'mypage_detail.html', {'consult_type':consult_type, 'consult':consult, 'url':url})
 

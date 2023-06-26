@@ -11,5 +11,6 @@ urlpatterns = [
     path("tanslater1/",views.translater1,name='translater1'),
     path("tanslater2/",views.translater2,name='translater2'),
     ########################################
+    path('chat_end/', views.chat_end, name="chat_end"),
     path("<str:room_name>/", views.room, name="room"),   
 ]

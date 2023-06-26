@@ -489,16 +489,16 @@ from twilio.rest import Client
 def sum(request):
     return render(request, 'sum.html')
 
-def Bard(prompt):
+def Bardd(prompt):
     os.environ["_BARD_API_KEY"] = "XQgOVGsSD7eGDvKozvshtguxw_ocrPgdqwOopYUDYMfX9B1FlsXc2bJ27Ip945izhZoYAA."
-    input_text = prompt
+    input_text = prompt + " \n이 대화내용을 5줄로 요약해서 한국어로 답변해줘.\n마지막 줄에는 반드시 대화의 결과가 나타나야해. \n반드시 요약내용만 보여줘!"
     response = bardapi.core.Bard().get_answer(input_text)
-    twilio(response["choices"][0]["content"][0])
+    # twilio(response["choices"][0]["content"][0])
     return response["choices"][0]["content"][0]
     
 def summ(request):
     prompt = request.POST.get('question')
-    result = Bard(prompt)
+    result = Bardd(prompt)
 
     context = {
         'question': prompt,
@@ -513,7 +513,7 @@ def twilio(prompt):
     auth_token = "18d1c29db7eec5b093ee24bd6069e2f7"
     client = Client(account_sid, auth_token)
     message = client.messages.create(
-    body=prompt,
+    body="AI가 요약한 상담 내용입니다." + prompt,
     from_="+13613154870",
     to="+821020631392"
     )

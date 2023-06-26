@@ -56,7 +56,7 @@ class VoiceChatConsumer(WebsocketConsumer):
         predict_class, predicted_probability = classify_text(message_content)
 
         if predict_class == 0:
-            message_content = "폭언입니다 test"
+            message_content = "  "
 
         # 새로운 Message 인스턴스 생성
         message = Message.objects.create(

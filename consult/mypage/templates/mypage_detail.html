@@ -1,270 +1,212 @@
 {% load static %}
 <!doctype html>
-<html>
-<head>
-    <title>Big Project</title>
+<html lang="en-US" dir="ltr">
+
+  <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Big Project</title>
+
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Righteous&family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700&amp;family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,300&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "assets/vendor/css/core.css" class="template-customizer-core-css" %}" />
+    <link href="{% static "assets/css/theme.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/my.css" %}" rel="stylesheet" />
+    <link href="{% static "assets/css/board.css" %}" rel="stylesheet" />
 
-    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
-    <script src="{% static 'js/mypage.js' %}"></script>
-    
-    <style>
-        body {
-            width: 100%;
-            height: 100vh;
-            margin: 0px;    
-            padding: 0px;
-            background-color: #FFFFFF;
-        }
-
-        header {
-            width: 100%;
-            height: 85px;
-            background-color: white;
-            color: black;
-            margin-bottom: 15px;
-            box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.25);
-            padding: 0;
-        }
-
-        header>nav {
-            margin: 0 auto;
-            padding: 20px 20px;
-        }
-
-        header>nav>label {
-            font-family: 'Righteous';
-            font-weight:bold;
-            font-size: 32px;
-            color: black;
-        }
-
-        header>nav>ul {
-            font-family: 'Noto Sans KR', sans-serif;
-            float: right;
-            font-size: 24px;
-            margin-top: -5px;
-            margin-right: 15px;
-            color: black;
-        }
-
-        header>nav>ul>li {
-            float: left;
-            list-style: none;
-            margin-left: 20px;
-        }
-
-        header>nav>ul>li>a {
-            text-decoration: none;
-            font-weight: bold;
-            color: black;
-            font-family: Roboto;
-        }
-
-        .wrap{
-            max-width:1200px;
-        }
-
-        .wrap a{
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .wrap a:hover{
-            color: inherit;
-        }
-
-        .contents {
-            display: block;
-            min-height: calc(100% - 12vh);
-            align-items: center;
-            width: 100%;
-            margin: 0 auto;    
-        }
-
-        .p1_div a{
-            text-decoration: none;
-            color: inherit;
-        }
-        .p1_div a:hover{
-            color: inherit;
-        }
-
-        .p1_div {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-        .p1{
-            height: 52px;
-            margin: 10px 50px;
-
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 700;
-            font-size: 30px;
-            line-height: 47px;
-
-            color: #000000;
-        }
-
-        .consultinfo{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-
-            margin: 10px 50px;
-
-            font-family: 'Roboto';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 25px;
-            line-height: 35px;
-
-            color: #6D6D6D;
-        }
-        .consultinfo_detail {
-            display: flex;
-            justify-content: space-between;
-        }
-        .consultinfo_detail>textarea {
-            margin: 20px 0px;
-        }
-
-        .btn {
-            display: flex;
-            margin: 10px 50px;
-            justify-content: flex-end;
-        }
-
-        .update-button{
-            width: 150px;
-            height: 50px;
-            font-family: Roboto;
-            font-size: 20px;
-            border-radius: 10px;
-            background-color:white;
-            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-            cursor: pointer;
-        }
-        .update-button:hover {
-            background-color: #D9D9D9;
-            color: #000000;
-        }
-
-        footer {
-            height: 12vh; 
-            background-color: #f8f8f8;
-            padding: 20px;
-            text-align: center;
-            margin: 0;
-            margin-top: 5vh;
-        }
-        footer>p{
-            margin: 0;
-            text-align: center;
-        }
-
-    </style>
-</head>
+  </head>
 <body>
-    <header>
-        <nav class="wrap">
-            <label>
-                <a href="/">
-                    <strong>
-                        Consulting
-                    </strong>
-                </a>
-            </label>
-            <!-- ul>li*3>a -->
-            <ul>            
-                {% if request.user.is_authenticated %}
-                    <li><a href="/mypage">{{ request.user.username }}</a></li>
-                    <li><a href="/">home</a></li>
-                    <li><a class="nav-link" href="/accounts/logout/">logout</a></li>
-                {% else %}
-                    <li><a href="/">home</a></li>
-                    <li><a class="nav-link" href="/accounts/login/">login</a></li>
-                    <li><a class="nav-link" href="/accounts/signup/">signup</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" data-navbar-on-scroll="light">
+        <div class="container"><label><a href="/"><strong>Consulting</strong></a></label>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto pt-2 pt-lg-0 font-base align-items-center">
+              {% if request.user.is_authenticated %}
+              <li class="nav-item"><a class="nav-link px-3" href="/">home</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ request.user.username }}</a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                    <li><a class="dropdown-item" href="/mypage/">마이페이지</a></li>
+                    <li><a class="dropdown-item" href="/mypage/">내 정보 수정</a></li>
+                </ul>
+              </li>
+              <li class="nav-item"><a class="nav-link pl-3 me-3" href="/accounts/logout/">logout</a></li>
+              {% else %}
+              <li class="nav-item"><a class="nav-link px-3" href="/">home</a></li>
+              <li class="nav-item"><a class="nav-link px-3" href="/accounts/login/">login</a></li>
+              <button class="btn btn-primary"><a href="/accounts/signup/">Sign Up</a></button>
+              {% endif %}
 
-    <main class="contents">
+              <!-- 웹사이트 번역 -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Language</a>
+                <div id="google_translate_element" style="display:none;"></div>
+                <ul class="dropdown-menu dropdown-menu-end translation-links" aria-labelledby="navbarDropdownBlog">
+                  <li><a href="javascript:void(0)" class="korean dropdown-item" data-lang="ko">한국어</a></li>
+                  <li><a href="javascript:void(0)" class="english dropdown-item" data-lang="en">English</a></li>
+                  <li><a href="javascript:void(0)" class="japanese dropdown-item" data-lang="ja">日本語</a></li>
+                  <li><a href="javascript:void(0)" class="chinese dropdown-item" data-lang="zh-CN">中文</a></li>
+                  <li><a href="javascript:void(0)" class="thai dropdown-item" data-lang="th">ภาษาไทย</a></li>
+                  <li><a href="javascript:void(0)" class="vietnamese dropdown-item" data-lang="vi">Tiếng Việt</a></li>
+                </ul>
+              </li>
+              <!-- 웹사이트 번역 end -->
+            </ul>            
+          </div>
+        </div>
+      </nav>
+
+    <main class="main" id="top">
+    <div class="tab-wrap">
         <div class="p1_div">
             <p class="p1"><a href="/mypage">MyPage</a> > <a href="/mypage/{{ url }}">Consult</a></p>
         </div>
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-4" style="border: 1px solid #D2D2D2;">
+              <h4 class="card-header">{{ consult.title }}</h4>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% if request.user.member_type == 'Counselor' %}{{ consult.customer }}{% elif request.user.member_type == 'Customer' %}{{ consult.counselor }}{% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>DATE</strong> {{ consult.consult_date|date:"Y-m-d H:i" }}</p>
 
-        <div class="consultinfo">
-            {% if request.user.member_type == 'Customer' %}
-                <div class="consultinfo_detail">
-                    <p>ID</p>
-                    <p>{{ consult.id }}</p>
+              <!-- Account -->
+              <div class="card-body" style="margin-top: -30px;">
+                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                  <div class="button-wrapper">
+                  </div>
                 </div>
-                <div class="consultinfo_detail">
-                    <p>Counselor</p>
-                    <p>{{ consult.counselor }}</p>
-                </div>
-                <div class="consultinfo_detail">
-                    <p>Summary</p>
-                    <textarea readonly class="form-control" style="width: 30vw; height: 150px">{{ consult.summary }}</textarea>
-                </div>
-                <div class="consultinfo_detail">
-                    <p>Date</p>
-                    <p>{{ consult.consult_date }}</p>
-                </div>
-                <div class="consultinfo_detail">
-                    <p>Satisfaction</p>
-                    <p>{{ consult.satisfaction }}</p>
-                </div>
-            {% elif request.user.member_type == 'Counselor' %}
-                <div class="consultinfo_detail">
-                    <p>ID</p>
-                    <p>{{ consult.id }}</p>
-                </div>
-                <div class="consultinfo_detail">
-                    <p>Customer</p>
-                    <p>{{ consult.customer }}</p>
-                </div>
-                {% if consult_type == 'call' %}
-                <div class="consultinfo_detail">
-                    <p>Consult Audio</p>
-                    <p>{{ consult.consult_audio }}</p>
-                </div>
-                {% endif %}
-                <div class="consultinfo_detail">
-                    <p>Consult Text</p>
-                    <textarea readonly class="form-control" style="width: 30vw; height: 150px">{{ consult.consult_text }}</textarea>
-                </div>
-                <div class="consultinfo_detail">
-                    <p>Summary</p>
-                    <textarea readonly class="form-control" style="width: 30vw; height: 150px">{{ consult.summary }}</textarea>
-                </div>
-                <div class="consultinfo_detail">
-                    <p>Date</p>
-                    <p>{{ consult.consult_date }}</p>
-                </div>
-                <div class="consultinfo_detail">
-                    <p>Satisfaction</p>
-                    <p>{{ consult.satisfaction }}</p>
-                </div>
-            {% endif %}
+              </div>
+
+              <hr class="my-0" />
+
+              <div class="card-body d-flex justify-content-center">
+                <form id="formAccountSettings" method="POST" onsubmit="return false">
+                  {% if consult_type == 'chat' %}
+                    <div class="mb-3 col-md-6" >
+                        <label for="firstName" class="form-label">Consult Text</label>
+                        <span id="firsttName" class="form-control" style= "width:900px; height: 600px; white-space: pre-line;">{{ consult.consult_text }}</span>
+                    </div>
+                    <div class="row">
+                  {% elif consult_type == 'call' %}
+                    {% if request.user.member_type == 'Counselor' %}
+                      <div class="mb-3 col-md-6" >
+                          <label for="firstName" class="form-label">Consult Text</label>
+                          <span id="firsttName" class="form-control" style= "width:900px; height: 600px; white-space: pre-line;">{{ consult.consult_text }}</span>
+                      </div>
+                      <div class="mb-3 col-md-6" >
+                          <label for="firstName" class="form-label">Summary</label>
+                          <span id="firsttName" class="form-control" style= "width:900px; height: 600px; white-space: pre-line;">{{ consult.summary }}</span>
+                      </div>
+                      <div class="row">
+                    {% elif request.user.member_type == 'Customer' %}
+                      <div class="mb-3 col-md-6" >
+                          <label for="firstName" class="form-label">Summary</label>
+                          <span id="firsttName" class="form-control" style= "width:900px; height: 600px; white-space: pre-line;">{{ consult.summary }}</span>
+                      </div>
+                      <div class="row">
+                    {% endif %}
+                  {% endif %}
+                </form>
+              </div>
+
+            </div>
+          </div>
         </div>
+      </div>
+    
+                                
+    </div>
 
-        {% comment %} <div class="btn">
-            <a href="update/"><button class="update-button">내 정보 수정</button></a>
-        </div> {% endcomment %}
     </main>
 
-    <footer>
-        <p>All rights reserved. ©KT AIVLESCHOOL 14</p>
+    <footer class="footer">
+        <section class="py-0 bg-1000">
+        
+            <div class="container">
+            <div class="row justify-content-md-between justify-content-evenly py-3">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-auto text-center text-md-start">
+                <p class="fs--1 my-2 fw-bold text-200">&copy; 2023 KT AIVLESCHOOL 14</p>
+                </div>
+
+            </div>
+            </div>
+            <!-- end of .container-->
+
+        </section>
     </footer>
-</body>
+    <!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+    
+    
+
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    
+    <script src="{% static "vendors/popper/popper.min.js" %}"></script>
+    <script src="{% static "vendors/bootstrap/bootstrap.min.js" %}"></script>
+    <script src="{% static "vendors/anchorjs/anchor.min.js" %}"></script>
+    <script src="{% static "vendors/is/is.min.js" %}"></script>
+    <script src="{% static "vendors/fontawesome/all.min.js" %}"></script>
+    <script src="{% static "vendors/lodash/lodash.min.js" %}"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"></script>
+    <script src="{% static "vendors/imagesloaded/imagesloaded.pkgd.js" %}"></script>
+    <script src="{% static "vendors/gsap/customEase.js" %}"></script>
+    <script src="{% static "vendors/gsap/scrollToPlugin.js" %}"></script>
+    <!--script(src=`${CWD}vendors/gsap/drawSVGPlugin.js`)-->
+    <script src="{% static "assets/js/theme.js" %}"></script>
+    
+    <!-- 웹사이트 번역 -->
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {pageLanguage: 'ko,en', autoDisplay: true}, 
+          'google_translate_element');}
+    </script>
+
+    <script>
+      document.querySelector('.translation-links').addEventListener('click',function(event) {
+        let el = event.target;
+        if(el != null){
+          while(el.nodeName == 'FONT'){el = el.parentElement;}  // data-lang 속성이 있는 태그 찾기
+          const tolang = el.dataset.lang;  // 변경할 언어 코드 얻기
+          const gtcombo = document.querySelector('.goog-te-combo');
+          if (gtcombo == null) {
+            alert("Error: Could not find Google translate Combolist.");
+            return false;
+          }
+          gtcombo.value = tolang;  // 변경할 언어 적용
+          gtcombo.dispatchEvent(new Event('change'));  // 변경 이벤트 트리거
+        }
+        return false;
+      });
+    </script>
+    <!-- 웹사이트 번역 end -->
+
+  </body>
+
 </html>

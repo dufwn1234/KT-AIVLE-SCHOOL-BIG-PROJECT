@@ -57,6 +57,21 @@
                 <li class="nav-item"><a class="nav-link px-3" href="/accounts/login/">login</a></li>
                 <button class="btn btn-primary"><a href="/accounts/signup/">Sign Up</a></button>
                 {% endif %}
+
+                <!-- 웹사이트 번역 -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Language</a>
+                  <div id="google_translate_element" style="display:none;"></div>
+                  <ul class="dropdown-menu dropdown-menu-end translation-links" aria-labelledby="navbarDropdownBlog">
+                    <li><a href="javascript:void(0)" class="korean dropdown-item" data-lang="ko">한국어</a></li>
+                    <li><a href="javascript:void(0)" class="english dropdown-item" data-lang="en">English</a></li>
+                    <li><a href="javascript:void(0)" class="japanese dropdown-item" data-lang="ja">日本語</a></li>
+                    <li><a href="javascript:void(0)" class="chinese dropdown-item" data-lang="zh-CN">中文</a></li>
+                    <li><a href="javascript:void(0)" class="thai dropdown-item" data-lang="th">ภาษาไทย</a></li>
+                    <li><a href="javascript:void(0)" class="vietnamese dropdown-item" data-lang="vi">Tiếng Việt</a></li>
+                  </ul>
+                </li>
+                <!-- 웹사이트 번역 end -->
               </ul>            
             </div>
           </div>
@@ -124,6 +139,7 @@
 
                         <div class="col-md mb-4 mb-md-0">
                             <div class="accordion mt-3" id="accordionExample">
+                              <!--
                               <div class="card accordion-item active">
                                 <h2 class="accordion-header" id="headingOne">
                                   <button
@@ -175,162 +191,190 @@
                                   </div>
                                 </div>
                               </div>
-                            <div class="card accordion-item">
-                                <h2 class="accordion-header" id="headingThree">
-                                  <button
-                                    type="button"
-                                    class="accordion-button collapsed"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#accordionThree"
-                                    aria-expanded="false"
-                                    aria-controls="accordionThree"
+                              <div class="card accordion-item">
+                                  <h2 class="accordion-header" id="headingThree">
+                                    <button
+                                      type="button"
+                                      class="accordion-button collapsed"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#accordionThree"
+                                      aria-expanded="false"
+                                      aria-controls="accordionThree"
+                                    >
+                                      Q. 폭언을 사용하면 어떻게 되나요?
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="accordionThree"
+                                    class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree"
+                                    data-bs-parent="#accordionExample"
                                   >
-                                    Q. 폭언을 사용하면 어떻게 되나요?
-                                  </button>
-                                </h2>
-                                <div
-                                  id="accordionThree"
-                                  class="accordion-collapse collapse"
-                                  aria-labelledby="headingThree"
-                                  data-bs-parent="#accordionExample"
-                                >
-                                  <div class="accordion-body">
-                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
-                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
-                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    <div class="accordion-body">
+                                      Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                      gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                      dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    </div>
                                   </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <h2 class="accordion-header" id="heading4">
-                                  <button
-                                    type="button"
-                                    class="accordion-button collapsed"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#accordion4"
-                                    aria-expanded="false"
-                                    aria-controls="accordion4"
+                              </div>
+                              <div class="card accordion-item">
+                                  <h2 class="accordion-header" id="heading4">
+                                    <button
+                                      type="button"
+                                      class="accordion-button collapsed"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#accordion4"
+                                      aria-expanded="false"
+                                      aria-controls="accordion4"
+                                    >
+                                      Q. 회원가입이 안돼요.
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="accordion4"
+                                    class="accordion-collapse collapse"
+                                    aria-labelledby="heading4"
+                                    data-bs-parent="#accordionExample"
                                   >
-                                    Q. 회원가입이 안돼요.
-                                  </button>
-                                </h2>
-                                <div
-                                  id="accordion4"
-                                  class="accordion-collapse collapse"
-                                  aria-labelledby="heading4"
-                                  data-bs-parent="#accordionExample"
-                                >
-                                  <div class="accordion-body">
-                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
-                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
-                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    <div class="accordion-body">
+                                      Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                      gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                      dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    </div>
                                   </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <h2 class="accordion-header" id="heading5">
-                                  <button
-                                    type="button"
-                                    class="accordion-button collapsed"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#accordion5"
-                                    aria-expanded="false"
-                                    aria-controls="accordion5"
+                              </div>
+                              <div class="card accordion-item">
+                                  <h2 class="accordion-header" id="heading5">
+                                    <button
+                                      type="button"
+                                      class="accordion-button collapsed"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#accordion5"
+                                      aria-expanded="false"
+                                      aria-controls="accordion5"
+                                    >
+                                      Q. 비밀번호를 까먹었어요.
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="accordion5"
+                                    class="accordion-collapse collapse"
+                                    aria-labelledby="heading5"
+                                    data-bs-parent="#accordionExample"
                                   >
-                                    Q. 비밀번호를 까먹었어요.
-                                  </button>
-                                </h2>
-                                <div
-                                  id="accordion5"
-                                  class="accordion-collapse collapse"
-                                  aria-labelledby="heading5"
-                                  data-bs-parent="#accordionExample"
-                                >
-                                  <div class="accordion-body">
-                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
-                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
-                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    <div class="accordion-body">
+                                      Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                      gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                      dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    </div>
                                   </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <h2 class="accordion-header" id="heading6">
-                                  <button
-                                    type="button"
-                                    class="accordion-button collapsed"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#accordion6"
-                                    aria-expanded="false"
-                                    aria-controls="accordion6"
+                              </div>
+                              <div class="card accordion-item">
+                                  <h2 class="accordion-header" id="heading6">
+                                    <button
+                                      type="button"
+                                      class="accordion-button collapsed"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#accordion6"
+                                      aria-expanded="false"
+                                      aria-controls="accordion6"
+                                    >
+                                      Q. 상담 신청을 잘못했어요.
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="accordion6"
+                                    class="accordion-collapse collapse"
+                                    aria-labelledby="heading6"
+                                    data-bs-parent="#accordionExample"
                                   >
-                                    Q. 상담 신청을 잘못했어요.
-                                  </button>
-                                </h2>
-                                <div
-                                  id="accordion6"
-                                  class="accordion-collapse collapse"
-                                  aria-labelledby="heading6"
-                                  data-bs-parent="#accordionExample"
-                                >
-                                  <div class="accordion-body">
-                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
-                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
-                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    <div class="accordion-body">
+                                      Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                      gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                      dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    </div>
                                   </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <h2 class="accordion-header" id="heading7">
-                                  <button
-                                    type="button"
-                                    class="accordion-button collapsed"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#accordion7"
-                                    aria-expanded="false"
-                                    aria-controls="accordion7"
+                              </div>
+                              <div class="card accordion-item">
+                                  <h2 class="accordion-header" id="heading7">
+                                    <button
+                                      type="button"
+                                      class="accordion-button collapsed"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#accordion7"
+                                      aria-expanded="false"
+                                      aria-controls="accordion7"
+                                    >
+                                      Q. 상담 신청이 안돼요.
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="accordion7"
+                                    class="accordion-collapse collapse"
+                                    aria-labelledby="heading7"
+                                    data-bs-parent="#accordionExample"
                                   >
-                                    Q. 상담 신청이 안돼요.
-                                  </button>
-                                </h2>
-                                <div
-                                  id="accordion7"
-                                  class="accordion-collapse collapse"
-                                  aria-labelledby="heading7"
-                                  data-bs-parent="#accordionExample"
-                                >
-                                  <div class="accordion-body">
-                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
-                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
-                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    <div class="accordion-body">
+                                      Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                      gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                      dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    </div>
                                   </div>
-                                </div>
-                            </div>
-                            <div class="card accordion-item">
-                                <h2 class="accordion-header" id="heading8">
-                                  <button
-                                    type="button"
-                                    class="accordion-button collapsed"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#accordion8"
-                                    aria-expanded="false"
-                                    aria-controls="accordion8"
+                              </div>
+                              <div class="card accordion-item">
+                                  <h2 class="accordion-header" id="heading8">
+                                    <button
+                                      type="button"
+                                      class="accordion-button collapsed"
+                                      data-bs-toggle="collapse"
+                                      data-bs-target="#accordion8"
+                                      aria-expanded="false"
+                                      aria-controls="accordion8"
+                                    >
+                                      Q. 14조는 왜이렇게 잘할까요?
+                                    </button>
+                                  </h2>
+                                  <div
+                                    id="accordion8"
+                                    class="accordion-collapse collapse"
+                                    aria-labelledby="heading8"
+                                    data-bs-parent="#accordionExample"
                                   >
-                                    Q. 14조는 왜이렇게 잘할까요?
-                                  </button>
-                                </h2>
-                                <div
-                                  id="accordion8"
-                                  class="accordion-collapse collapse"
-                                  aria-labelledby="heading8"
-                                  data-bs-parent="#accordionExample"
-                                >
-                                  <div class="accordion-body">
-                                    Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
-                                    gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
-                                    dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    <div class="accordion-body">
+                                      Oat cake toffee chocolate bar jujubes. Marshmallow brownie lemon drops cheesecake. Bonbon
+                                      gingerbread marshmallow sweet jelly beans muffin. Sweet roll bear claw candy canes oat cake
+                                      dragée caramels. Ice cream wafer danish cookie caramels muffin.
+                                    </div>
                                   </div>
+                              </div>  -->
+
+                              {% for p in posts_faq %}
+                                <div class="card accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                      <button
+                                        type="button"
+                                        class="accordion-button collapsed"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#accordion{{ forloop.counter }}"
+                                        aria-expanded="false"
+                                        aria-controls="accordion{{ forloop.counter }}"
+                                      >
+                                       Q. &nbsp; {{ p.title }}
+                                      </button>
+                                    </h2>
+                                    <div
+                                      id="accordion{{ forloop.counter }}"
+                                      class="accordion-collapse collapse"
+                                      aria-labelledby="heading{{ forloop.counter }}"
+                                      data-bs-parent="#accordionExample"
+                                    >
+                                      <div class="accordion-body">
+                                        {{ p.detail|safe }}
+                                      </div>
+                                    </div>
                                 </div>
-                            </div>
+                              {% endfor %}
+
                             </div>
                           </div>
 
@@ -530,6 +574,34 @@
     <script src="{% static "vendors/gsap/scrollToPlugin.js" %}"></script>
     <!--script(src=`${CWD}vendors/gsap/drawSVGPlugin.js`)-->
     <script src="{% static "assets/js/theme.js" %}"></script>
+
+    <!-- 웹사이트 번역 -->
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {pageLanguage: 'ko,en', autoDisplay: true}, 
+          'google_translate_element');}
+    </script>
+
+    <script>
+      document.querySelector('.translation-links').addEventListener('click',function(event) {
+        let el = event.target;
+        if(el != null){
+          while(el.nodeName == 'FONT'){el = el.parentElement;}  // data-lang 속성이 있는 태그 찾기
+          const tolang = el.dataset.lang;  // 변경할 언어 코드 얻기
+          const gtcombo = document.querySelector('.goog-te-combo');
+          if (gtcombo == null) {
+            alert("Error: Could not find Google translate Combolist.");
+            return false;
+          }
+          gtcombo.value = tolang;  // 변경할 언어 적용
+          gtcombo.dispatchEvent(new Event('change'));  // 변경 이벤트 트리거
+        }
+        return false;
+      });
+    </script>
+    <!-- 웹사이트 번역 end -->
 
   </body>
 

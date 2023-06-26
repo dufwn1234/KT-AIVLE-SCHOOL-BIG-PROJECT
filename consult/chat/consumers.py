@@ -8,10 +8,12 @@ from .views import get_last_10_messages, get_user_contact, get_current_chat, sav
 import torch
 from transformers import BertForSequenceClassification, BertTokenizer
 
+
 output_dir = "C:/Users/User/Desktop/Portfolio/KT_AIVLE_BigProject/consult/kcbert"
 
 model = BertForSequenceClassification.from_pretrained(output_dir)
 tokenizer = BertTokenizer.from_pretrained(output_dir)
+
 
 def classify_text(text):
     encoded_input = tokenizer.encode_plus(
@@ -51,6 +53,7 @@ class ChatConsumer(WebsocketConsumer):
         user_instance = User.objects.filter(username=user).first()
         chat_contact = Contact.objects.filter(id=chat_id).first()
         message_content = data['message']
+        room_name_contant = User.objects.get(id=chat_id)
 
         # 폭언 탐지를 위해 classify_text 함수를 사용하여 메시지 분류
         predicted_class, predicted_probability = classify_text(message_content)
@@ -63,7 +66,8 @@ class ChatConsumer(WebsocketConsumer):
         message = Message.objects.create(
             user=user_instance,
             chat=chat_contact,
-            content=message_content
+            content=message_content,
+            room_name=room_name_contant
         )
         message_instance = message
 

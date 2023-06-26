@@ -14,6 +14,8 @@ class User(AbstractUser):
     nation = models.CharField(choices=NATION, max_length=20)
     chat_active = models.BooleanField(default=False)
     voice_active = models.BooleanField(default=False)
+    enter_voicechat = models.DateTimeField(null=True)
+    enter_chat = models.DateTimeField(null=True)
     
     def __str__(self):
         return str(self.username)

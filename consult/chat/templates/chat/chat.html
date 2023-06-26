@@ -268,17 +268,17 @@
                                 <div class="appnavbar-body-title">
                                     <div class="dropdown w-100">
                                         <!-- Dropdown Button Start -->
-                                        <button id="languageButton" class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">中国话(중국어)</button>
+                                        <button id="languageButton" class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">한국어</button>
                                         <!-- Dropdown Button End -->
 
                                         <!-- Dropdown Menu Start -->
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item"  value="Korean">한국어</a>
-                                            <a class="dropdown-item"  value="English">English(영어)</a>
-                                            <a class="dropdown-item"  value="Chinese">中国话(중국어)</a>
-                                            <a class="dropdown-item"  value="Japanese">日本語(일본어)</a>
-                                            <a class="dropdown-item"  value="Vietnamese">Tiếng Việt(베트남어)</a>
-                                            <a class="dropdown-item"  value="Thai">แบบไทย(태국어)</a>
+                                            <a class="dropdown-item"  value="English">English</a>
+                                            <a class="dropdown-item"  value="Chinese">中国话</a>
+                                            <a class="dropdown-item"  value="Japanese">日本語</a>
+                                            <a class="dropdown-item"  value="Vietnamese">Tiếng Việt</a>
+                                            <a class="dropdown-item"  value="Thai">แบบไทย</a>
                                         </div>
                                         <!-- Dropdown Menu End -->
                                     </div>
@@ -315,33 +315,49 @@
                                 <div id="button" class="btn btn-primary btn-block">번역</div>
                             </div>
                             <script>
-                                let textareaTag = document.getElementById("text");
-                                let languageTag1 = document.getElementById("languageButton");
+                                
                                 
                                 let buttonTag = document.getElementById("button");
                                 let resultTag = document.getElementById("result");
+                                
+                                function getTargetLanguageCode1(languageTag1) {
+                                    if (languageTag1 === '한국어') {
+                                        return 'ko';
+                                    } else if (languageTag1 === 'English') {
+                                        return 'en';
+                                    } else if (languageTag1 === '中国话') {
+                                        return 'zh-CN';
+                                    } else if (languageTag1 === '日本語') {
+                                        return 'ja';
+                                    } else if (languageTag1 === 'Tiếng Việt') {
+                                        return 'vi';
+                                    } else if (languageTag1 === 'แบบไทย') {
+                                        return 'th';
+                                    }
+                                }
 
                                 buttonTag.addEventListener("click", async function () {
+                                    let textareaTag = document.getElementById("text");
+                                    let languageTag1 = document.getElementById("languageButton");
                                     let text = textareaTag.value;
-                                    let language1 = languageTag1.textContent;
+                                    let targetLanguage = languageTag1.textContent;
+                                    let target = getTargetLanguageCode1(targetLanguage);
                                     
-                                    let data = {
-                                        text: text,
-                                        language1: language1,
-                                        
-                                    };
-
-                                    let response = await fetch("{% url 'chat:translater2' %}", {
-                                        method: "POST",
+                                    let response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
+                                        method: 'POST',
                                         headers: {
-                                            "Content-Type": "application/json",
-                                            "X-CSRFToken": "{{ csrf_token }}"
+                                            'Content-Type': 'application/json'
                                         },
-                                        body: JSON.stringify(data)
+                                        body: JSON.stringify({
+                                            q: text,
+                                            target: target
+                                        })
                                     });
+                                    let data = await response.json();
+                                    
+                                    let translatedText = data.data.translations[0].translatedText;
+                                    resultTag.value = translatedText;
 
-                                    let result = await response.text();
-                                    resultTag.value = result;
                                  });
                             </script>
                         </div>

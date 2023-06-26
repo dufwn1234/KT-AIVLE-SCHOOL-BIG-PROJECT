@@ -6,6 +6,9 @@ from .models import Chat, Contact, Message
 from call.models import Call
 from boards.models import Post
 from django.utils.safestring import mark_safe
+from datetime import datetime
+from .forms import ChatForm
+from .models import Chats
 
 
 import openai #추가(0619)
@@ -142,6 +145,8 @@ def room(request, room_name):
     # chat_active 변경
     user = User.objects.get(username=request.user.username)
     user.chat_active = True
+    if user.member_type == 'Counselor':  # 상담사일 경우, 입장 시간 저장되도록
+        user.enter_chat = datetime.now()
     user.save()
     
     # 상담사 정보
@@ -156,7 +161,7 @@ def room(request, room_name):
     # customer = User.objects.get(id=message.user_id)
         
     customers = User.objects.filter(member_type='Customer')
-    chats = Chat.objects.all()
+    chats = Chats.objects.all()
     calls = Call.objects.all()
     
     # FAQ
@@ -167,10 +172,50 @@ def room(request, room_name):
                                                 'counselor':counselor, 'customer':customer, 
                                                 'customers':customers, 'chats':chats, 'calls':calls,
                                                 'faqs':faqs})
+    
+@login_required
+def chat_end(request):
+    # 고객 정보
+    room_messages = Message.objects.filter(room_name=request.user.id).order_by('timestamp')
+    for m in room_messages:
+        if m.user_id != request.user.id:
+            customer = User.objects.get(id=m.user_id)
+    
+    # 상담 메시지 내용
+    # __gte : 크거나 같다 __gt : 크다 __lt : 작다 __lte : 작거나 같다
+    messages = Message.objects.filter(timestamp__gte=request.user.enter_chat, timestamp__lte=datetime.now(), room_name=request.user.id)
+    
+    # 전체 내용 
+    all_contents = ''
+    for m in messages:
+        all_contents += m.content + '\n'
+    print(all_contents)
+
+    # chats에 저장
+    if request.method == 'POST':
+        form = ChatForm(request.POST)
+        for field in form:
+            if field.errors:
+                print("Field Error:", field.name, field.errors)
+        if form.is_valid():
+            chat = Chats()
+            chat.customer = customer
+            chat.counselor = request.user
+            chat.consult_text = all_contents
+            chat.consult_date = datetime.now()
+            chat.title = form.cleaned_data['title']
+            chat.save()
+            return redirect('chat:chat')
+        else:
+            form = ChatForm()
+        return render(request, 'chat/chat_end.html', {'form':form,'customer':customer, 'all_contents':all_contents})
+        
+    else:
+        form = ChatForm()
+        return render(request, 'chat/chat_end.html', {'form':form,'customer':customer, 'all_contents':all_contents}) 
 
 def save_customer_info(chat_id, user):
     customer_info = User.objects.get(id=user.id)
-    print(customer_info)
     
 def get_customer_info():
     return customer_info
