@@ -22,8 +22,64 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
+    <link href="{% static "assets/css/theme.css" %}" rel="stylesheet" />
     <link rel="stylesheet" href='{% static "webfonts/inter/inter.css" %}'> 
     <link rel="stylesheet" href='{% static "css/app.min.css" %}'>
+
+    <style>
+        #microphone {
+          width: 200px;
+          height: 200px;
+          cursor: pointer;
+        }
+  
+        .glow {
+            animation: none; /* 초기에는 애니메이션을 비활성화 */
+          }
+        
+        .glow.active {
+            animation: glow 1s infinite; /* startSTT() 함수가 활성화되면 애니메이션을 활성화 */
+          }
+  
+        @keyframes glow {
+          0% {
+            stroke: #1C69FF;
+            stroke-width: 0.8px;
+          }
+          50% {
+            stroke: #2CB3FF;
+            stroke-width: 1.3px;
+          }
+          100% {
+            stroke: #1C69FF;
+            stroke-width: 0.8px;
+          }
+        }
+
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+          }
+          
+          .active, .accordion:hover {
+            background-color: #white;
+          }
+          
+          .panel {
+            padding: 0.79rem 1.125rem;
+            background-color: white;
+            display: none;
+            overflow: hidden;
+          }
+      </style>
 
 
 </head>
@@ -37,7 +93,9 @@
             <!-- Logo Start -->
             <a class="d-none d-xl-block bg-light rounded p-1" href='/'>
                 <!-- Default :: Inline SVG -->
-                <svg height="30" width="30" viewBox="0 0 512 511" ><g><path d="m120.65625 512.476562c-7.25 0-14.445312-2.023437-20.761719-6.007812-10.929687-6.902344-17.703125-18.734375-18.117187-31.660156l-1.261719-41.390625c-51.90625-46.542969-80.515625-111.890625-80.515625-183.992188 0-68.816406 26.378906-132.101562 74.269531-178.199219 47.390625-45.609374 111.929688-70.726562 181.730469-70.726562s134.339844 25.117188 181.730469 70.726562c47.890625 46.097657 74.269531 109.382813 74.269531 178.199219 0 68.8125-26.378906 132.097657-74.269531 178.195313-47.390625 45.609375-111.929688 70.730468-181.730469 70.730468-25.164062 0-49.789062-3.253906-73.195312-9.667968l-46.464844 20.5c-5.035156 2.207031-10.371094 3.292968-15.683594 3.292968zm135.34375-471.976562c-123.140625 0-216 89.816406-216 208.925781 0 60.667969 23.957031 115.511719 67.457031 154.425781 8.023438 7.226563 12.628907 17.015626 13.015625 27.609376l.003906.125 1.234376 40.332031 45.300781-19.988281c8.15625-3.589844 17.355469-4.28125 25.921875-1.945313 20.132812 5.554687 41.332031 8.363281 63.066406 8.363281 123.140625 0 216-89.816406 216-208.921875 0-119.109375-92.859375-208.925781-216-208.925781zm-125.863281 290.628906 74.746093-57.628906c5.050782-3.789062 12.003907-3.839844 17.101563-.046875l55.308594 42.992187c16.578125 12.371094 40.304687 8.007813 51.355469-9.433593l69.519531-110.242188c6.714843-10.523437-6.335938-22.417969-16.292969-14.882812l-74.710938 56.613281c-5.050781 3.792969-12.003906 3.839844-17.101562.046875l-55.308594-41.988281c-16.578125-12.371094-40.304687-8.011719-51.355468 9.429687l-69.554688 110.253907c-6.714844 10.523437 6.335938 22.421874 16.292969 14.886718zm0 0" data-original="#000000" class="active-path" data-old_color="#000000" fill="#665dfe"/></g> </svg>
+                <svg height="30" width="30" viewBox="0 0 24 24">
+                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#665dfe" />
+                  </svg>
             </a>
             <!-- Logo End -->
 
@@ -134,12 +192,22 @@
 
                                     <!-- cutomser 정보 없을 경우 -->
                                     {% if customer is None %}
-                                        <li class="contacts-item friends">
+                                        {% comment %} <li class="contacts-item friends">
                                             <div class="contacts-texts">
                                                 <p class="text-truncate">상담 목록이 존재하지 않습니다.</p>
                                             </div>
-                                        </li>
-                                    
+                                        </li> {% endcomment %}
+                                        <button class="accordion">Lemon drops</button>
+                                        <div class="panel">
+                                        <p>Content for Lemon drops.</p>
+                                        </div>
+
+                                        <button class="accordion">Chocolate cake</button>
+                                        <div class="panel">
+                                        <p>Content for Chocolate cake.</p>
+                                        </div>
+                                        
+                                            
                                     <!-- customer 정보 있을 경우, 상담 이력 출력 -->
                                     {% else %}
                                         {% for call in calls %}
@@ -290,14 +358,16 @@
                         <option value="vi-VN">Tiếng Việt</option> -->
                     <!-- 다른 언어 옵션 추가 가능 -->
                     <!-- </select> -->
-                    <div class="chat-content p-2" id="messageBody">
+
+                    {% comment %} <div class="chat-content p-2" id="messageBody">
 						<div class="container" id="chat-log">
 							<!-- 채팅 로그가 표시될 영역 -->
                         </div> 
 						
 						<!-- Scroll to finish -->
 						<div class="chat-finished" id="chat-finished"></div>
-					</div>
+					</div> {% endcomment %}
+
                     {% comment %} <p id="message">버튼을 누르고 아무 말이나 하세요.</p>
 
                     <div class="textWrapper">
@@ -310,18 +380,18 @@
                     <button id="speech" onclick="startSTT()">Start STT</button>
                     <button id="stop" onclick="stopSTT()" disabled>Stop STT</button> {% endcomment %}
 
-                    <p id="message" style="text-align: center;">버튼을 누르고 아무 말이나 하세요.</p>
+                    <p id="message" style="text-align: center; margin-top:200px; margin-bottom:-20px; font-size:20px;">버튼을 누르고 아무 말이나 하세요.</p>
 
-                    <div class="textWrapper" style="text-align: center; margin-top: -10px; margin-bottom: 10px; font-weight:bold;">
-                        <div id="japanese" class="textbox"></div>
-                        <div id="korean" class="textbox"></div>
+                    <div class="textWrapper" style="text-align: center; margin-top: -10px; margin-bottom: 10px; font-weight: bold;">
+                    <div id="japanese" class="textbox"></div>
+                    <div id="korean" class="textbox"></div>
                     </div>
 
-					
-                    <div id="message" ></div>
-                    <div class="button-container" style="display: flex; justify-content: center; margin-bottom: 40px;">
-                        <button class="btn btn-outline-primary" id="speech" onclick="startSTT()">Start STT</button>
-                        <button class="btn btn-outline-primary" id="stop" onclick="stopSTT()" style="margin-left:20px;" disabled>Stop STT</button> 
+                    <div id="message"></div>
+                    <div class="button-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left:30px;">
+                    <svg id="microphone" xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 40 40" onclick="startSTT()" style="width: 200px; height: 200px; cursor: pointer; ">
+                        <path class="glow" d="M12 2c1.103 0 2 .897 2 2v7c0 1.103-.897 2-2 2s-2-.897-2-2v-7c0-1.103.897-2 2-2zm0-2c-2.209 0-4 1.791-4 4v7c0 2.209 1.791 4 4 4s4-1.791 4-4v-7c0-2.209-1.791-4-4-4zm8 9v2c0 4.418-3.582 8-8 8s-8-3.582-8-8v-2h2v2c0 3.309 2.691 6 6 6s6-2.691 6-6v-2h2zm-7 13v-2h-2v2h-4v2h10v-2h-4z" stroke="#1C69FF" stroke-width="0.8px" fill="none" />
+                    </svg>
                     </div>
                      
 
@@ -392,10 +462,12 @@
     <script src='{% static "vendors/modal-stepes/modal-steps.min.js" %}'></script>
     <script src='{% static "/consult/workerschat/static/vendors/emojione/emojionearea.min.js" %}'></script>
     <script src='{% static "js/app.min.js" %}'></script>
+    <script src="{% static "assets/js/theme.js" %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    
 
     <script>
         // Scroll to end of chat
@@ -554,6 +626,7 @@
         var recognition; // 음성 인식 객체
 
         function startSTT() {
+
         recognition = new (window.SpeechRecognition ||
             window.webkitSpeechRecognition ||
             window.mozSpeechRecognition ||
@@ -563,17 +636,27 @@
         recognition.interimResults = false;
         recognition.maxAlternatives = 5;
 
+        
+
         recognition.onstart = function () {
             console.log('Enter your voice');
             message.innerHTML = 'Speech recognition...';
             speechButton.innerHTML = 'Listening...';
             speechButton.disabled = true;
+
+            var microphoneIcon = document.getElementById('microphone');
+            microphoneIcon.classList.add('active');
+                   
         };
 
         recognition.onspeechend = function () {
             message.innerHTML = 'Enter your voice';
             speechButton.disabled = false;
             speechButton.innerHTML = 'Start STT';
+
+            var microphoneIcon = document.getElementById('microphone');
+            microphoneIcon.classList.remove('active');
+            
         };
 
         recognition.onresult = function (event) {
@@ -611,6 +694,7 @@
         speechButton.disabled = false;
         speechButton.innerHTML = 'Start STT';
         isRecognizing = false;
+        
         }
 
         function textToSpeech(txt, user_nation) {
@@ -730,6 +814,23 @@
           
         
     </script>
+
+    <script>
+        var accordions = document.getElementsByClassName("accordion");
+        var i;
+        
+        for (i = 0; i < accordions.length; i++) {
+          accordions[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+              panel.style.display = "none";
+            } else {
+              panel.style.display = "block";
+            }
+          });
+        }
+        </script>
 </body>
 
 </html>

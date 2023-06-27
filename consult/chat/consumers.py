@@ -9,10 +9,12 @@ import torch
 from transformers import BertForSequenceClassification, BertTokenizer
 
 
+
 output_dir = "C:/Users/User/Desktop/Portfolio/KT_AIVLE_BigProject/consult/kcbert"
 
 model = BertForSequenceClassification.from_pretrained(output_dir)
 tokenizer = BertTokenizer.from_pretrained(output_dir)
+
 
 
 def classify_text(text):
@@ -61,6 +63,7 @@ class ChatConsumer(WebsocketConsumer):
         if predicted_class == 0:
             # 폭언인 경우
             message_content = "폭언입니다. 바른 말을 사용해주세요." 
+
         
         # 새로운 Message 인스턴스 생성
         message = Message.objects.create(

@@ -98,12 +98,16 @@ def voicechat_end(request):
     print(counselor_contents)
     
     # 요약 
-    os.environ["_BARD_API_KEY"] = "YAh47MX5gKvL5Q8Md5y3y0xHfCw7ORb4WhONGG2TrRF-Q_QX4mLOGG1lsOfkn5d--ZAySA."
-    input_text = counselor_contents + "\n 이 내용을 핵심만 추려서 5줄로 요약."
-    response = bardapi.core.Bard().get_answer(input_text)
+    if counselor_contents == '':
+        summary = ''
+    else:
+        os.environ["_BARD_API_KEY"] = "YAiTWs7-AlPSVY-_yC9KPsEbkpjroNJsDyZ_0fNuIsY5F-6fay2GKzTXsHIFKOvqyg3Okg."
+        input_text = counselor_contents + "\n Tl;dr"
+        response = bardapi.core.Bard().get_answer(input_text)
 
-    summary = response["choices"][0]["content"][0]  # 요약된 내용
-    print(summary)
+        summary = response["choices"][0]["content"][0]  # 요약된 내용
+        # twilio(summary)
+        print(summary)
 
     # call에 저장
     if request.method == 'POST':

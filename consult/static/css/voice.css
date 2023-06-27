@@ -1,0 +1,15 @@
+@keyframes glow {
+    0% {
+      box-shadow: 0 0 5px #fff;
+    }
+    50% {
+      box-shadow: 0 0 20px 5px #00ffff;
+    }
+    100% {
+      box-shadow: 0 0 5px #fff;
+    }
+  }
+
+  #microphone {
+    animation: glow 1s infinite;
+  }

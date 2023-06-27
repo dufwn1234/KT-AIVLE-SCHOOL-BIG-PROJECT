@@ -15,6 +15,8 @@ import openai #추가(0619)
 from django.http import JsonResponse#추가(0619)
 from django.http import HttpResponse
 import json
+import bardapi
+import os
 
 
 # Create your views here.
@@ -191,6 +193,21 @@ def chat_end(request):
         all_contents += m.content + '\n'
     print(all_contents)
 
+    #  # 상담사 답변만
+    # counselor_messages = Message.objects.filter(timestamp__gte=request.user.enter_chat, timestamp__lte=datetime.now(), 
+    #                                             room_name=request.user.id, user_id=request.user.id)
+    # counselor_contents = ''
+    # for m in counselor_messages:
+    #     counselor_contents += m.content + '\n'
+
+    # # 요약 
+    # os.environ["_BARD_API_KEY"] = "YAiTWs7-AlPSVY-_yC9KPsEbkpjroNJsDyZ_0fNuIsY5F-6fay2GKzTXsHIFKOvqyg3Okg."
+    # input_text = all_contents + "\n Tl;dr"
+    # response = bardapi.core.Bard().get_answer(input_text)
+
+    # summary = response["choices"][0]["content"][0]  # 요약된 내용
+    # print(summary)
+
     # chats에 저장
     if request.method == 'POST':
         form = ChatForm(request.POST)
@@ -203,6 +220,7 @@ def chat_end(request):
             chat.counselor = request.user
             chat.consult_text = all_contents
             chat.consult_date = datetime.now()
+            # chat.summary = form.cleaned_data['summary']
             chat.title = form.cleaned_data['title']
             chat.save()
             return redirect('chat:chat')

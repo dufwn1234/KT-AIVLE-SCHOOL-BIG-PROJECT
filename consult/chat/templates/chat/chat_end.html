@@ -128,6 +128,12 @@
             <label for="all_contents">상담 전체 내용</label><br>
             <textarea id="all_contents" name="all_contents">{{ all_contents }}</textarea>
 
+            <label for="summary">요약</label><br>
+            <textarea id="summary" name="summary">{{ summary }}</textarea>
+
+            <!-- <label for="{{ form.summary.id_for_label }}">요약</label><br>
+            <textarea id="{{ form.summary.id_for_label }}" name="{{ form.summary.html_name }}">{{ summary }}</textarea> -->
+
             <input type="submit" name="submit" value="Submit">
         </form>
     </main>
