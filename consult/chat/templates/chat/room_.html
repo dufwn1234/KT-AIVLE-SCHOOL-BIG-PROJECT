@@ -24,7 +24,108 @@
 
     <link rel="stylesheet" href='{% static "webfonts/inter/inter.css" %}'> 
     <link rel="stylesheet" href='{% static "css/app.min.css" %}'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.2.0/tailwind.min.css'>
 
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.2.0/tailwind.min.css'>
+    <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
+
+    <link rel="canonical" href="https://codepen.io/cuonoj/pen/LYVzVYP" />
+
+<style>
+    body {
+        font-family: 'Varela Round', sans-serif;
+    }
+    .modal-confirm {		
+        color: #636363;
+        width: 550px;
+    }
+    .modal-confirm .modal-content {
+        padding: 20px;
+        border-radius: 5px;
+        border: none;        
+    }
+    .modal-confirm .modal-header {
+        padding: 0 15px;
+        border-bottom: none;   
+        position: relative;
+    }
+    .modal-confirm h4 {
+        display: inline-block;
+        font-size: 26px;
+    }
+    .modal-confirm .close {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+    .modal-confirm .modal-body ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+    .modal-confirm .modal-body ul li {
+        margin-bottom: 10px; /* Increased gap between list items */
+    }
+
+    .modal-confirm .modal-header .close {
+        display: none;
+    }
+
+    .modal-confirm .modal-content {
+        border: 1px solid #CECDCD;
+    }
+
+    .modal-backdrop.show {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-confirm .modal-body {
+        color: #999;
+    }
+
+    .modal {
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    .modal-confirm .modal-footer {
+        background: #ecf0f1;
+        border-color: #e6eaec;
+        text-align: right;
+        margin: 0 -20px -20px;
+        border-radius: 0 0 5px 5px;
+    }	
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+        transition: all 0.4s;
+        border: none;
+        padding: 8px 20px;
+        outline: none !important;
+    }	
+    .modal-confirm .btn-info {
+        background: #b0c1c6;
+    }
+    .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+        background: #92a9af;
+    }
+    .modal-confirm .btn-danger {
+        background: #f15e5e;
+    }
+    .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+        background: #ee3535;
+    }
+    .modal-confirm .modal-footer .btn + .btn {
+        margin-left: 10px;
+    }
+    .trigger-btn {
+        display: inline-block;
+        margin: 100px auto;
+    }
+    
+    </style>
+    
+    <script>
+    window.console = window.console || function(t) {};
+    </script>
 </head>
 
 <body class="chats-tab-open">
@@ -43,7 +144,28 @@
             <!-- Logo End -->
 
             <!-- Main Nav Start -->
-            <ul class="nav nav-minimal flex-row flex-grow-1 justify-content-between flex-xl-column justify-content-xl-center" id="mainNavTab" role="tablist">
+            <ul class="nav nav-minimal flex-row flex-grow-1 justify-content-between flex-xl-column justify-content-xl-center" role="tablist">
+                <!-- Chats Tab Start -->
+                <li class="nav-item">
+                    <a class="nav-link p-0 py-xl-3 active" href="/chat/" title="Chats">
+                        <!-- Default :: Inline SVG -->
+                        <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                        </svg>
+                    </a>
+                </li>
+                <!-- Chats Tab End -->
+
+                <!-- Calls Tab Start -->
+                <li class="nav-item">
+                    <a class="nav-link p-0 py-xl-3 " href="/voicetalk/" title="Voice">
+                        <!-- Default :: Inline SVG -->
+                        <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                    </a>
+                </li>
+                <!-- Calls Tab End -->
              
 
             </ul>
@@ -66,7 +188,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <!-- Chat Tab Pane Title Start -->
                                     {% if request.user.member_type == 'Counselor' %}
-                                        <h5 class="font-weight-semibold mb-0">상담 목록</h5>
+                                        <h5 class="font-weight-semibold mb-0">상담 매뉴얼</h5>
                                     {% elif request.user.member_type == 'Customer' %}
                                         <h5 class="font-weight-semibold mb-0">FAQ</h5>
                                     {% endif %}
@@ -136,11 +258,46 @@
 
                                     <!-- cutomser 정보 없을 경우 -->
                                     {% if customer is None %}
-                                        <li class="contacts-item friends">
+                                        {% comment %} <li class="contacts-item friends">
                                             <div class="contacts-texts">
                                                 <p class="text-truncate">상담 목록이 존재하지 않습니다.</p>
                                             </div>
-                                        </li>
+                                        </li> {% endcomment %}
+
+                                        <button class="accordion">1. 상담 시작</button>
+                                        <div class="panel">
+                                        <p>- 안녕하십니까 고객님, ㅇㅇㅇ 상담사입니다.</p>
+                                        </div>
+
+                                        <button class="accordion">2. 질문하기</button>
+                                        <div class="panel">
+                                        <p>- 무엇을 도와드릴까요?</p>
+                                        </div>
+
+                                        <button class="accordion">3. 고객 이해</button>
+                                        <div class="panel">
+                                        <p>- 고객님이 겪고 있는 문제를 자세히 설명해주실 수 있으신가요?</p>
+                                        </div>
+
+                                        <button class="accordion">4. 문제 분석</button>
+                                        <div class="panel">
+                                        <p>- 고객님의 문제를 해결하기 위해 다음과 같은 방법을 제안해드릴게요.</p>
+                                        </div>
+
+                                        <button class="accordion">5. 추가 지원</button>
+                                        <div class="panel">
+                                        <p>- 문제를 해결하는 데 도움이 될 수 있는 관련 자료를 제공해드리겠습니다.</p>
+                                        </div>
+
+                                        <button class="accordion">6. 만족도 조사 설명</button>
+                                        <div class="panel">
+                                        <p>- 상담이 끝난 이후 만족도 조사에 참여해주세요.</p>
+                                        </div>
+
+                                        <button class="accordion">7. 상담 마무리</button>
+                                        <div class="panel">
+                                        <p>- 다른 문제가 있을 경우 언제든지 연락주세요. 이상 ㅇㅇㅇ 상담사였습니다.</p>
+                                        </div>
                                     
                                     <!-- customer 정보 있을 경우, 상담 이력 출력 -->
                                     {% else %}
@@ -389,141 +546,39 @@
                     </div>
                 </div>
 
-                <div class="tab-pane h-100" id="translator" role="tabpanel" aria-labelledby="translator-tab">
-                    <div class="appnavbar-content-wrapper">
-                        <div class="appnavbar-scrollable-wrapper">
-                            <div class="appnavbar-heading sticky-top">
-                                <ul class="nav justify-content-between align-items-center">
-                                    <!-- Sidebar Title Start -->
-                                    <li class="text-center">
-                                        <h5 class="text-truncate mb-0">번역기</h5>
-                                    </li>
-                                    <!-- Sidebar Title End -->
-
-                                    <!-- Close Sidebar Start -->
-                                    <li class="nav-item list-inline-item">
-                                        <div data-appcontent-close="">
-                                            <!-- Default :: Inline SVG -->
-                                            <svg class="hw-22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                                
-                                            <!-- Alternate :: External File link -->
-                                            <!-- <img class="injectable hw-22" src="./../assets/media/heroicons/outline/x.svg" alt=""> -->
-                                        
-                                        </div>
-                                    </li>
-                                    <!-- Close Sidebar End -->
-                                </ul>
-                            </div>
-
-                            <div class="appnavbar-body">
-                                <div class="appnavbar-body-title">
-                                    <div class="dropdown w-100">
-                                        <!-- Dropdown Button Start -->
-                                        <button id="languageButton" class="btn btn-outline-default btn-block dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">한국어</button>
-                                        <!-- Dropdown Button End -->
-
-                                        <!-- Dropdown Menu Start -->
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item"  value="Korean">한국어</a>
-                                            <a class="dropdown-item"  value="English">English</a>
-                                            <a class="dropdown-item"  value="Chinese">中国话</a>
-                                            <a class="dropdown-item"  value="Japanese">日本語</a>
-                                            <a class="dropdown-item"  value="Vietnamese">Tiếng Việt</a>
-                                            <a class="dropdown-item"  value="Thai">แบบไทย</a>
-                                        </div>
-                                        <!-- Dropdown Menu End -->
-                                    </div>
-                                    <script>
-                                        const languageButton = document.getElementById("languageButton");
-                                        const dropdownItems1 = document.querySelectorAll(".dropdown-item");
-                                    
-                                        dropdownItems1.forEach(item => {
-                                            item.addEventListener("click", function() {
-                                                const selectedLanguage = item.textContent;
-                                                languageButton.textContent = selectedLanguage;
-                                            });
-                                        });
-                                    </script>
-                            
-                                    
-                                </div>
-
-                                <div class="translator-container p-2">
-                                    <div class="form-group">
-                                        <textarea id="text" class="form-control" rows="6" placeholder="Write text here" name="description"></textarea>
-                                    </div>
-
-                                    <div class="form-group">
-                                        
-                                        <textarea id="result" class="form-control" rows="10" placeholder="Wait Answer"></textarea>
-                                        <!-- <p id="result" class="mb-0">kt 요금제 좀 알려주세요. 가족 할인 가능한가요?</p> 이거 <p>타입은 안되는 것 같음 -->
-                                    
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="appnavbar-footer">
-                                <div id="button" class="btn btn-primary btn-block">번역</div>
-                            </div>
-                            <script>
-                                
-                                
-                                let buttonTag = document.getElementById("button");
-                                let resultTag = document.getElementById("result");
-                                
-                                
-                                //getTargetLanguageCode가 기존에 있어 1을 추가해 이름변경
-                                function getTargetLanguageCode1(languageTag1) {
-                                    if (languageTag1 === '한국어') {
-                                        return 'ko';
-                                    } else if (languageTag1 === 'English') {
-                                        return 'en';
-                                    } else if (languageTag1 === '中国话') {
-                                        return 'zh-CN';
-                                    } else if (languageTag1 === '日本語') {
-                                        return 'ja';
-                                    } else if (languageTag1 === 'Tiếng Việt') {
-                                        return 'vi';
-                                    } else if (languageTag1 === 'แบบไทย') {
-                                        return 'th';
-                                    }
-                                }
-
-                                buttonTag.addEventListener("click", async function () {
-                                    let textareaTag = document.getElementById("text");
-                                    let languageTag1 = document.getElementById("languageButton");
-                                    let text = textareaTag.value;
-                                    let targetLanguage = languageTag1.textContent;
-                                    let target = getTargetLanguageCode1(targetLanguage);
-       
-                                    let response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
-                                        method: 'POST',
-                                        headers: {
-                                            'Content-Type': 'application/json'
-                                        },
-                                        body: JSON.stringify({
-                                            q: text,
-                                            target: target
-                                        })
-                                    });
-                                    let data = await response.json();
-                                    ;
-                                    let translatedText = data.data.translations[0].translatedText;
-                                    resultTag.value = translatedText;
-                                 });
-                            </script>
-                        </div>
-                    </div>
-                </div>
+                
 
             </div>
         </div>
         <!-- App Add-ons End -->
 
-        <div class="backdrop"></div>
+            <div id="myModal" class="modal">
+                <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                        <div class="modal-header">			
+                            <h4 class="modal-title">Warning</h4>	
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <p>지속적인 폭언시 다음과 같은 법적 처벌을 받을 수 있습니다:</p>
+                        <div class="modal-body">
+                            <ul>
+                                <li>「형법」 제311조(모욕죄): 1년 이하의 징역이나 금고 또는 200만원 이하의 벌금</li>
+                                <li>「형법」 제283조(협박죄): 3년 이하의 징역, 500만원 이하의 벌금, 구류 또는 과료</li>
+                                <li>「형법」 제314조제1항(업무방해): 5년 이하의 징역 또는 1천500만원 이하의 벌금</li>
+                                <li>「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제44조의7제제1항제3호(불법정보의 유통금지 등) 및 제74조제1항제3호(벌칙): 1년 이하의 징역 또는 1천만원 이하의 벌금</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-footer">
+                            <button id="close" class="btn btn-danger">이해했습니다</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+        <div class="backdrop"></div>
     </div>
     <!-- Main Layout End -->
 	{{ room_name|json_script:"room-name" }}
@@ -539,6 +594,7 @@
     <script src='{% static "vendors/modal-stepes/modal-steps.min.js" %}'></script>
     <script src='{% static "/consult/workerschat/static/vendors/emojione/emojionearea.min.js" %}'></script>
     <script src='{% static "js/app.min.js" %}'></script>
+
 
     <script>
         // Scroll to end of chat
@@ -652,59 +708,32 @@
                 return 'vi-VN';
             } 
         }
-        /*if (targetLang === 'ko') {
-            msg.lang = 'ko-KR'; // 한국어 (대한민국)
-        } else if (targetLang === 'en-US') {
-            msg.lang = 'en-US'; // 영어 (미국)
-        } else if (targetLang === 'zh-CN') {
-            msg.lang = 'zh-CN'; // 중국어 (간체)
-        } else if (targetLang === 'ja-JP') {
-            msg.lang = 'ja-JP'; // 일본어
-        } else if (targetLang === 'vi-VN') {
-            msg.lang = 'vi-VN'; // 베트남어 - 현재 지원 안함
-        } else if (targetLang === 'th-TH') {
-            msg.lang = 'th-TH'; // 태국어 - 현재 지원 안함
-        }
-        
-        
-        <option value="ko">한국어</option>
-        <option value="en">English</option>
-        <option value="ja">日本語</option>
-        <option value="zh-CN">中文</option>
-        <option value="th-TH">ภาษาไทย</option>
-        <option value="vi-VN">Tiếng Việt</option>
-        
-        */
-        // 여기에 채팅 템플릿 적용해 주세용 ,,!! 
-        //async function createMessage(data) {
-        //    const author = data['user'];
-        //    let content = data['content'];
-          
-        //    if (author !== 'self') {
-              // 사용자가 보낸 메시지를 번역
-        //      content = await translateMessage(content);
-        //    }
-          
-        //    const chatLog = document.querySelector('#chat-log');
-        //    const messageElement = document.createElement('div');
-          
-        //    messageElement.innerText = `${author}: ${content}`;
-        //    messageElement.classList.add(author === 'self' ? 'message self' : 'message');
-        //    chatLog.appendChild(messageElement);
-        //    scrollToBottom();
-        //  }
-        
         async function createMessage(data) {
             const author = data['user'];
             let content = data['content'];
+
+            if (author !== 'self') {
+                if (content === '바른 말을 사용해주세요.') {
+                  p_content = await translateMessage(content);
+                }
+              }
           
             if (author !== 'self') {
               content = await translateMessage(content);
             }
-          
-            // const custerUsername = document.querySelector('#customer-username-save');
-            // custerUsername.innerText = author;
 
+            if (author === username) {
+                if (content === '바른 말을 사용해주세요.') {
+                    const modal = document.getElementById("myModal");
+                    modal.style.display = "block";
+                    const closeButton = document.getElementById("close");
+                    closeButton.onclick = function () {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+ 
+          
             const chatLogDiv = document.querySelector('#chat-log');
           
             const chatLogDownDiv = document.createElement('div');
@@ -724,8 +753,6 @@
             chatLogDownDownDownDownSpan.innerText = `${author}: ${content} `;
             if (author === username) {
               chatLogDownDownDownDownSpan.id = 'selfmessage';
-            } else {
-              chatLogDownDownDownDownSpan.id = 'chatmessage';
             }
           
             chatLogDownDiv.appendChild(chatLogDownDownDiv);
@@ -734,7 +761,16 @@
           
             chatLogDiv.appendChild(chatLogDownDiv);
             scrollToBottom();
-        }
+            
+            if (author !== username && content === p_content ) {
+              chatLogDownDiv.style.display = 'none'; 
+            }
+
+
+          }
+          
+          
+          
 
         /*
         async function createMessage(data) {
@@ -835,6 +871,31 @@
         }
             
     </script>
+
+    <script>
+        var accordions = document.getElementsByClassName("accordion");
+        var i;
+        
+        for (i = 0; i < accordions.length; i++) {
+          accordions[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+              panel.style.display = "none";
+            } else {
+              panel.style.display = "block";
+            }
+          });
+        }
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+        
+
+
+
+
 </body>
 
 </html>

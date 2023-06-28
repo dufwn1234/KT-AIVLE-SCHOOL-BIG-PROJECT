@@ -22,22 +22,26 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+
     <link href="{% static "assets/css/theme.css" %}" rel="stylesheet" />
     <link rel="stylesheet" href='{% static "webfonts/inter/inter.css" %}'> 
     <link rel="stylesheet" href='{% static "css/app.min.css" %}'>
 
     <style>
-        #microphone {
-          width: 200px;
-          height: 200px;
-          cursor: pointer;
+
+        #speech1,
+        #speech2 {
+        z-index: 1;
         }
   
         .glow {
             animation: none; /* 초기에는 애니메이션을 비활성화 */
           }
         
-        .glow.active {
+        .glow {
             animation: glow 1s infinite; /* startSTT() 함수가 활성화되면 애니메이션을 활성화 */
           }
   
@@ -45,10 +49,12 @@
           0% {
             stroke: #1C69FF;
             stroke-width: 0.8px;
+            
           }
           50% {
             stroke: #2CB3FF;
-            stroke-width: 1.3px;
+            stroke-width: 1.2px;
+            
           }
           100% {
             stroke: #1C69FF;
@@ -56,17 +62,43 @@
           }
         }
 
+        .textbox {
+            text-align: center;
+            margin-bottom: 10px;
+            border: 1px solid black; /* 테두리 스타일 지정 */
+            border-radius:7px;
+            padding: 10px; /* 내부 여백 지정 */
+            width: 600px;
+            height: 100px;
+            font-size: 20px;
+            font-family: 'Noto Sans KR';
+            color: black;
+            
+          }
+
+        .chat-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          }
+
+
         .accordion {
-            background-color: #eee;
+            background-color: #F8F8F8;
             color: #444;
             cursor: pointer;
             padding: 18px;
             width: 100%;
             border: none;
+            border-radius: 5px;
             text-align: left;
             outline: none;
             font-size: 15px;
             transition: 0.4s;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           }
           
           .active, .accordion:hover {
@@ -75,10 +107,101 @@
           
           .panel {
             padding: 0.79rem 1.125rem;
-            background-color: white;
+            background-color: #F5F5F5;
             display: none;
             overflow: hidden;
           }
+
+          body {
+        font-family: 'Varela Round', sans-serif;
+    }
+    .modal-confirm {		
+        color: #636363;
+        width: 550px;
+    }
+    .modal-confirm .modal-content {
+        padding: 20px;
+        border-radius: 5px;
+        border: none;        
+    }
+    .modal-confirm .modal-header {
+        padding: 0 15px;
+        border-bottom: none;   
+        position: relative;
+    }
+    .modal-confirm h4 {
+        display: inline-block;
+        font-size: 26px;
+    }
+    .modal-confirm .close {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+    .modal-confirm .modal-body ul {
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+    .modal-confirm .modal-body ul li {
+        margin-bottom: 10px; /* Increased gap between list items */
+    }
+
+    .modal-confirm .modal-header .close {
+        display: none;
+    }
+
+    .modal-confirm .modal-content {
+        border: 1px solid #CECDCD;
+    }
+
+    .modal-backdrop.show {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-confirm .modal-body {
+        color: #999;
+    }
+
+    .modal {
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    .modal-confirm .modal-footer {
+        background: #ecf0f1;
+        border-color: #e6eaec;
+        text-align: right;
+        margin: 0 -20px -20px;
+        border-radius: 0 0 5px 5px;
+    }	
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+        transition: all 0.4s;
+        border: none;
+        padding: 8px 20px;
+        outline: none !important;
+    }	
+    .modal-confirm .btn-info {
+        background: #b0c1c6;
+    }
+    .modal-confirm .btn-info:hover, .modal-confirm .btn-info:focus {
+        background: #92a9af;
+    }
+    .modal-confirm .btn-danger {
+        background: #f15e5e;
+    }
+    .modal-confirm .btn-danger:hover, .modal-confirm .btn-danger:focus {
+        background: #ee3535;
+    }
+    .modal-confirm .modal-footer .btn + .btn {
+        margin-left: 10px;
+    }
+    .trigger-btn {
+        display: inline-block;
+        margin: 100px auto;
+    }
+
+          
       </style>
 
 
@@ -100,7 +223,29 @@
             <!-- Logo End -->
 
             <!-- Main Nav Start -->
-            <ul class="nav nav-minimal flex-row flex-grow-1 justify-content-between flex-xl-column justify-content-xl-center" id="mainNavTab" role="tablist">
+            <ul class="nav nav-minimal flex-row flex-grow-1 justify-content-between flex-xl-column justify-content-xl-center" role="tablist">
+                
+                <!-- Chats Tab Start -->
+                <li class="nav-item">
+                    <a class="nav-link p-0 py-xl-3" href="/chat/" title="Chats">
+                        <!-- Default :: Inline SVG -->
+                        <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                        </svg>
+                    </a>
+                </li>
+                <!-- Chats Tab End -->
+
+                <!-- Calls Tab Start -->
+                <li class="nav-item">
+                    <a class="nav-link p-0 py-xl-3 active " href="/voicetalk/" title="Voice">
+                        <!-- Default :: Inline SVG -->
+                        <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                    </a>
+                </li>
+                <!-- Calls Tab End -->
              
 
             </ul>
@@ -123,7 +268,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <!-- Chat Tab Pane Title Start -->
                                     {% if request.user.member_type == 'Counselor' %}
-                                        <h5 class="font-weight-semibold mb-0">상담 목록</h5>
+                                        <h5 class="font-weight-semibold mb-0">상담 매뉴얼</h5>
                                     {% elif request.user.member_type == 'Customer' %}
                                         <h5 class="font-weight-semibold mb-0">FAQ</h5>
                                     {% endif %}
@@ -197,14 +342,40 @@
                                                 <p class="text-truncate">상담 목록이 존재하지 않습니다.</p>
                                             </div>
                                         </li> {% endcomment %}
-                                        <button class="accordion">Lemon drops</button>
+                                        
+                                        <button class="accordion">1. 상담 시작</button>
                                         <div class="panel">
-                                        <p>Content for Lemon drops.</p>
+                                        <p>- 안녕하십니까 고객님, ㅇㅇㅇ 상담사입니다.</p>
                                         </div>
 
-                                        <button class="accordion">Chocolate cake</button>
+                                        <button class="accordion">2. 질문하기</button>
                                         <div class="panel">
-                                        <p>Content for Chocolate cake.</p>
+                                        <p>- 무엇을 도와드릴까요?</p>
+                                        </div>
+
+                                        <button class="accordion">3. 고객 이해</button>
+                                        <div class="panel">
+                                        <p>- 고객님이 겪고 있는 문제를 자세히 설명해주실 수 있으신가요?</p>
+                                        </div>
+
+                                        <button class="accordion">4. 문제 분석</button>
+                                        <div class="panel">
+                                        <p>- 고객님의 문제를 해결하기 위해 다음과 같은 방법을 제안해드릴게요.</p>
+                                        </div>
+
+                                        <button class="accordion">5. 추가 지원</button>
+                                        <div class="panel">
+                                        <p>- 문제를 해결하는 데 도움이 될 수 있는 관련 자료를 제공해드리겠습니다.</p>
+                                        </div>
+
+                                        <button class="accordion">6. 만족도 조사 설명</button>
+                                        <div class="panel">
+                                        <p>- 상담이 끝난 이후 만족도 조사에 참여해주세요.</p>
+                                        </div>
+
+                                        <button class="accordion">7. 상담 마무리</button>
+                                        <div class="panel">
+                                        <p>- 다른 문제가 있을 경우 언제든지 연락주세요. 이상 ㅇㅇㅇ 상담사였습니다.</p>
                                         </div>
                                         
                                             
@@ -261,63 +432,90 @@
 
             <!-- Chats Page Start -->
             <div class="chats">
+                
                 <div class="chat-body">
+                    
+                    <div class="container-xl">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card card-bg-1 mb-3">
+                                    <div class="card-body" >
+                                        <div class="d-flex flex-column align-items-center">
+                                            <!-- Counselor인 경우, Customer 정보 보이도록-->
+                                            {% if request.user.member_type == 'Counselor' %}
+                                            <!-- customer 정보가 없을 경우 -->
+                                                {% if customer is None %}
+                                                <div class="avatar avatar-lg mb-3">
+                                                    <img class="avatar-img" src="{% static 'images/user_default_image.png' %}" alt="">
+                                                </div>
 
-                    <!-- Chat Header Start-->
-                    <div class="chat-header">
-                        <!-- Chat Back Button (Visible only in Small Devices) -->
-                        <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted d-xl-none" type="button" data-close="">
-                            <!-- Default :: Inline SVG -->
-                            <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                            </svg>
-                        </button>
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <h5 class="mb-1">상대 없음</h5>
+                                                    <small class="text-muted">오프라인</small>
+                                                </div>
 
-                        <!-- Chat participant's Name -->
-                        <!-- Counselor인 경우, Customer 정보 보이도록-->
-                        {% if request.user.member_type == 'Counselor' %}
-                            <!-- customer 정보가 없을 경우 -->
-                            {% if customer is None %}
-                                <div class="media chat-name align-items-center text-truncate">
-                                    <div class="avatar d-none d-sm-inline-block mr-3 avatar-offline">
-                                        <img class="avatar-img" src="{% static 'images/user_default_image.png' %}" alt="">
+                                            <!-- customer 정보가 있을 경우, customer 정보 출력 -->
+                                                {% else%}
+                                                <div class="avatar avatar-lg mb-3 {% if customer.chat_active %}avatar-online{% else %}avatar-offline{% endif %}" id="customer-img-div">
+                                                    <img class="avatar-img" {% if customer.image %}src={{ customer.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="" id="customer-img">
+                                                </div>
+
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <h5 class="mb-1" id="customer-info-name">{{ customer.username }}</h5>
+                                                    <small class="text-muted" id="customer-info-active">{% if customer.chat_active %}온라인{% else %}오프라인{% endif %}</small>
+                                                </div>
+                                                {% endif %}
+
+                                            <!-- Customer인 경우, Counselor 정보 보이도록 -->
+                                            {% elif request.user.member_type == 'Customer' %}                                            
+                                                    <div class="avatar avatar-lg mb-3 {% if counselor.voice_active %}avatar-online{% else %}avatar-offline{% endif %}">
+                                                        <img class="avatar-img" {% if counselor.image %}src={{ counselor.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
+                                                    </div>
+
+                                                    <div class="d-flex flex-column align-items-center">
+                                                        <h5 class="mb-1" id="customer-info-name">{{ counselor.username }}</h5>
+                                                        <small class="text-muted">{% if counselor.voice_active %}온라인{% else %}오프라인{% endif %}</small>
+                                                    </div>
+                                            {% endif %}
+            
+                                            
+                                        </div>
                                     </div>
-
-                                    <div class="media-body align-self-center ">
-                                        <h6 class="text-truncate mb-0">상대 없음</h6>
-                                        <small class="text-muted">오프라인</small>
+    
+                                    <div class="card-options">
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                                </svg>
+                                                  
+                                                <!-- <img class="injectable hw-20" src="./../assets/media/heroicons/outline/dots-vertical.svg" alt=""> -->
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#">Clear Call Log</a>
+                                                <a class="dropdown-item" href="#">Block</a>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-
-                            <!-- customer 정보가 있을 경우, customer 정보 출력 -->
-                            {% else%}
-                                <div class="media chat-name align-items-center text-truncate">
-                                    <div class="avatar d-none d-sm-inline-block mr-3 {% if customer.chat_active %}avatar-online{% else %}avatar-offline{% endif %}" id="customer-img-div">
-                                        <img class="avatar-img" {% if customer.image %}src={{ customer.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="" id="customer-img">
+    
+                                    <div class="chat-closer d-xl-none">
+                                        <!-- Chat Back Button (Visible only in Small Devices) -->
+                                        <button class="btn btn-secondary btn-icon btn-minimal btn-sm text-muted" type="button" data-close="">
+                                            <svg class="hw-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                                              </svg>
+                                              
+                                            <!-- <img class="injectable hw-20" src="./../assets/media/heroicons/outline/arrow-left.svg" alt=""> -->
+                                        </button>
                                     </div>
-
-                                    <div class="media-body align-self-center ">
-                                        <h6 class="text-truncate mb-0" id="customer-info-name">{{ customer.username }}</h6>
-                                        <small class="text-muted" id="customer-info-active">{% if customer.chat_active %}온라인{% else %}오프라인{% endif %}</small>
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                        <!-- Customer인 경우, Counselor 정보 보이도록 -->
-                        {% elif request.user.member_type == 'Customer' %}
-                            <div class="media chat-name align-items-center text-truncate">
-                                <div class="avatar d-none d-sm-inline-block mr-3 {% if counselor.voice_active %}avatar-online{% else %}avatar-offline{% endif %}">
-                                    <img class="avatar-img" {% if counselor.image %}src={{ counselor.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
-                                </div>
-
-                                <div class="media-body align-self-center ">
-                                    <h6 class="text-truncate mb-0">{{ counselor.username }}</h6>
-                                    <small class="text-muted">{% if counselor.voice_active %}온라인{% else %}오프라인{% endif %}</small>
+                                   
                                 </div>
                             </div>
-                        {% endif %}
+                        </div>
+                        
+                       
                     </div>
-                    <!-- Chat Header End-->
+
 
                     <!-- Search Start -->
                     <div class="collapse border-bottom px-3" id="searchCollapse">
@@ -360,38 +558,47 @@
                     <!-- </select> -->
 
                     {% comment %} <div class="chat-content p-2" id="messageBody">
-						<div class="container" id="chat-log">
-							<!-- 채팅 로그가 표시될 영역 -->
+                  <div class="container" id="chat-log">
+                     <!-- 채팅 로그가 표시될 영역 -->
                         </div> 
-						
-						<!-- Scroll to finish -->
-						<div class="chat-finished" id="chat-finished"></div>
-					</div> {% endcomment %}
+                  
+                  <!-- Scroll to finish -->
+                  <div class="chat-finished" id="chat-finished"></div>
+               </div> {% endcomment %}
 
-                    {% comment %} <p id="message">버튼을 누르고 아무 말이나 하세요.</p>
+                    <!-- {% comment %} <p id="message">버튼을 누르고 아무 말이나 하세요.</p>
 
                     <div class="textWrapper">
                         <div id="japanese" class="textbox"></div>
                         <div id="korean" class="textbox"></div>
                     </div>
 
-					
+               
                     <div id="message"></div>
                     <button id="speech" onclick="startSTT()">Start STT</button>
-                    <button id="stop" onclick="stopSTT()" disabled>Stop STT</button> {% endcomment %}
+                    <button id="stop" onclick="stopSTT()" disabled>Stop STT</button> {% endcomment %} -->
 
-                    <p id="message" style="text-align: center; margin-top:200px; margin-bottom:-20px; font-size:20px;">버튼을 누르고 아무 말이나 하세요.</p>
+                    <p id="message" style="text-align: center; margin-bottom:-20px; font-size:20px;">버튼을 누르고 아무 말이나 하세요.</p>
+                    
 
-                    <div class="textWrapper" style="text-align: center; margin-top: -10px; margin-bottom: 10px; font-weight: bold;">
-                    <div id="japanese" class="textbox"></div>
-                    <div id="korean" class="textbox"></div>
-                    </div>
+                
+                      
 
                     <div id="message"></div>
-                    <div class="button-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left:30px;">
-                    <svg id="microphone" xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 40 40" onclick="startSTT()" style="width: 200px; height: 200px; cursor: pointer; ">
-                        <path class="glow" d="M12 2c1.103 0 2 .897 2 2v7c0 1.103-.897 2-2 2s-2-.897-2-2v-7c0-1.103.897-2 2-2zm0-2c-2.209 0-4 1.791-4 4v7c0 2.209 1.791 4 4 4s4-1.791 4-4v-7c0-2.209-1.791-4-4-4zm8 9v2c0 4.418-3.582 8-8 8s-8-3.582-8-8v-2h2v2c0 3.309 2.691 6 6 6s6-2.691 6-6v-2h2zm-7 13v-2h-2v2h-4v2h10v-2h-4z" stroke="#1C69FF" stroke-width="0.8px" fill="none" />
-                    </svg>
+                    <button id="speech" style="display:none; cursor: default; height:1px; width:1px;" onclick="startSTT()"></button> <!--이거 지우면 왜 마이크가 안반짝이는지 모르겠네요..-->
+
+                    <div class="button-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-left:50px;">
+                        <svg id="speech1" xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 40 40" onclick="startSTT()" style="display: none; position: absolute; flex-direction: column; align-items: center; justify-content: center; width: 200px; height: 200px; cursor: pointer; margin-top:280px;">
+                            <path class="glow" d="M12 2c1.103 0 2 .897 2 2v7c0 1.103-.897 2-2 2s-2-.897-2-2v-7c0-1.103.897-2 2-2zm0-2c-2.209 0-4 1.791-4 4v7c0 2.209 1.791 4 4 4s4-1.791 4-4v-7c0-2.209-1.791-4-4-4zm8 9v2c0 4.418-3.582 8-8 8s-8-3.582-8-8v-2h2v2c0 3.309 2.691 6 6 6s6-2.691 6-6v-2h2zm-7 13v-2h-2v2h-4v2h10v-2h-4z" stroke="#1C69FF" stroke-width="0.8px" fill="none" />
+                        </svg>
+                        <svg id="speech2" xmlns="http://www.w3.org/2000/svg" viewBox="0 -10 40 40" onclick="startSTT()" style="position: absolute; flex-direction: column; align-items: center; justify-content: center; width: 200px; height: 200px; cursor: pointer; margin-top:280px;">
+                            <path d="M12 2c1.103 0 2 .897 2 2v7c0 1.103-.897 2-2 2s-2-.897-2-2v-7c0-1.103.897-2 2-2zm0-2c-2.209 0-4 1.791-4 4v7c0 2.209 1.791 4 4 4s4-1.791 4-4v-7c0-2.209-1.791-4-4-4zm8 9v2c0 4.418-3.582 8-8 8s-8-3.582-8-8v-2h2v2c0 3.309 2.691 6 6 6s6-2.691 6-6v-2h2zm-7 13v-2h-2v2h-4v2h10v-2h-4z" stroke="#1C69FF" stroke-width="0.8px" fill="none" />
+                        </svg>
+                    </div>
+
+                    <div class="textWrapper" style="text-align: center; margin-top: 300px; margin-bottom: 10px; font-weight: bold;">
+                        <textarea id="japanese" class="textbox" readonly></textarea>
+                        <!-- <div id="korean" class="textbox"></div> -->
                     </div>
                      
 
@@ -400,7 +607,7 @@
                     <p id="tts-region" style="display:none;">{{ region }}</p> 
                     
                     <!-- 상담 종료 버튼 -->
-                    <div class="btn">
+                    <div class="btn1">
                         <a {% if request.user.member_type == 'Customer' %}href="{% url 'survey:submit' %}"
                         {% elif request.user.member_type == 'Counselor' %}href="{% url 'voicetalk:voicechat_end' %}"{% endif %}
                         class="btn btn-primary"
@@ -445,13 +652,39 @@
         </div>
         <!-- App Add-ons End -->
 
+        <div id="myModal" class="modal">
+            <div class="modal-dialog modal-confirm">
+                <div class="modal-content">
+                    <div class="modal-header">			
+                        <h4 class="modal-title">Warning</h4>	
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <p>지속적인 폭언시 다음과 같은 법적 처벌을 받을 수 있습니다:</p>
+                    <div class="modal-body">
+                        <ul>
+                            <li>「형법」 제311조(모욕죄): 1년 이하의 징역이나 금고 또는 200만원 이하의 벌금</li>
+                            <li>「형법」 제283조(협박죄): 3년 이하의 징역, 500만원 이하의 벌금, 구류 또는 과료</li>
+                            <li>「형법」 제314조제1항(업무방해): 5년 이하의 징역 또는 1천500만원 이하의 벌금</li>
+                            <li>「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제44조의7제제1항제3호(불법정보의 유통금지 등) 및 제74조제1항제3호(벌칙): 1년 이하의 징역 또는 1천만원 이하의 벌금</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button id="close" class="btn btn-danger">이해했습니다</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="backdrop"></div>
 
     </div>
     <!-- Main Layout End -->
-	{{ room_name|json_script:"room-name" }}
-	{{ user.username|json_script:"username" }}
-	{{ user.id|json_script:"user_id" }}
+   {{ room_name|json_script:"room-name" }}
+   {{ user.username|json_script:"username" }}
+   {{ user.id|json_script:"user_id" }}
     {{ user.nation|json_script:"user_nation" }}
 
     <!-- Javascript Files -->
@@ -596,6 +829,8 @@
     <script>
         var message = document.querySelector('#message');
         var speechButton = document.querySelector('#speech');
+        var speechButton1 = document.querySelector('#speech1');
+        var speechButton2 = document.querySelector('#speech2');
         var stopButton = document.querySelector('#stop');
         var languageSelect = document.querySelector('#language');
         var translationLanguage = document.querySelector("#translation-language");
@@ -622,6 +857,7 @@
                 audio: true,
                 video: false
         };
+        
 
         var recognition; // 음성 인식 객체
 
@@ -642,20 +878,24 @@
             console.log('Enter your voice');
             message.innerHTML = 'Speech recognition...';
             speechButton.innerHTML = 'Listening...';
+            speechButton.style.display = 'none';
+            speechButton1.style.display = 'block';
             speechButton.disabled = true;
-
-            var microphoneIcon = document.getElementById('microphone');
-            microphoneIcon.classList.add('active');
-                   
+            speechButton1.disabled = true;
+            speechButton2.disabled = true;
+            
         };
 
         recognition.onspeechend = function () {
             message.innerHTML = 'Enter your voice';
+            speechButton.style.display = 'none';
+            speechButton1.style.display = 'none';
             speechButton.disabled = false;
+            speechButton1.disabled = false;
+            speechButton2.disabled = false;
             speechButton.innerHTML = 'Start STT';
-
-            var microphoneIcon = document.getElementById('microphone');
-            microphoneIcon.classList.remove('active');
+            
+            
             
         };
 
@@ -663,6 +903,8 @@
             console.log('You said:', event.results[0][0].transcript);
             var resText = event.results[0][0].transcript;
             japanese.innerHTML = resText;
+           /* translate(resText); 이 부분 추가하면 뜨는데 다른 기능이 안됨*/
+            
             
             const messageInputDom = document.querySelector('#japanese');
             const message = messageInputDom.textContent;
@@ -674,14 +916,20 @@
                     command: 'new_message'
                 })
             );
-            messageInputDom.textContent = '';
+            messageInputDom.textContent = command;
+
+
         };
 
         recognition.onend = function () {
             message.innerHTML = 'Enter your voice';
             speechButton.disabled = false;
+            speechButton1.disabled = false;
+            speechButton2.disabled = false;
             speechButton.innerHTML = 'Start STT';
+            
             isRecognizing = false;
+
         };
 
         recognition.start();
@@ -692,10 +940,15 @@
         recognition.stop();
         message.innerHTML = 'Enter your voice';
         speechButton.disabled = false;
+        speechButton1.disabled = false;
+        speechButton2.disabled = false;
         speechButton.innerHTML = 'Start STT';
+        
         isRecognizing = false;
         
         }
+
+
 
         function textToSpeech(txt, user_nation) {
             //=================================
@@ -723,8 +976,11 @@
                 } else {
                     speechSynthesis.speak(msg);
                 }
+
+                
             
             }
+
         }
 
 
@@ -774,6 +1030,23 @@
             const chatLogDiv = document.querySelector('#chat-log');
           
             const chatLogDownDiv = document.createElement('div');
+
+            if (author !== 'self') {
+                if (content === '바른 말을 사용해주세요.') {
+                  p_content = await translateMessage(content);
+                }
+
+            if (author === username) {
+                if (content === '바른 말을 사용해주세요.') {
+                    const modal = document.getElementById("myModal");
+                    modal.style.display = "block";
+                    const closeButton = document.getElementById("close");
+                    closeButton.onclick = function () {
+                        modal.style.display = "none";
+                    }
+                }
+            }
+                
             chatLogDownDiv.classList.add('message');
             if (author === username) {
               chatLogDownDiv.classList.add('self');
@@ -788,7 +1061,7 @@
           
             let translatedContent = content; // 기본값으로 content를 사용
           
-            if (author !== username) {
+            if (author !== username && content !== '바른 말을 사용해주세요.') {
               translatedContent = await translateMessage(content);
               textToSpeech(translatedContent, getTargetLanguageCode(targetLang));
             }
@@ -807,12 +1080,32 @@
           
             chatLogDiv.appendChild(chatLogDownDiv);
             scrollToBottom();
+
+            if (author === username && content === p_content ) {
+                textToSpeech(translatedContent, getTargetLanguageCode(targetLang));
+              }
           }
-          
+        }
           
           
           
         
+    </script>
+
+    <script>
+        const accordionActiveFunction = function (e) {
+            if (e.type == 'show.bs.collapse' || e.type == 'show.bs.collapse') {
+              e.target.closest('.accordion-item').classList.add('active');
+            } else {
+              e.target.closest('.accordion-item').classList.remove('active');
+            }
+          };
+        
+          const accordionTriggerList = [].slice.call(document.querySelectorAll('.accordion'));
+          const accordionList = accordionTriggerList.map(function (accordionTriggerEl) {
+            accordionTriggerEl.addEventListener('show.bs.collapse', accordionActiveFunction);
+            accordionTriggerEl.addEventListener('hide.bs.collapse', accordionActiveFunction);
+          });
     </script>
 
     <script>
@@ -830,7 +1123,9 @@
             }
           });
         }
-        </script>
+    </script>
+
+
 </body>
 
 </html>

@@ -62,9 +62,9 @@ class ChatConsumer(WebsocketConsumer):
 
         if predicted_class == 0:
             # 폭언인 경우
-            message_content = "폭언입니다. 바른 말을 사용해주세요." 
+            message_content = "바른 말을 사용해주세요." 
 
-        
+
         # 새로운 Message 인스턴스 생성
         message = Message.objects.create(
             user=user_instance,
@@ -76,9 +76,10 @@ class ChatConsumer(WebsocketConsumer):
 
         content = {
             'command': 'new_message',
-            'message': self.message_to_json(message)
+            'message': self.message_to_json(message),
         }
         self.send_chat_message(content, message_instance, chat_id)
+
     
     def messages_to_json(self, messages):
         result = []

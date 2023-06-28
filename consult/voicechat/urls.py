@@ -9,4 +9,5 @@ urlpatterns = [
     path('test/', views.calldraft, name='test'),
     path('sum', views.sum, name='sum'),
     path('summ', views.summ, name='summ'),  
+    path('test', views.calldraft, name='calldraft'),  
 ]
