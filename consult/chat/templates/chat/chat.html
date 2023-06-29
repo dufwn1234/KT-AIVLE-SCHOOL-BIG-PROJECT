@@ -15,15 +15,17 @@
      <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
     <title>Consult chat</title>
     <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href='{% static "/consult/workerschat/apple-touch-icon.png" %}'> 
-    <link rel="icon" type="image/png" sizes="32x32" href='{% static "/consult/workerschat/favicon-32x32.png" %}'>
-    <link rel="icon" type="image/png" sizes="16x16" href='{% static "/consult/workerschat/favicon-16x16.png" %}'>
-    <link rel="shortcut icon" href='{% static "/consult/workerschat/favicon.ico" %}' />
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-96x96.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{%static "assets/img/favicons/favicon-16x16.png" %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{%static "assets/img/favicons/favicon.ico" %}">
+    <link rel="manifest" href="{%static "assets/img/favicons/manifest.json" %}">
+    <meta name="msapplication-TileImage" content="{%static "assets/img/favicons/ms-icon-150x150.png" %}">
+    <meta name="theme-color" content="#ffffff"> 
 
     <link rel="stylesheet" href='{% static "webfonts/inter/inter.css" %}'> 
     <link rel="stylesheet" href='{% static "css/app.min.css" %}'>
+
 </head>
 
 <body class="chats-tab-open">
@@ -36,7 +38,7 @@
             <a class="d-none d-xl-block bg-light rounded p-1" href='/'>
                 <!-- Default :: Inline SVG -->
                 <svg height="30" width="30" viewBox="0 0 24 24">
-                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#665dfe" />
+                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#6f42c1" />
                   </svg>
             </a>
             <!-- Logo End -->
@@ -87,7 +89,7 @@
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <!-- Chat Tab Pane Title Start -->
-                                    <h5 class="font-weight-semibold mb-0">상담사 목록</h5>
+                                    <h5 class="font-weight-semibold mb-0" style="font-family: 'Noto Sans KR';">상담사 목록</h5>
                                     <!-- Chat Tab Pane Title End -->
                                     <ul class="nav flex-nowrap">
                                         <li class="nav-item list-inline-item d-block d-xl-none mr-1">
@@ -127,7 +129,7 @@
                                 {% elif request.user.member_type == 'Customer' %}
                                     {% for counselor in counselor_list %}
                                         <li class="contacts-item friends">
-                                            <a class="contacts-link" {% if counselor.chat_active %}href="./{{ counselor.id}}"{% else %}href="#"{% endif %}>
+                                            <a class="contacts-link" {% if counselor.chat_active %}href="./{{ counselor.id}}" onclick="sendNotification('{{ counselor.id }}')" {% else %}href="#"{% endif %}>
                                                 <div class="avatar d-none d-sm-inline-block mr-3 {% if counselor.chat_active %}avatar-online{% else %}avatar-offline{% endif %}">
                                                     <img class="avatar-img" {% if counselor.image %}src={{ counselor.image.url }}{% else %}src="{% static 'images/user_default_image.png' %}" {% endif %} alt="">
                                                 </div>
@@ -397,6 +399,33 @@
             behavior: 'auto'          //"auto"  | "instant" | "smooth",
         });
 
+    </script>
+
+    <script>
+        function sendNotification() {
+            let date = new Date().toLocaleString();
+            let notification;
+            let notificationPermission = Notification.permission;
+            if (notificationPermission === "granted") {
+                //Notification을 이미 허용한 사람들에게 보여주는 알람창
+                notification = new Notification(`상담요청이 왔어요!!`, {
+                    body: `재방문일시: ${date}`,
+                    icon: 'hello.png',
+                });
+            } else if (notificationPermission !== 'denied') {
+                //Notification을 거부했을 경우 재 허용 창 띄우기
+                Notification.requestPermission(function (permission) {
+                    if (permission === "granted") {
+                        notification = new Notification(`상담요청이 왔어요!!`, {
+                            body: `첫방문일시: ${date}`,
+                            icon: 'hello.png',
+                        });
+                    } else {
+                        alert("알람 허용이 거부되었습니다.");
+                    }
+                });
+            }
+        }
     </script>
 
 </body>

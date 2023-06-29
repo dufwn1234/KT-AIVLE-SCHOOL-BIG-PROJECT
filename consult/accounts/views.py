@@ -69,6 +69,27 @@ def signup(request):
 
     return render(request, 'signup.html', {'form': form})
 
+def register(request):
+    if request.user.is_authenticated: 
+        return redirect('/') 
+    
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                messages.warning(request, "로그인 정보가 올바르지 않습니다.")
+    else:
+        form = LoginForm()
+
+    return render(request, 'register.html', {'form': form})
+
+
 def signup_form(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)

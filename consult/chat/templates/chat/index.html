@@ -1,10 +1,17 @@
 <!-- 이걸로 작업 하다가 연결하겠습니다 / django Channels Tutorial-->
-
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
     <title>Chat Rooms</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-96x96.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{%static "assets/img/favicons/favicon-16x16.png" %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{%static "assets/img/favicons/favicon.ico" %}">
+    <link rel="manifest" href="{%static "assets/img/favicons/manifest.json" %}">
+    <meta name="msapplication-TileImage" content="{%static "assets/img/favicons/ms-icon-150x150.png" %}">
+    <meta name="theme-color" content="#ffffff"> 
 </head>
 <body>
     What chat room would you like to enter?<br>

@@ -13,14 +13,15 @@
     <meta name="subject" content="communication">
     <meta name="copyright" content="frontendmatters">
      <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
-    <title>Consult chat</title>
+    <title>Voice Chat</title>
     <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href='{% static "/consult/workerschat/apple-touch-icon.png" %}'> 
-    <link rel="icon" type="image/png" sizes="32x32" href='{% static "/consult/workerschat/favicon-32x32.png" %}'>
-    <link rel="icon" type="image/png" sizes="16x16" href='{% static "/consult/workerschat/favicon-16x16.png" %}'>
-    <link rel="shortcut icon" href='{% static "/consult/workerschat/favicon.ico" %}' />
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-96x96.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{%static "assets/img/favicons/favicon-16x16.png" %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{%static "assets/img/favicons/favicon.ico" %}">
+    <link rel="manifest" href="{%static "assets/img/favicons/manifest.json" %}">
+    <meta name="msapplication-TileImage" content="{%static "assets/img/favicons/ms-icon-150x150.png" %}">
+    <meta name="theme-color" content="#ffffff"> 
 
     <link rel="stylesheet" href='{% static "webfonts/inter/inter.css" %}'> 
     <link rel="stylesheet" href='{% static "css/app.min.css" %}'>
@@ -36,7 +37,7 @@
             <a class="d-none d-xl-block bg-light rounded p-1" href='/'>
                 <!-- Default :: Inline SVG -->
                 <svg height="30" width="30" viewBox="0 0 24 24">
-                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#665dfe" />
+                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#6f42c1" />
                   </svg>
             </a>
             <!-- Logo End -->
@@ -86,7 +87,7 @@
 
                                 <div class="d-flex justify-content-between align-items-center">
                                     <!-- Chat Tab Pane Title Start -->
-                                    <h5 class="font-weight-semibold mb-0">상담사 목록</h5>
+                                    <h5 class="font-weight-semibold mb-0" style="font-family: 'Noto Sans KR';">상담사 목록</h5>
                                     <!-- Chat Tab Pane Title End -->
                                     <ul class="nav flex-nowrap">
                                         <li class="nav-item list-inline-item d-block d-xl-none mr-1">

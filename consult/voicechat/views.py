@@ -101,12 +101,12 @@ def voicechat_end(request):
     if counselor_contents == '':
         summary = ''
     else:
-        os.environ["_BARD_API_KEY"] = "YAiTWs7-AlPSVY-_yC9KPsEbkpjroNJsDyZ_0fNuIsY5F-6fay2GKzTXsHIFKOvqyg3Okg."
-        input_text = counselor_contents + "\n Tl;dr"
+        os.environ["_BARD_API_KEY"] = "YQh47IOr-xqX-euDt1A1gA5s63juHKun1nA94k4dz_uqWPS_87gKRBgEuIPy92b2agR5fA."
+        input_text = counselor_contents + " \n Tl;dr"
         response = bardapi.core.Bard().get_answer(input_text)
 
         summary = response["choices"][0]["content"][0]  # 요약된 내용
-        # twilio(summary)
+        twilio(summary)
         print(summary)
 
     # call에 저장

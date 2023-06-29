@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 
 <head>
@@ -13,12 +14,13 @@
      <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
     <title>signup</title>
     <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href="./../apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="./../favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./../favicon-16x16.png">
-    <link rel="shortcut icon" href="./../favicon.ico" />
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-96x96.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{%static "assets/img/favicons/favicon-16x16.png" %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{%static "assets/img/favicons/favicon.ico" %}">
+    <link rel="manifest" href="{%static "assets/img/favicons/manifest.json" %}">
+    <meta name="msapplication-TileImage" content="{%static "assets/img/favicons/ms-icon-150x150.png" %}">
+    <meta name="theme-color" content="#ffffff"> 
 
     <link rel="stylesheet" href="./../assets/webfonts/inter/inter.css"> 
     <link rel="stylesheet" href="./../assets/css/app.min.css">

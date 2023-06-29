@@ -15,16 +15,22 @@
      <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
     <title>Consult chat</title>
     <!-- Favicon and Touch Icons-->
-    <link rel="apple-touch-icon" sizes="180x180" href='{% static "/consult/workerschat/apple-touch-icon.png" %}'> 
-    <link rel="icon" type="image/png" sizes="32x32" href='{% static "/consult/workerschat/favicon-32x32.png" %}'>
-    <link rel="icon" type="image/png" sizes="16x16" href='{% static "/consult/workerschat/favicon-16x16.png" %}'>
-    <link rel="shortcut icon" href='{% static "/consult/workerschat/favicon.ico" %}' />
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-96x96.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{%static "assets/img/favicons/favicon-16x16.png" %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{%static "assets/img/favicons/favicon.ico" %}">
+    <link rel="manifest" href="{%static "assets/img/favicons/manifest.json" %}">
+    <meta name="msapplication-TileImage" content="{%static "assets/img/favicons/ms-icon-150x150.png" %}">
+    <meta name="theme-color" content="#ffffff"> 
 
+    <link href="{% static "assets/css/theme.css" %}" rel="stylesheet" />
     <link rel="stylesheet" href='{% static "webfonts/inter/inter.css" %}'> 
     <link rel="stylesheet" href='{% static "css/app.min.css" %}'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.2.0/tailwind.min.css'>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.2.0/tailwind.min.css'>
     <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111" />
@@ -35,6 +41,36 @@
     body {
         font-family: 'Varela Round', sans-serif;
     }
+    .accordion-button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height:60px;
+        padding: 0.79rem 1.125rem;
+        font-size: 15px;
+        color: #566a7f;
+        text-align: left;
+        background-color: #fff;
+        border: 0;
+        border-radius: 10px;
+        overflow-anchor: none;
+        transition: all 0.2s ease-in-out, border-radius 0.15s ease;
+        font-family: 'Noto Sans KR';
+      }
+    .accordion-collapse {
+        border-radius: 10px;
+        font-size: 15px;
+        font-family: 'Noto Sans KR';
+      }
+
+    .accordion-body {
+        border-radius: 10px;
+      }
+    
+    .accordion-header {
+        margin-bottom: 8px;
+      }
     .modal-confirm {		
         color: #636363;
         width: 550px;
@@ -138,7 +174,7 @@
             <a class="d-none d-xl-block bg-light rounded p-1" href='/'>
                 <!-- Default :: Inline SVG -->
                 <svg height="30" width="30" viewBox="0 0 24 24">
-                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#665dfe" />
+                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#6f42c1" />
                   </svg>
             </a>
             <!-- Logo End -->
@@ -188,7 +224,7 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                     <!-- Chat Tab Pane Title Start -->
                                     {% if request.user.member_type == 'Counselor' %}
-                                        <h5 class="font-weight-semibold mb-0">상담 매뉴얼</h5>
+                                        <h5 class="font-weight-semibold mb-0" style="font-family: 'Noto Sans KR';">상담사 매뉴얼</h5>
                                     {% elif request.user.member_type == 'Customer' %}
                                         <h5 class="font-weight-semibold mb-0">FAQ</h5>
                                     {% endif %}
@@ -264,40 +300,245 @@
                                             </div>
                                         </li> {% endcomment %}
 
-                                        <button class="accordion">1. 상담 시작</button>
-                                        <div class="panel">
-                                        <p>- 안녕하십니까 고객님, ㅇㅇㅇ 상담사입니다.</p>
-                                        </div>
-
-                                        <button class="accordion">2. 질문하기</button>
-                                        <div class="panel">
-                                        <p>- 무엇을 도와드릴까요?</p>
-                                        </div>
-
-                                        <button class="accordion">3. 고객 이해</button>
-                                        <div class="panel">
-                                        <p>- 고객님이 겪고 있는 문제를 자세히 설명해주실 수 있으신가요?</p>
-                                        </div>
-
-                                        <button class="accordion">4. 문제 분석</button>
-                                        <div class="panel">
-                                        <p>- 고객님의 문제를 해결하기 위해 다음과 같은 방법을 제안해드릴게요.</p>
-                                        </div>
-
-                                        <button class="accordion">5. 추가 지원</button>
-                                        <div class="panel">
-                                        <p>- 문제를 해결하는 데 도움이 될 수 있는 관련 자료를 제공해드리겠습니다.</p>
-                                        </div>
-
-                                        <button class="accordion">6. 만족도 조사 설명</button>
-                                        <div class="panel">
-                                        <p>- 상담이 끝난 이후 만족도 조사에 참여해주세요.</p>
-                                        </div>
-
-                                        <button class="accordion">7. 상담 마무리</button>
-                                        <div class="panel">
-                                        <p>- 다른 문제가 있을 경우 언제든지 연락주세요. 이상 ㅇㅇㅇ 상담사였습니다.</p>
-                                        </div>
+                                        <div class="card accordion-item active">
+                                            <h2 class="accordion-header" id="headingOne">
+                                              <button
+                                                type="button"
+                                                class="accordion-button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#accordionOne"
+                                                aria-expanded="true"
+                                                aria-controls="accordionOne"
+                                              >
+                                                  1. 상담 시작
+                                              </button>
+                                            </h2>
+                      
+                                            <div
+                                              id="accordionOne"
+                                              class="accordion-collapse collapse show"
+                                              data-bs-parent="#accordionExample">
+                                              <div class="accordion-body">
+                                                  - 안녕하십니까 고객님, ㅇㅇㅇ 상담사입니다.
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="card accordion-item">
+                                            <h2 class="accordion-header" id="headingTwo">
+                                              <button
+                                                type="button"
+                                                class="accordion-button collapsed"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#accordionTwo"
+                                                aria-expanded="false"
+                                                aria-controls="accordionTwo"
+                                              >
+                                                  2. 문제 파악
+                                              </button>
+                                            </h2>
+                                            <div
+                                              id="accordionTwo"
+                                              class="accordion-collapse collapse"
+                                              aria-labelledby="headingTwo"
+                                              data-bs-parent="#accordionExample"
+                                            >
+                                              <div class="accordion-body">
+                                                  - 무엇을 도와드릴까요?
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="card accordion-item">
+                                              <h2 class="accordion-header" id="heading3">
+                                                <button
+                                                  type="button"
+                                                  class="accordion-button collapsed"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target="#accordion3"
+                                                  aria-expanded="false"
+                                                  aria-controls="accordion3"
+                                                >
+                                                  3. 고객 이해
+                                                </button>
+                                              </h2>
+                                              <div
+                                                id="accordion3"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="heading3"
+                                                data-bs-parent="#accordionExample"
+                                              >
+                                                <div class="accordion-body">
+                                                  - 고객님이 겪고 있는 문제를 자세히 설명해주실 수 있으신가요?
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="card accordion-item">
+                                              <h2 class="accordion-header" id="heading4">
+                                                <button
+                                                  type="button"
+                                                  class="accordion-button collapsed"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target="#accordion4"
+                                                  aria-expanded="false"
+                                                  aria-controls="accordion4"
+                                                >
+                                                  4. 문제 해결
+                                                </button>
+                                              </h2>
+                                              <div
+                                                id="accordion4"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="heading4"
+                                                data-bs-parent="#accordionExample"
+                                              >
+                                                <div class="accordion-body">
+                                                  - 고객님의 문제를 해결하기 위해 다음과 같은 방법을 제안해드릴게요.
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="card accordion-item">
+                                              <h2 class="accordion-header" id="heading5">
+                                                <button
+                                                  type="button"
+                                                  class="accordion-button collapsed"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target="#accordion5"
+                                                  aria-expanded="false"
+                                                  aria-controls="accordion5"
+                                                >
+                                                  5. 추가 지원
+                                                </button>
+                                              </h2>
+                                              <div
+                                                id="accordion5"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="heading5"
+                                                data-bs-parent="#accordionExample"
+                                              >
+                                                <div class="accordion-body">
+                                                  - 문제를 해결하는 데 도움이 될 수 있는 관련 자료를 제공해드리겠습니다.
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="card accordion-item">
+                                              <h2 class="accordion-header" id="heading6">
+                                                <button
+                                                  type="button"
+                                                  class="accordion-button collapsed"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target="#accordion6"
+                                                  aria-expanded="false"
+                                                  aria-controls="accordion6"
+                                                >
+                                                  6. 만족도 조사 설명
+                                                </button>
+                                              </h2>
+                                              <div
+                                                id="accordion6"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="heading6"
+                                                data-bs-parent="#accordionExample"
+                                              >
+                                                <div class="accordion-body">
+                                                  - 상담이 끝난 이후 만족도 조사에 참여해주세요.
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="card accordion-item">
+                                              <h2 class="accordion-header" id="heading7">
+                                                <button
+                                                  type="button"
+                                                  class="accordion-button collapsed"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target="#accordion7"
+                                                  aria-expanded="false"
+                                                  aria-controls="accordion7"
+                                                >
+                                                  7. 상담 마무리
+                                                </button>
+                                              </h2>
+                                              <div
+                                                id="accordion7"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="heading7"
+                                                data-bs-parent="#accordionExample"
+                                              >
+                                                <div class="accordion-body">
+                                                    - 다른 문제가 있을 경우 언제든지 연락주세요. 이상 ㅇㅇㅇ 상담사였습니다.
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="card accordion-item">
+                                              <h2 class="accordion-header" id="heading8">
+                                                <button
+                                                  type="button"
+                                                  class="accordion-button collapsed"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target="#accordion8"
+                                                  aria-expanded="false"
+                                                  aria-controls="accordion8"
+                                                >
+                                                  + 대기 시간 안내
+                                                </button>
+                                              </h2>
+                                              <div
+                                                id="accordion8"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="heading8"
+                                                data-bs-parent="#accordionExample"
+                                              >
+                                                <div class="accordion-body">
+                                                    - 현재 상담이 밀려 지연되고 있습니다. 조금만 기다려 주시면 신속하게 상담 도와드릴게요.
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="card accordion-item">
+                                              <h2 class="accordion-header" id="heading9">
+                                                <button
+                                                  type="button"
+                                                  class="accordion-button collapsed"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target="#accordion9"
+                                                  aria-expanded="false"
+                                                  aria-controls="accordion9"
+                                                >
+                                                  + 서비스 안내
+                                                </button>
+                                              </h2>
+                                              <div
+                                                id="accordion9"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="heading9"
+                                                data-bs-parent="#accordionExample"
+                                              >
+                                                <div class="accordion-body">
+                                                    - 저희 센터에서 제공하는 서비스에 대해 알려드릴게요.
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="card accordion-item">
+                                              <h2 class="accordion-header" id="heading10">
+                                                <button
+                                                  type="button"
+                                                  class="accordion-button collapsed"
+                                                  data-bs-toggle="collapse"
+                                                  data-bs-target="#accordion10"
+                                                  aria-expanded="false"
+                                                  aria-controls="accordion10"
+                                                >
+                                                  + 문제 미해결
+                                                </button>
+                                              </h2>
+                                              <div
+                                                id="accordion10"
+                                                class="accordion-collapse collapse"
+                                                aria-labelledby="heading10"
+                                                data-bs-parent="#accordionExample"
+                                              >
+                                                <div class="accordion-body">
+                                                    - 죄송합니다 고객님. 해당 부분 확인 후 바로 전달드리겠습니다.
+                                                </div>
+                                              </div>
+                                            </div>
                                     
                                     <!-- customer 정보 있을 경우, 상담 이력 출력 -->
                                     {% else %}
@@ -324,17 +565,31 @@
                                 <!-- user가 Customer일 경우, FAQ 보이게 -->
                                 {% elif request.user.member_type == 'Customer' %}
                                     {% for faq in faqs %}
-                                        <li class="contacts-item friends">
-                                            <div class="contacts-content">
-                                                <div class="contacts-info">
-                                                    <h6 class="chat-name text-truncate">Q. &nbsp; {{ faq.title }}</h6>
-                                                </div>
-                                                <div class="contacts-texts">
-                                                    {{ faq.detail|safe }}
-                                                </div>
+                                    <div class="card accordion-item">
+                                        <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                            <button
+                                            type="button"
+                                            class="accordion-button collapsed"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#accordion{{ forloop.counter }}"
+                                            aria-expanded="false"
+                                            aria-controls="accordion{{ forloop.counter }}"
+                                            >
+                                            Q. &nbsp; {{ faq.title }}
+                                            </button>
+                                        </h2>
+                                        <div
+                                            id="accordion{{ forloop.counter }}"
+                                            class="accordion-collapse collapse"
+                                            aria-labelledby="heading{{ forloop.counter }}"
+                                            data-bs-parent="#accordionExample"
+                                        >
+                                            <div class="accordion-body">
+                                            {{ faq.detail|safe }}
                                             </div>
-                                        </li>
-                                    {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
                                 {% endif %}
                             </div>
                             <!-- Chat Contact List End -->
@@ -458,7 +713,7 @@
                     <!-- Search End -->
 
                     <!-- 상담 종료 버튼 -->
-                    <div class="btn">
+
                         <a {% if request.user.member_type == 'Customer' %}href="{% url 'survey:submit' %}"
                         {% elif request.user.member_type == 'Counselor' %}href="{% url 'chat:chat_end' %}"{% endif %}
                         class="btn btn-primary"
@@ -468,7 +723,7 @@
                         z-index: 999999;
                         box-shadow: 0 1px 20px 1px #696cff;"
                         >상담 종료</a>
-                    </div>
+
 
                     <!-- Chat Content Start-->
                     <div class="chat-content p-2" id="messageBody">
@@ -556,18 +811,18 @@
                 <div class="modal-dialog modal-confirm">
                     <div class="modal-content">
                         <div class="modal-header">			
-                            <h4 class="modal-title">Warning</h4>	
+                            <h4 class="modal-title" id="modal-title">Warning</h4>	
                         </div>
                         <br>
                         <hr>
                         <br>
-                        <p>지속적인 폭언시 다음과 같은 법적 처벌을 받을 수 있습니다:</p>
+                        <p id="modal-text-0">지속적인 폭언시 다음과 같은 법적 처벌을 받을 수 있습니다:</p>
                         <div class="modal-body">
                             <ul>
-                                <li>「형법」 제311조(모욕죄): 1년 이하의 징역이나 금고 또는 200만원 이하의 벌금</li>
-                                <li>「형법」 제283조(협박죄): 3년 이하의 징역, 500만원 이하의 벌금, 구류 또는 과료</li>
-                                <li>「형법」 제314조제1항(업무방해): 5년 이하의 징역 또는 1천500만원 이하의 벌금</li>
-                                <li>「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제44조의7제제1항제3호(불법정보의 유통금지 등) 및 제74조제1항제3호(벌칙): 1년 이하의 징역 또는 1천만원 이하의 벌금</li>
+                                <li id="modal-text-1">「형법」 제311조(모욕죄): 1년 이하의 징역이나 금고 또는 200만원 이하의 벌금</li>
+                                <li id="modal-text-2">「형법」 제283조(협박죄): 3년 이하의 징역, 500만원 이하의 벌금, 구류 또는 과료</li>
+                                <li id="modal-text-3">「형법」 제314조제1항(업무방해): 5년 이하의 징역 또는 1천500만원 이하의 벌금</li>
+                                <li id="modal-text-4">「정보통신망 이용촉진 및 정보보호 등에 관한 법률」 제44조의7제제1항제3호(불법정보의 유통금지 등) 및 제74조제1항제3호(벌칙): 1년 이하의 징역 또는 1천만원 이하의 벌금</li>
                             </ul>
                         </div>
                         
@@ -594,6 +849,8 @@
     <script src='{% static "vendors/modal-stepes/modal-steps.min.js" %}'></script>
     <script src='{% static "/consult/workerschat/static/vendors/emojione/emojionearea.min.js" %}'></script>
     <script src='{% static "js/app.min.js" %}'></script>
+    
+    <script src="{% static "vendors/bootstrap/bootstrap.min.js" %}"></script>
 
 
     <script>
@@ -725,15 +982,32 @@
             if (author === username) {
                 if (content === '바른 말을 사용해주세요.') {
                     const modal = document.getElementById("myModal");
+
+                    let modal_title = document.getElementById("modal-title").innerText;
+                    let modal_text0 = document.querySelector("#modal-text-0").innerText;
+                    let modal_text1 = document.querySelector("#modal-text-1").innerText;
+                    let modal_text2 = document.querySelector("#modal-text-2").innerText;
+                    let modal_text3 = document.querySelector("#modal-text-3").innerText;
+                    let modal_text4 = document.querySelector("#modal-text-4").innerText;
+                    let modal_close = document.querySelector("#close").innerText;
+
+                    document.getElementById("modal-title").innerText = await translateMessage(modal_title);
+                    document.querySelector("#modal-text-0").innerText = await translateMessage(modal_text0);
+                    document.querySelector("#modal-text-1").innerText = await translateMessage(modal_text1);
+                    document.querySelector("#modal-text-2").innerText = await translateMessage(modal_text2);
+                    document.querySelector("#modal-text-3").innerText = await translateMessage(modal_text3);
+                    document.querySelector("#modal-text-4").innerText = await translateMessage(modal_text4);
+                    document.querySelector("#close").innerText = await translateMessage(modal_close);
+
                     modal.style.display = "block";
+
                     const closeButton = document.getElementById("close");
                     closeButton.onclick = function () {
                         modal.style.display = "none";
                     }
                 }
             }
- 
-          
+
             const chatLogDiv = document.querySelector('#chat-log');
           
             const chatLogDownDiv = document.createElement('div');
