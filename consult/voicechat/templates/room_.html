@@ -13,7 +13,7 @@
     <meta name="subject" content="communication">
     <meta name="copyright" content="frontendmatters">
      <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
-    <title>Consult chat</title>
+    <title>Voice Chat</title>
     <!-- Favicon and Touch Icons-->
     <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-96x96.png" %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{%static "assets/img/favicons/favicon-32x32.png" %}">
@@ -218,11 +218,8 @@
         <!-- Navigation Start -->
         <div class="navigation navbar navbar-light bg-primary">
             <!-- Logo Start -->
-            <a class="d-none d-xl-block bg-light rounded p-1" href='/'>
-                <!-- Default :: Inline SVG -->
-                <svg height="30" width="30" viewBox="0 0 24 24">
-                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#6f42c1" />
-                  </svg>
+            <a class="d-none d-xl-block bg-light rounded p-1" href="/">
+              <img src="{%static "assets/img/favicons/favicon-96x96.png" %}" alt="Icon" width="30" height="30">
             </a>
             <!-- Logo End -->
 
@@ -672,13 +669,13 @@
                                             {% if request.user.member_type == 'Counselor' %}
                                             <!-- customer 정보가 없을 경우 -->
                                                 {% if customer is None %}
-                                                <div class="avatar avatar-lg mb-3">
+                                                <div class="avatar avatar-lg mb-3 avatar-online">
                                                     <img class="avatar-img" src="{% static 'images/user_default_image.png' %}" alt="">
                                                 </div>
 
                                                 <div class="d-flex flex-column align-items-center">
-                                                    <h5 class="mb-1">상대 없음</h5>
-                                                    <small class="text-muted">오프라인</small>
+                                                    <h5 class="mb-1">test1234</h5>
+                                                    <small class="text-muted">온라인</small>
                                                 </div>
 
                                             <!-- customer 정보가 있을 경우, customer 정보 출력 -->
@@ -898,7 +895,7 @@
                         </ul>
                     </div>
                     
-                    <div class="modal-footer">
+                    <div class="modal-footer d-flex justify-content-center">
                         <button id="close" class="btn btn-danger">이해했습니다</button>
                     </div>
                 </div>
@@ -1038,7 +1035,7 @@
             if (targetLang === 'Korean') {
               return 'ko';
             } else if (targetLang === 'English') {
-              return 'en';
+              return 'en-AU';
             } else if (targetLang === 'Japanese') {
               return 'ja';
             } else if (targetLang === 'Chinese') {
@@ -1252,22 +1249,71 @@
 
           
         async function createMessage(data) {
-            const author = data['user'];
-            const content = data['content'];
-          
-            const chatLogDiv = document.querySelector('#chat-log');
-          
-            const chatLogDownDiv = document.createElement('div');
+          const author = data['user'];
+          const content = data['content'];
+        
+          const chatLogDiv = document.querySelector('#chat-log');
+        
+          const chatLogDownDiv = document.createElement('div');
+          const w_content = '바른 말을 사용해주세요.';
 
-            if (author !== 'self') {
-                if (content === '바른 말을 사용해주세요.') {
-                  p_content = await translateMessage(content);
-                }
+          if (author !== 'self') {
+            if (content === '바른 말을 사용해주세요.') {
+                p_content = await translateMessage(content);
+            }
+          }
+            
 
-            if (author === username) {
-                if (content === '바른 말을 사용해주세요.') {
+          if (author !== 'self') {
+            const p_con = ['fuck', '엿', 'fucking', 'shit', 'bitch', 'asshole' ,'f'];
+            for (p of p_con) {
+              if (content.includes(p)) {
+                p_content = await translateMessage(w_content);
+              }
+            }
+          } 
+
+          async function playPopupSound() { 
+              // 오디오 재생
+              const popupSound = new Audio('{% static "assets/audio/alert.mp3" %}');
+              await popupSound.play();
+          }
+
+          if (author === username) {
+            if (content === '바른 말을 사용해주세요.') {
+              const modal = document.getElementById("myModal");
+              
+              let modal_title = document.getElementById("modal-title").innerText;
+              let modal_text0 = document.querySelector("#modal-text-0").innerText;
+              let modal_text1 = document.querySelector("#modal-text-1").innerText;
+              let modal_text2 = document.querySelector("#modal-text-2").innerText;
+              let modal_text3 = document.querySelector("#modal-text-3").innerText;
+              let modal_text4 = document.querySelector("#modal-text-4").innerText;
+              let modal_close = document.querySelector("#close").innerText;
+
+              document.getElementById("modal-title").innerText = await translateMessage(modal_title);
+              document.querySelector("#modal-text-0").innerText = await translateMessage(modal_text0);
+              document.querySelector("#modal-text-1").innerText = await translateMessage(modal_text1);
+              document.querySelector("#modal-text-2").innerText = await translateMessage(modal_text2);
+              document.querySelector("#modal-text-3").innerText = await translateMessage(modal_text3);
+              document.querySelector("#modal-text-4").innerText = await translateMessage(modal_text4);
+              document.querySelector("#close").innerText = await translateMessage(modal_close);
+
+              modal.style.display = "block";
+              playPopupSound();
+              setTimeout(playPopupSound, 800);
+
+              const closeButton = document.getElementById("close");
+              closeButton.onclick = function () {
+                  modal.style.display = "none";
+              }
+            }
+
+            const p_con = ['fuck', '엿', 'fucking', 'shit', 'bitch', 'asshole' ,'f'];
+            for (p of p_con) {
+                if (content.includes(p)) {
                     const modal = document.getElementById("myModal");
-                    
+
                     let modal_title = document.getElementById("modal-title").innerText;
                     let modal_text0 = document.querySelector("#modal-text-0").innerText;
                     let modal_text1 = document.querySelector("#modal-text-1").innerText;
@@ -1285,56 +1331,55 @@
                     document.querySelector("#close").innerText = await translateMessage(modal_close);
 
                     modal.style.display = "block";
+                    playPopupSound();
+                    setTimeout(playPopupSound, 800);
+
                     const closeButton = document.getElementById("close");
                     closeButton.onclick = function () {
                         modal.style.display = "none";
                     }
                 }
             }
-                
-            chatLogDownDiv.classList.add('message');
-            if (author === username) {
-              chatLogDownDiv.classList.add('self');
-            }
-          
-            const chatLogDownDownDiv = document.createElement('div');
-            chatLogDownDownDiv.classList.add('message-wrapper');
-          
-            const chatLogDownDownDownDiv = document.createElement('div');
-            chatLogDownDownDownDiv.classList.add('message-content');
-            chatLogDownDownDownDiv.id = 'chat-message-div';
-          
-            let translatedContent = content; // 기본값으로 content를 사용
-          
-            if (author !== username && content !== '바른 말을 사용해주세요.') {
-              translatedContent = await translateMessage(content);
-              textToSpeech(translatedContent, getTargetLanguageCode(targetLang));
-            }
-          
-            const chatLogDownDownDownDownSpan = document.createElement('span');
-            chatLogDownDownDownDownSpan.innerText = `${author}: ${translatedContent} `;
-            if (author === username) {
-              chatLogDownDownDownDownSpan.id = 'selfmessage';
-            } else {
-              chatLogDownDownDownDownSpan.id = 'chatmessage';
-            }
-          
-            chatLogDownDiv.appendChild(chatLogDownDownDiv);
-            chatLogDownDownDiv.appendChild(chatLogDownDownDownDiv);
-            chatLogDownDownDownDiv.appendChild(chatLogDownDownDownDownSpan);
-          
-            chatLogDiv.appendChild(chatLogDownDiv);
-            scrollToBottom();
+          }
+              
+          chatLogDownDiv.classList.add('message');
+          if (author === username) {
+            chatLogDownDiv.classList.add('self');
+          }
+        
+          const chatLogDownDownDiv = document.createElement('div');
+          chatLogDownDownDiv.classList.add('message-wrapper');
+        
+          const chatLogDownDownDownDiv = document.createElement('div');
+          chatLogDownDownDownDiv.classList.add('message-content');
+          chatLogDownDownDownDiv.id = 'chat-message-div';
+        
+          let translatedContent = content; // 기본값으로 content를 사용
+        
+          if (author !== username && content !== p_content) {
+            translatedContent = await translateMessage(content);
+            textToSpeech(translatedContent, getTargetLanguageCode(targetLang));
+          }
+        
+          const chatLogDownDownDownDownSpan = document.createElement('span');
+          chatLogDownDownDownDownSpan.innerText = `${author}: ${translatedContent} `;
+          if (author === username) {
+            chatLogDownDownDownDownSpan.id = 'selfmessage';
+          } else {
+            chatLogDownDownDownDownSpan.id = 'chatmessage';
+          }
+        
+          chatLogDownDiv.appendChild(chatLogDownDownDiv);
+          chatLogDownDownDiv.appendChild(chatLogDownDownDownDiv);
+          chatLogDownDownDownDiv.appendChild(chatLogDownDownDownDownSpan);
+        
+          chatLogDiv.appendChild(chatLogDownDiv);
+          scrollToBottom();
 
-            if (author === username && content === p_content ) {
-                textToSpeech(translatedContent, getTargetLanguageCode(targetLang));
-              }
+          if (author === username && content === p_content ) {
+              textToSpeech(translatedContent, getTargetLanguageCode(targetLang));
           }
         }
-          
-          
-          
-        
     </script>
 
     <script>

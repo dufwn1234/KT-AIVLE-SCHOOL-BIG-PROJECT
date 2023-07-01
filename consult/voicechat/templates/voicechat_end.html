@@ -190,8 +190,8 @@ body{
           </div>
         </div>
         <div class="right-side">
-          <div class="topic-text">Consult Summary</div>
-          <p>If you have any work from me or any types of quries related to my tutorial, you can send me message from here. It's my pleasure to help you.</p>
+          <div class="topic-text"><a href="/" style="color: inherit; text-decoration: none;">Consult Summary</a></div>
+          <p>Please write a summary of the consult.</p>
           <form action="#" id="VoiceChatForm" name="VoiceChatForm" method="POST">
             {% csrf_token %}
             <div class="input-box" label for="counselor">
@@ -206,10 +206,23 @@ body{
             <div class="input-box message-box">
               <textarea id="{{ form.summary.id_for_label }}" name="{{ form.summary.html_name }}">{{ summary }}</textarea>
             </div>
+
             <div class="button">
-              <input type="button" value="Submit"/>
+              <input type="button" value="submit" type="submit" name="submit" onclick="redirectToSubmitted()"/>
             </div>
+
           </form>
+          <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+          <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+          <script id="rendered-js" ></script>
+          <script>
+            function redirectToChat() {
+              window.location.href = "/chat/";
+            }
+          </script>
+        
         </div>
       </div>
     </div>

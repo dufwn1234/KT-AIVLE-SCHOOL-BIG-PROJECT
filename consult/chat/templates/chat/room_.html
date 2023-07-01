@@ -171,11 +171,8 @@
         <!-- Navigation Start -->
         <div class="navigation navbar navbar-light bg-primary">
             <!-- Logo Start -->
-            <a class="d-none d-xl-block bg-light rounded p-1" href='/'>
-                <!-- Default :: Inline SVG -->
-                <svg height="30" width="30" viewBox="0 0 24 24">
-                    <path d="M21 9.172V21H3V9.172L12 2.828l9 6.344zM14 19h-4v-4h4v4z" fill="#6f42c1" />
-                  </svg>
+            <a class="d-none d-xl-block bg-light rounded p-1" href="/">
+                <img src="{%static "assets/img/favicons/favicon-96x96.png" %}" alt="Icon" width="30" height="30">
             </a>
             <!-- Logo End -->
 
@@ -655,13 +652,13 @@
                             
                             {% if customer is None %}
                                 <div class="media chat-name align-items-center text-truncate">
-                                    <div class="avatar d-none d-sm-inline-block mr-3 avatar-offline">
+                                    <div class="avatar d-none d-sm-inline-block mr-3 avatar-online">
                                         <img class="avatar-img" src="{% static 'images/user_default_image.png' %}" alt="">
                                     </div>
 
                                     <div class="media-body align-self-center ">
-                                        <h6 class="text-truncate mb-0">상대 없음</h6>
-                                        <small class="text-muted">오프라인</small>
+                                        <h6 class="text-truncate mb-0">test1234</h6>
+                                        <small class="text-muted">온라인</small>
                                     </div>
                                 </div>
                             {% else%}
@@ -826,12 +823,17 @@
                             </ul>
                         </div>
                         
-                        <div class="modal-footer">
+                        <div class="modal-footer d-flex justify-content-center">
                             <button id="close" class="btn btn-danger">이해했습니다</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            
+            <audio id="popup-sound" src="{% static "assets/audio/alert.mp3" %}"></audio>
+            
+            
 
         <div class="backdrop"></div>
     </div>
@@ -861,6 +863,7 @@
         });
 
     </script>
+
 
     <script>
 		const roomName = JSON.parse(document.getElementById('room-name').textContent);
@@ -965,18 +968,33 @@
                 return 'vi-VN';
             } 
         }
+        
         async function createMessage(data) {
             const author = data['user'];
             let content = data['content'];
-
+            let p_content = '';
+            const w_content = '바른 말을 사용해주세요.';
+        
             if (author !== 'self') {
                 if (content === '바른 말을 사용해주세요.') {
                   p_content = await translateMessage(content);
                 }
-              }
+            }
           
+            
             if (author !== 'self') {
-              content = await translateMessage(content);
+                const p_con = ['fuck', '엿', 'fucking', 'shit', 'bitch', 'asshole' ,'f'];
+                for (p of p_con) {
+                    if (content.includes(p)) {
+                        p_content = await translateMessage(w_content);
+                    }
+                }
+            } 
+        
+            async function playPopupSound() {
+                // 오디오 재생
+                const popupSound = new Audio('{% static "assets/audio/alert.mp3" %}');
+                await popupSound.play();
             }
 
             if (author === username) {
@@ -1000,10 +1018,44 @@
                     document.querySelector("#close").innerText = await translateMessage(modal_close);
 
                     modal.style.display = "block";
+                    playPopupSound();
+                    setTimeout(playPopupSound, 800);
 
                     const closeButton = document.getElementById("close");
                     closeButton.onclick = function () {
                         modal.style.display = "none";
+                    }
+                }
+
+                const p_con = ['fuck', '엿', 'fucking', 'shit', 'bitch', 'asshole' ,'f'];
+                for (p of p_con) {
+                    if (content.includes(p)) {
+                        const modal = document.getElementById("myModal");
+
+                        let modal_title = document.getElementById("modal-title").innerText;
+                        let modal_text0 = document.querySelector("#modal-text-0").innerText;
+                        let modal_text1 = document.querySelector("#modal-text-1").innerText;
+                        let modal_text2 = document.querySelector("#modal-text-2").innerText;
+                        let modal_text3 = document.querySelector("#modal-text-3").innerText;
+                        let modal_text4 = document.querySelector("#modal-text-4").innerText;
+                        let modal_close = document.querySelector("#close").innerText;
+
+                        document.getElementById("modal-title").innerText = await translateMessage(modal_title);
+                        document.querySelector("#modal-text-0").innerText = await translateMessage(modal_text0);
+                        document.querySelector("#modal-text-1").innerText = await translateMessage(modal_text1);
+                        document.querySelector("#modal-text-2").innerText = await translateMessage(modal_text2);
+                        document.querySelector("#modal-text-3").innerText = await translateMessage(modal_text3);
+                        document.querySelector("#modal-text-4").innerText = await translateMessage(modal_text4);
+                        document.querySelector("#close").innerText = await translateMessage(modal_close);
+
+                        modal.style.display = "block";
+                        playPopupSound();
+                        setTimeout(playPopupSound, 800);
+
+                        const closeButton = document.getElementById("close");
+                        closeButton.onclick = function () {
+                            modal.style.display = "none";
+                        }
                     }
                 }
             }
@@ -1039,90 +1091,7 @@
             if (author !== username && content === p_content ) {
               chatLogDownDiv.style.display = 'none'; 
             }
-
-
-          }
-          
-          
-          
-
-        /*
-        async function createMessage(data) {
-            const author = data['user'];
-            let content = data['content'];
-            
-            if (author !== 'self') {
-                content = await translateMessage(content);
-            }
-            
-            const chatLogDiv = document.querySelector('#chat-log');
-
-            const chatLogDownDiv = document.createElement('div');
-            chatLogDownDiv.classList.add('message');
-            if (author === username) {
-                chatLogDownDiv.classList.add('self');
-            }
-            
-            chatLogDiv.appendChild(chatLogDownDiv);
-            
-            const chatLogDownDownDiv = document.createElement('div');
-            chatLogDownDownDiv.classList.add('message-wrapper');
-            chatLogDownDiv.appendChild(chatLogDownDownDiv);
-            
-            const chatLogDownDownDownDiv = document.createElement('div');
-            chatLogDownDownDownDiv.classList.add('message-content');
-            chatLogDownDownDownDiv.id = "chat-message-div";
-            chatLogDownDownDiv.appendChild(chatLogDownDownDownDiv);
-            
-            const chatLogDownDownDownDownSpan = document.createElement('span');
-            chatLogDownDownDownDownSpan.innerText = `${author}: ${content} `;
-            if (author === username) {
-                chatLogDownDownDownDownSpan.id = 'selfmessage';
-            }
-            else {
-                chatLogDownDownDownDownSpan.id = 'chatmessage';
-            }
-            chatLogDownDownDownDiv.appendChild(chatLogDownDownDownDownSpan);
-            scrollToBottom();  
         }
-        */
-          
-        // 채팅 템플렛 적용 코드
-        /*function createMessage(data) {
-            const author = data['user'];
-            const content = data['content'];
-
-            const chatLogDiv = document.querySelector('#chat-log');
-
-            const chatLogDownDiv = document.createElement('div');
-            chatLogDownDiv.classList.add('message');
-            if (author === username) {
-                chatLogDownDiv.classList.add('self');
-            }
-            chatLogDiv.appendChild(chatLogDownDiv);
-
-            const chatLogDownDownDiv = document.createElement('div');
-            chatLogDownDownDiv.classList.add('message-wrapper');
-            chatLogDownDiv.appendChild(chatLogDownDownDiv);
-
-            const chatLogDownDownDownDiv = document.createElement('div');
-            chatLogDownDownDownDiv.classList.add('message-content');
-            chatLogDownDownDownDiv.id = "chat-message-div";
-            chatLogDownDownDiv.appendChild(chatLogDownDownDownDiv);
-
-            const chatLogDownDownDownDownSpan = document.createElement('span');
-            chatLogDownDownDownDownSpan.innerText = `${author}: ${content} `;
-            if (author === username) {
-                chatLogDownDownDownDownSpan.id = 'selfmessage';
-            }
-            else {
-                chatLogDownDownDownDownSpan.id = 'chatmessage';
-            }
-            chatLogDownDownDownDiv.appendChild(chatLogDownDownDownDownSpan);
-            
-            scrollToBottom();  
-        }
-        */
 
         // customer 정보 출력
         function showCustomerInfo(customer) {

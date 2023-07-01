@@ -167,7 +167,7 @@ body{
 }
     </style>
   </head>
-  <body>
+  <body>          
     <div class="container">
       <div class="content">
         <div class="left-side">
@@ -189,7 +189,8 @@ body{
           </div>
         </div>
         <div class="right-side">
-          <div class="topic-text">Consult Summary</div>
+          <div class="topic-text"><a href="/" style="color: inherit; text-decoration: none;">Consult Summary</a></div>
+
           <p>고객 상담 내용을 요약해주세요.</p>
           <form action="#" id="VoiceChatForm" name="VoiceChatForm" method="POST">
             {% csrf_token %}
@@ -206,7 +207,7 @@ body{
               <textarea placeholder="요약 내용을 작성해주세요." id="{{ form.summary.id_for_label }}" name="{{ form.summary.html_name }}">{{ summary }}</textarea>
             </div>
             <div class="button">
-              <a href="/chat/" input type="button" value="Submit" onclick="redirectToChat()"/>
+              <input type="button" value="Submit" onclick="redirectToChat()"/>
             </div>
           </form>
         </div>

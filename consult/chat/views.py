@@ -22,107 +22,8 @@ import os
 # Create your views here.
 openai.api_key = "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" #추가(0619) 프로젝트 끝나고 API키 삭제 예정
 
-#######(0619테스트용)####################
-def translater(request):
-    data = json.loads(request.body)
-    language = data["language"]
-    text = data["text"]
-
-    prompt = f"{text}\n\nTranslate this sentence into {language}"
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {
-                "role": "system",
-                "content": "you are a translater"
-            },
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
-        max_tokens=500,
-    )
-    
-    result=response["choices"][0]["message"]["content"]
-    if "Note:" in result:
-        result=result.split("Note:",1)[0].strip()
-    #return JsonResponse({"result":result},json_dumps_params={'ensure_ascii': False})
-    return HttpResponse(result, content_type="text/plain; charset=utf-8")
-    #return JsonResponse({"result":response["choices"][0]["message"]["content"]},json_dumps_params={'ensure_ascii': False})
-
-def test2(request):
-    return render(request, 'chat/test2.html')
 
 
-@login_required
-def test1(request):
-    if request.user.is_authenticated:
-        # 채팅방 목록
-        chat_rooms = Contact.objects.filter(user=request.user)
-        print(chat_rooms)
-        
-        return render(request, 'chat/test1.html')
-    else:
-        return redirect('accounts:login')
-
-def translater1(request):
-    data = json.loads(request.body)
-    language1 = data["language1"]
-    language2 = data["language2"]
-    text = data["text"]
-    
-    prompt = f"{text}\n\nTranslate this sentence from {language1} to {language2}"
-    response = openai.ChatCompletion.create(
-         model="gpt-3.5-turbo",
-        messages=[
-                {
-                    "role": "system",
-                    "content": "you are a translater"
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            max_tokens=500,
-        )
-
-    result = response["choices"][0]["message"]["content"]
-    if "Note:" in result:
-            result = result.split("Note:", 1)[0].strip()
-
-    return HttpResponse(result, content_type="text/plain; charset=utf-8")
-
-def translater2(request):
-    data = json.loads(request.body)
-    language1 = data["language1"]
-    #language2 = data["language2"]
-    text = data["text"]
-    
-    prompt = f"{text}\n\nTranslate this sentence into {language1}"
-    #prompt = f"{text}\n\nTranslate this sentence from {language1} to {language2}"
-    response = openai.ChatCompletion.create(
-         model="gpt-3.5-turbo",
-        messages=[
-                {
-                    "role": "system",
-                    "content": "you are a translater"
-                },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            max_tokens=500,
-        )
-
-    result = response["choices"][0]["message"]["content"]
-    if "Note:" in result:
-            result = result.split("Note:", 1)[0].strip()
-
-    return HttpResponse(result, content_type="text/plain; charset=utf-8")    
-################################################################33
 ###### 코드 정리 하면서 진행 부탁 드립니다 #######
 
 @login_required
@@ -200,13 +101,16 @@ def chat_end(request):
     for m in counselor_messages:
         counselor_contents += m.content + '\n'
 
-    # 요약 
-    os.environ["_BARD_API_KEY"] = "YQh47IOr-xqX-euDt1A1gA5s63juHKun1nA94k4dz_uqWPS_87gKRBgEuIPy92b2agR5fA."
-    input_text = counselor_contents + "\n Tl;dr"
-    response = bardapi.core.Bard().get_answer(input_text)
+    # 요약
+    if counselor_contents == '':
+        summary = ''
+    else:
+        os.environ["_BARD_API_KEY"] = "YQh47IOr-xqX-euDt1A1gA5s63juHKun1nA94k4dz_uqWPS_87gKRBgEuIPy92b2agR5fA."
+        input_text = counselor_contents + "\n Tl;dr"
+        response = bardapi.core.Bard().get_answer(input_text)
 
-    summary = response["choices"][0]["content"][0]  # 요약된 내용
-    print(summary)
+        summary = response["choices"][0]["content"][0]  # 요약된 내용
+        print(summary)
 
     # chats에 저장
     if request.method == 'POST':
