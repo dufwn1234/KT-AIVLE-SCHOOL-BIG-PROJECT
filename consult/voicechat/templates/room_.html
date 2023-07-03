@@ -1252,24 +1252,26 @@
           const author = data['user'];
           const content = data['content'];
           let p_content = '';
+          let w_true = false;
         
           const chatLogDiv = document.querySelector('#chat-log');
         
           const chatLogDownDiv = document.createElement('div');
           const w_content = '바른 말을 사용해주세요.';
 
-          if (author !== 'self') {
+          if (author !== 'self') {  // 상대방이 보내는 경우
+            // 욕설을 할 경우
             if (content === '바른 말을 사용해주세요.') {
                 p_content = await translateMessage(content);
+                w_true = true;
             }
-          }
-            
-
-          if (author !== 'self') {
-            const p_con = ['fuck', '엿', 'fucking', 'shit', 'bitch', 'asshole' ,'f'];
-            for (p of p_con) {
-              if (content.includes(p)) {
-                p_content = await translateMessage(w_content);
+            else {
+              const p_con = ['fuck', '엿', 'fucking', 'shit', 'bitch', 'asshole' ,'f'];
+              for (p of p_con) {
+                if (content.includes(p)) {
+                  p_content = await translateMessage(w_content);
+                  w_true = true;
+                }
               }
             }
           } 
@@ -1309,37 +1311,40 @@
                   modal.style.display = "none";
               }
             }
-
-            const p_con = ['fuck', '엿', 'fucking', 'shit', 'bitch', 'asshole' ,'f'];
-            for (p of p_con) {
+            else {
+              const p_con = ['fuck', '엿', 'fucking', 'shit', 'bitch', 'asshole' ,'f'];
+              for (p of p_con) {
                 if (content.includes(p)) {
-                    const modal = document.getElementById("myModal");
+                  const modal = document.getElementById("myModal");
 
-                    let modal_title = document.getElementById("modal-title").innerText;
-                    let modal_text0 = document.querySelector("#modal-text-0").innerText;
-                    let modal_text1 = document.querySelector("#modal-text-1").innerText;
-                    let modal_text2 = document.querySelector("#modal-text-2").innerText;
-                    let modal_text3 = document.querySelector("#modal-text-3").innerText;
-                    let modal_text4 = document.querySelector("#modal-text-4").innerText;
-                    let modal_close = document.querySelector("#close").innerText;
+                  let modal_title = document.getElementById("modal-title").innerText;
+                  let modal_text0 = document.querySelector("#modal-text-0").innerText;
+                  let modal_text1 = document.querySelector("#modal-text-1").innerText;
+                  let modal_text2 = document.querySelector("#modal-text-2").innerText;
+                  let modal_text3 = document.querySelector("#modal-text-3").innerText;
+                  let modal_text4 = document.querySelector("#modal-text-4").innerText;
+                  let modal_close = document.querySelector("#close").innerText;
 
-                    document.getElementById("modal-title").innerText = await translateMessage(modal_title);
-                    document.querySelector("#modal-text-0").innerText = await translateMessage(modal_text0);
-                    document.querySelector("#modal-text-1").innerText = await translateMessage(modal_text1);
-                    document.querySelector("#modal-text-2").innerText = await translateMessage(modal_text2);
-                    document.querySelector("#modal-text-3").innerText = await translateMessage(modal_text3);
-                    document.querySelector("#modal-text-4").innerText = await translateMessage(modal_text4);
-                    document.querySelector("#close").innerText = await translateMessage(modal_close);
+                  document.getElementById("modal-title").innerText = await translateMessage(modal_title);
+                  document.querySelector("#modal-text-0").innerText = await translateMessage(modal_text0);
+                  document.querySelector("#modal-text-1").innerText = await translateMessage(modal_text1);
+                  document.querySelector("#modal-text-2").innerText = await translateMessage(modal_text2);
+                  document.querySelector("#modal-text-3").innerText = await translateMessage(modal_text3);
+                  document.querySelector("#modal-text-4").innerText = await translateMessage(modal_text4);
+                  document.querySelector("#close").innerText = await translateMessage(modal_close);
 
-                    modal.style.display = "block";
-                    playPopupSound();
-                    setTimeout(playPopupSound, 800);
+                  modal.style.display = "block";
+                  playPopupSound();
+                  setTimeout(playPopupSound, 800);
 
-                    const closeButton = document.getElementById("close");
-                    closeButton.onclick = function () {
-                        modal.style.display = "none";
-                    }
+                  const closeButton = document.getElementById("close");
+                  closeButton.onclick = function () {
+                      modal.style.display = "none";
+                  }
+
+                  break;
                 }
+              }
             }
           }
               
@@ -1357,7 +1362,7 @@
         
           let translatedContent = content; // 기본값으로 content를 사용
         
-          if (author !== username && content !== p_content) {
+          if (author !== username && w_true == false) {
             translatedContent = await translateMessage(content);
             textToSpeech(translatedContent, getTargetLanguageCode(targetLang));
           }
