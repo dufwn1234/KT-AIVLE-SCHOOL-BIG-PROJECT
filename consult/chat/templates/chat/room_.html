@@ -1060,6 +1060,8 @@
                 }
             }
 
+            content = await translateMessage(content);
+
             const chatLogDiv = document.querySelector('#chat-log');
           
             const chatLogDownDiv = document.createElement('div');
